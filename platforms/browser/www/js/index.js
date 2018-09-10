@@ -37,6 +37,8 @@ console.log(imageURI);
 // Get image handle
 //
 var cameraImage = document.getElementById('image');
+$(".imageblock").removeClass("display-none");
+$(".imageblock").addClass("display-block");
 // Unhide image elements
 //
 cameraImage.style.display = 'block';
@@ -44,6 +46,7 @@ cameraImage.style.display = 'block';
 // The inline CSS rules are used to resize the image
 //
 cameraImage.src = imageURI;
+showUploadbtn();
 }
 // Called when a photo is successfully retrieved
 //
@@ -86,14 +89,17 @@ console.log(imageURI);
 // Get image handle
 //
 var cameraImage = document.getElementById('image');
+$(".imageblock").removeClass("display-none");
+$(".imageblock").addClass("display-block");
 // Unhide image elements
 //
 cameraImage.style.display = 'block';
+
 // Show the captured photo
 // The inline CSS rules are used to resize the image
 //
 cameraImage.src = imageURI;
-
+showUploadbtn();
 }
  
 function getPhoto(source) {
@@ -138,6 +144,7 @@ function win(r) {
 	console.log("Code = " + r.responseCode);
     console.log("Response = " + r.response);
     console.log("Sent = " + r.bytesSent);
+
 }
 function fail(error) {
 	alert("An error has occurred: Code = " + error.code);
