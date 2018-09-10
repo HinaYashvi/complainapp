@@ -1,0 +1,49 @@
+
+<div data-page="capture" class="page">
+	<script src="cordova.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+	<button onclick="capturePhoto();">Capture Photo</button><br>
+    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo
+    Library</button><br>
+    <img id="image" src="" style="display:none;width:100%;">
+	<button onclick="upload();">Upload</button>
+	
+
+  
+   
+
+   <div class="item-inner">
+   	<div class="item-input-wrap">
+   		<div class="uploadDiv w-35>
+   			<div class="col-100">
+   				<div class="row">
+   					<div class="col-50 picbox text-white" >
+   						<a onclick="capturePhoto();" >
+   							<div class="innerDiv">
+   								<i class="f7-icons picbox-text">camera</i><br/>
+   								<span class="picbox-text">Capture</span>
+   							</div>
+   						</a>
+   					</div>
+
+   					<div class="col-50 picbox text-white" >
+   						<a onclick="getPhoto(pictureSource.PHOTOLIBRARY);">
+   							<div class="innerDiv">
+   								<i class="f7-icons picbox-text">photos</i><br/>
+   								<span class="picbox-text">Photo Gallery</span>
+   							</div>
+   						</a>
+   					</div>
+
+   					<div class="item-inner">
+   						<div class="item-input-wrap">
+   							<img id="image" src="" style="display:none;width:100%;">
+   						</div>
+   					</div>
+
+   					<div class="item-inner">
+   						<div class="item-input-wrap">
+   							<button onclick="upload();" type="button" class="col button button-fill color-gray" id="upldbtn">Upload</button>
+   						</div>
+   					</div>
+</div>
