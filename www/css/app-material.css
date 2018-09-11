@@ -275,6 +275,15 @@ color: #f99104!important;
 .mr-5p{
 	margin-right: 5%;
 }
+.index-footer{
+	position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+}
 /* ---------------------- ROTATE STAR -------------------- */
 .gly-spin {
       -webkit-animation: spin 5s infinite linear;
