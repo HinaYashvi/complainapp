@@ -167,6 +167,7 @@ function upload(){
   options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
   options.mimeType="image/jpeg";
   options.chunkedMode = false;
+  //options.contentType = 'multipart/form-data';
   //options.httpMethod = "POST";
   options.headers = {
      Connection: "close"
