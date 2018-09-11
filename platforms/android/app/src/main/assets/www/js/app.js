@@ -17,7 +17,7 @@ var app = new Framework7({
     externalLinks: '.external',
   },
   navbar: {
-    hideOnPageScroll: true,
+    hideOnPageScroll: false,
     iosCenterTitle: false,
   },
   picker: {
