@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.phonegap.complaintmanager;
+package com.phonegap.complainmanager;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

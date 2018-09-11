@@ -4,9 +4,9 @@ var app = new Framework7({
   root: '#app', // App root element
   pushState: true,
   //popupCloseByOutside:true,
-  name: 'Complaint Manager',  // App Name
+  name: 'Complain Manager',  // App Name
   //id: 'com.myapp.test',  // App id
-  id: 'com.phonegap.complaintmanager',
+  id: 'com.phonegap.complainmanager',
   panel: {
     swipe: 'left', // Enable swipe panel
   },
@@ -167,6 +167,7 @@ function upload(){
   options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
   options.mimeType="image/jpeg";
   options.chunkedMode = false;
+  //options.contentType = 'multipart/form-data';
   //options.httpMethod = "POST";
   options.headers = {
      Connection: "close"
@@ -694,7 +695,7 @@ function comp_det_page(comp_no){
   });
 }
 function call_handler(u_mo){
-  alert("clicked");
+  //alert("clicked");
   window.plugins.CallNumber.callNumber(onSuccess, onError, u_mo, true);
 }
 function onSuccess(result){

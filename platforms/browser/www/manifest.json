@@ -3,7 +3,7 @@
   "display": "standalone",
   "name": "Complain Manager",
   "short_name": "Complain Manager",
-  "version": "com.phonegap.complaintmanager",
+  "version": "com.phonegap.complainmanager",
   "description": "Complain Manager Mobile Application.",
   "author": "Complain Manager Team",
   "icons": [
