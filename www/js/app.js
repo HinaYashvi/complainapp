@@ -650,7 +650,7 @@ function comp_det_page(comp_no){
                 var file_type = json_attach[j].file_type;
                 var file_name = json_attach[j].file_name;
                 var full_path = base_url+file_path;
-                allcomp_attached+='<p><a href="'+full_path+'" onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_path+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
+                allcomp_attached+='<p><a href="'+full_path+'" onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
                 $(".attach_collapse").html(allcomp_attached);             
               }    
             }      
@@ -875,9 +875,9 @@ fileTransfer.onprogress = function(result){
      percent = Math.round(percent);
      console.log('Downloaded:  ' + percent + '%');    
      //alert('Downloaded:  ' + percent + '%');
-     document.write('Downloaded:  ' + percent + '%');
+     //document.write('Downloaded:  ' + percent + '%');
 };
-
+alert('Downloaded:  ' + percent + '%');
 }
 
 function changeCompStatus(complaint_no){
