@@ -19,7 +19,8 @@
  *
 */
 
-var FileTransferError = require('./FileTransferError'),
+var cordova = require('cordova'),
+    FileTransferError = require('./FileTransferError'),
     xhr = {};
 
 function getParentPath(filePath) {

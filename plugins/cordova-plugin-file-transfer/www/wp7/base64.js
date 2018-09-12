@@ -19,8 +19,6 @@
  *
 */
 
-// jshint ignore: start
-
 var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
     INVALID_CHARACTER_ERR = (function () {
         // fabricate a suitable error object
