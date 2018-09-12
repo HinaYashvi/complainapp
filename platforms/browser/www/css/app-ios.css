@@ -290,7 +290,13 @@ body{
 .mr-5p{
 	margin-right: 5%;
 }
-
+.index-footer{
+	position: fixed!important;
+    left: 0!important;
+    bottom: 0!important;
+    width: 100%!important;
+    text-align: center!important;
+}
 /* ---------------------- ROTATE STAR -------------------- */
 .gly-spin {
       -webkit-animation: spin 5s infinite linear;

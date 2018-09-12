@@ -4,9 +4,8 @@ var app = new Framework7({
   root: '#app', // App root element
   pushState: true,
   //popupCloseByOutside:true,
-  name: 'Complain Manager',  // App Name
-  //id: 'com.myapp.test',  // App id
-  id: 'com.phonegap.complainmanager',
+  name: 'Complain Manager',// App Name
+  id: 'com.phonegap.complainmanager',       // App id
   panel: {
     swipe: 'left', // Enable swipe panel
   },
@@ -17,7 +16,7 @@ var app = new Framework7({
     externalLinks: '.external',
   },
   navbar: {
-    hideOnPageScroll: false,
+    hideOnPageScroll: true,
     iosCenterTitle: false,
   },
   picker: {
@@ -43,10 +42,37 @@ var destinationType;
 
 document.addEventListener("deviceready", checkStorage, false); 
 document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("backbutton", onBackKeyDown, false);
     //document.addEventListener("backbutton", onBackKeyDown, false);
 //});
 var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
 //var base_url = '';   // LIVE SERVER //
+
+function onBackKeyDown() {
+  //console.log("back key pressed"); 
+  alert("in back key");
+  var view = app.views.current;
+  //console.log (app.view.name);
+  var page = app.getCurrentView().activePage;alert("page---"+page);
+  var page1 = app.views.main.router.activePage;alert("page1---"+page1);
+  var page2 = app.getCurrentView().activePage; alert("page2---"+page2);
+  //app.hidePreloader(); 
+  alert(data.name+"##### data.name");
+  alert(data.page+"^^^^ data.page");
+  alert(app.view.name+"******* app.view.name");
+  alert(view+"---view");
+  
+
+
+  if(data.name=="index"){  
+    app.confirm('Do you want to Exit !', function () {
+      navigator.app.clearHistory(); navigator.app.exitApp();
+    });
+  }else{ 
+    $$(".back").click();
+  }
+}
+
 function onDeviceReady() {
   pictureSource = navigator.camera.PictureSourceType;
   destinationType = navigator.camera.DestinationType;
@@ -650,7 +676,13 @@ function comp_det_page(comp_no){
                 var file_type = json_attach[j].file_type;
                 var file_name = json_attach[j].file_name;
                 var full_path = base_url+file_path;
-                allcomp_attached+='<p><a href="'+full_path+'" onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_path+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
+                //allcomp_attached+='<p><a href="'+full_path+'" onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
+
+                allcomp_attached+='<p><a  onclick="downloadFile('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
+
+              // allcomp_attached+='<p><a  onclick="storeIntelligrapeLogo('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
+               
+
                 $(".attach_collapse").html(allcomp_attached);             
               }    
             }      
@@ -694,6 +726,8 @@ function comp_det_page(comp_no){
     }
   });
 }
+
+
 function call_handler(u_mo){
   //alert("clicked");
   window.plugins.CallNumber.callNumber(onSuccess, onError, u_mo, true);
@@ -862,11 +896,15 @@ var fileTransfer = new FileTransfer();
 fileTransfer.download(assetURL, store + fileName, 
         function(entry) {
             console.log("Success!");
+            alert("Success!");
+            alert(entry.fullPath);
             //appStart();
         }, 
         function(err) {
             console.log("Error");
             console.dir(err);
+            alert("Some error");
+            alert(err);
         });
 fileTransfer.onprogress = function(result){
      var percent =  result.loaded / result.total * 100;
@@ -876,7 +914,69 @@ fileTransfer.onprogress = function(result){
 };
 
 }
+function storeIntelligrapeLogo(fullpath,file_name){
+  var url = fullpath; // image url
+  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+      var imagePath = fs.root.fullPath + file_name; // full file path
+      alert(imagePath);
+      var fileTransfer = new FileTransfer();
+      fileTransfer.download(url, imagePath, function (entry) {
+               console.log(entry.fullPath); // entry is fileEntry object
+      }, function (error) {
+               console.log("Some error");
+      });
+   });
+}
+/*function storeIntelligrapeLogo(fullpath,file_name){
+  //alert("called" + fullpath+"******"+file_name);
+  var url = fullpath; // image url
+  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+    //alert("fs.root.fullPath------"+fs.root.fullPath);
+      /*var imagePath = fs.root.fullPath + "/"+file_name; // full file path
+      var store = cordova.file.externalRootDirectory+file_name;
+      alert(store);
+      alert(imagePath);*/
+      /*var assetURL = fullpath;
+var store = cordova.file.externalRootDirectory; 
+var fileName = file_name;
 
+alert(assetURL+"-----"+fileName);
+alert(store + fileName);
+      var fileTransfer = new FileTransfer();
+      fileTransfer.download(assetURL, store + fileName, function (entry) {
+               console.log(entry.fullPath); // entry is fileEntry object
+               alert("Success!");
+      }, function (error) {
+               console.log("Some error");
+               alert("Some error");
+      });
+      fileTransfer.onprogress = function(result){
+     var percent =  result.loaded / result.total * 100;
+     percent = Math.round(percent);
+     console.log('Downloaded:  ' + percent + '%');    
+     alert('Downloaded:  ' + percent + '%'); 
+}
+   });
+}*/  
+function downloadFile(url, filename) {
+  alert(url+"^^^^^^^^^^^^"+filename);
+    var fileTransfer = new FileTransfer();
+    alert(cordova.file.dataDirectory);
+    fileTransfer.download(url,
+        cordova.file.dataDirectory + "cache/" + filename,
+        function (entry) {
+               console.log(entry.fullPath); // entry is fileEntry object.
+               alert(entry.fullPath);
+               alert("Success!");
+      }, function (error) {
+                console.log("download error source " + error.source);
+            console.log("download error target " + error.target);
+            console.log("upload error code: " + error.code);
+               alert("Some error");
+      });
+        
+    
+}
 function changeCompStatus(complaint_no){
   //alert(complaint_no);
   var hidd_compid = $("#hidd_compid").val();
