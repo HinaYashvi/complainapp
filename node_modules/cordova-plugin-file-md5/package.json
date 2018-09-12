@@ -1,0 +1,60 @@
+{
+  "_from": "cordova-plugin-file-md5@0.3.0",
+  "_id": "cordova-plugin-file-md5@0.3.0",
+  "_inBundle": false,
+  "_integrity": "sha1-W1CgAPwf8JnBD3wQF4sicDBI+6o=",
+  "_location": "/cordova-plugin-file-md5",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cordova-plugin-file-md5@0.3.0",
+    "name": "cordova-plugin-file-md5",
+    "escapedName": "cordova-plugin-file-md5",
+    "rawSpec": "0.3.0",
+    "saveSpec": null,
+    "fetchSpec": "0.3.0"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-file-md5/-/cordova-plugin-file-md5-0.3.0.tgz",
+  "_shasum": "5b50a000fc1ff099c10f7c10178b22703048fbaa",
+  "_spec": "cordova-plugin-file-md5@0.3.0",
+  "_where": "C:\\xampp\\htdocs\\complainapp",
+  "author": {
+    "name": "Fabian Strachanski, Manuel Ramon Lopez Torres"
+  },
+  "bugs": {
+    "url": "https://github.com/mramonlopez/cordova-plugin-file-md5/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-file-md5",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova MD5 checksum plugin for Android and iOS. The plugin reads large files in chunks and build the md5sum incrementally. It can process much larger files then read the complete content in memory and process it in place.",
+  "homepage": "https://github.com/mramonlopez/cordova-plugin-file-md5#readme",
+  "keywords": [
+    "cordova",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "file",
+    "download",
+    "multiple",
+    "md5"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-file-md5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mramonlopez/cordova-plugin-file-md5.git"
+  },
+  "version": "0.3.0"
+}

@@ -57,11 +57,20 @@
     },
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.phonegap.complainmanager"
+    },
+    "cordova-plugin-file-downloader": {
+      "PACKAGE_NAME": "com.phonegap.complainmanager"
     }
   },
   "dependent_plugins": {
     "cordova-plugin-compat": {
       "PACKAGE_NAME": "com.phonegap.helloworld"
+    },
+    "cordova-plugin-zip": {
+      "PACKAGE_NAME": "com.phonegap.complainmanager"
+    },
+    "cordova-plugin-file-md5": {
+      "PACKAGE_NAME": "com.phonegap.complainmanager"
     }
   }
 }

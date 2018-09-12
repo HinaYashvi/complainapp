@@ -55,4 +55,5 @@
     <plugin name="cordova-plugin-media" spec="~2.2.0" />
     <plugin name="cordova-plugin-file" spec="~5.0.0" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.2" />
+    <plugin name="cordova-plugin-file-downloader" spec="~0.3.0" />
 </widget>

@@ -142,5 +142,29 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-file-downloader": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-file-downloader@0.3.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-zip": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-zip@3.1.0"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-file-md5": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-file-md5@0.3.0"
+    },
+    "is_top_level": false,
+    "variables": {}
   }
 }
