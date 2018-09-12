@@ -54,4 +54,5 @@
     <plugin name="cordova-plugin-file-transfer" spec="~1.5.0" />
     <plugin name="cordova-plugin-media" spec="~2.2.0" />
     <plugin name="cordova-plugin-file" spec="~5.0.0" />
+    <plugin name="cordova-plugin-statusbar" spec="~2.1.2" />
 </widget>

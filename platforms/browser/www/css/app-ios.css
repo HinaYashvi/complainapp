@@ -199,13 +199,16 @@ body{
 	display: block;
 }
 .w-50{
-	width: 50%;
+	width: 50%!important;	
 }
 .w-25{
 	width: 25%;
 }
 .w-35{
 	width: 35%;
+}
+.w-45{
+	width: 45%!important;
 }
 .w-18{
 	width: 18%;

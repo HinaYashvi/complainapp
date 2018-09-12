@@ -72,6 +72,9 @@
     },
     "cordova-plugin-file": {
       "PACKAGE_NAME": "com.phonegap.complaintmanager"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.phonegap.complainmanager"
     }
   },
   "dependent_plugins": {},
@@ -550,6 +553,22 @@
       "merges": [
         "window.FileSystem"
       ]
+    },
+    {
+      "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+      "id": "cordova-plugin-statusbar.statusbar",
+      "pluginId": "cordova-plugin-statusbar",
+      "clobbers": [
+        "window.StatusBar"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-statusbar/src/browser/statusbar.js",
+      "id": "cordova-plugin-statusbar.statusbar.Browser",
+      "pluginId": "cordova-plugin-statusbar",
+      "merges": [
+        "window.StatusBar"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -569,6 +588,7 @@
     "cordova-plugin-splashscreen": "3.2.1",
     "cordova-plugin-file-transfer": "1.5.0",
     "cordova-plugin-media": "2.2.0",
-    "cordova-plugin-file": "5.0.0"
+    "cordova-plugin-file": "5.0.0",
+    "cordova-plugin-statusbar": "2.1.2"
   }
 }

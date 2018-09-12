@@ -193,10 +193,13 @@ body{
 	display: block;
 }
 .w-50{
-	width: 50%;
+	width: 50%!important;
 }
 .w-25{
 	width: 25%;
+}
+.w-45{
+	width: 45%!important;
 }
 .uploadDiv{
 	height: 150px;

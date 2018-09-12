@@ -11,12 +11,12 @@ var app = new Framework7({
   },
   //theme:'material',
   //material: true, //enable Material theme
-  routes: routes,
+  routes: routes, 
   clicks: {
     externalLinks: '.external',
   },
   navbar: {
-    hideOnPageScroll: true,
+    hideOnPageScroll: false,
     iosCenterTitle: false,
   },
   picker: {
@@ -51,16 +51,26 @@ var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
 function onBackKeyDown() {
   //console.log("back key pressed"); 
   alert("in back key");
-  var view = app.views.current;
+  
   //console.log (app.view.name);
-  var page = app.getCurrentView().activePage;alert("page---"+page);
-  var page1 = app.views.main.router.activePage;alert("page1---"+page1);
-  var page2 = app.getCurrentView().activePage; alert("page2---"+page2);
+  //var page = app.getCurrentView().activePage;alert("page---"+page);
+  //var page1 = app.views.main.router.activePage;alert("page1---"+page1);
+  //var page2 = app.getCurrentView().activePage; alert("page2---"+page2);
   //app.hidePreloader(); 
-  alert(data.name+"##### data.name");
-  alert(data.page+"^^^^ data.page");
+  alert(app.data.name+"##### app.data.name");
+  alert(app.data.page+"^^^^ app.data.page");
   alert(app.view.name+"******* app.view.name");
+  alert(app.data.view+"******* app.data.view");
+  
+ // alert(data.name+"##### data.name");
+  //alert(data.page+"^^^^ data.page");
+ // alert(view.name+"******* view.name");
+  
+  var view = app.views.current;
   alert(view+"---view");
+  console.log(view+"---view");
+  //document.write(view+"---view");
+  alert(view.name+"---view.name");
   
 
 
@@ -365,7 +375,7 @@ function getStatusWiseComps(statusid,status_type){
   app.preloader.show();
   //app.dialog.preloader();
   var sess_u_id = window.localStorage.getItem("session_u_id");
-  var url=base_url+'app_controller/complinsByStatus';
+  var url=base_url+'app_controller/complinsByStatus'; 
   //var statusurl = base_url+"app_controller/assignedId";
   if(sess_u_id==null){
     // ADMIN // 
@@ -392,6 +402,8 @@ function getStatusWiseComps(statusid,status_type){
           var comp_no=json_compres[j].comp_no; 
           var s_id = json_compres[j].s_id;   
           var is_seen_byuser = parseInt(json_compres[j].is_seen_byuser);  
+          var complain = json_compres[j].complain;
+          var comp_adddate = json_compres[j].comp_adddate;
           
           if(status_type=='Assigned'){
             var badge_color = "color-custom";
@@ -404,9 +416,9 @@ function getStatusWiseComps(statusid,status_type){
             var badge_color = "color-progress";
           }else if(status_type=='Completed'){
             var badge_color = "color-complete";
-          }        
+          }         
           
-          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')">'+comp_no+'</a></td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span></td></tr>';      
+          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p">'+comp_no+'</a><br/><span class="float-left w-45 ">'+complain+'..</span><br/><p class="fs-12"><i class="fa fa-calendar mr-5p orange-text fs-12 ml-5x"></i>'+comp_adddate+'</p></td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span></td></tr>';      
             //$('#complaintsbyStatus').html(comaplintStatusdata);
         }
     }else{
@@ -456,6 +468,10 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
         var status=json_res[j].statustype;
         var comp_no=json_res[j].comp_no;
         var is_seen_byuser=json_res[j].is_seen_byuser;
+        var complain = json_res[j].complain;
+        var comp_adddate = json_res[j].comp_adddate;
+
+       // alert(complain+"-----"+comp_adddate); 
         
         //var last_status_id = json_res[j].last_status_id;
         //var last_statustype = json_res[j].last_statustype;
@@ -471,7 +487,7 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
           var badge_color = "color-custom";
           if(is_seen_byuser==0){
             lightred='notseen';
-          }
+          } 
         }else if(status=='Executed'){
           var badge_color = "color-executed";
         }else if(status=='In progress'){
@@ -479,7 +495,7 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
         }else if(status=='Completed'){
           var badge_color = "color-complete";
         }
-        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')">'+comp_no+'</a></td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span></td></tr>';
+        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p">'+comp_no+'</a><br/><span class="float-left w-45 ">'+complain+'..</span><br/><p class="fs-12"><i class="fa fa-calendar mr-5p orange-text fs-12 ml-5x"></i>'+comp_adddate+'</p></td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span></td></tr><br>'; 
         $('#complaints').html(comaplintdata);  
         app.preloader.hide(); 
       }

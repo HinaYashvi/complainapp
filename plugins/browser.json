@@ -54,6 +54,9 @@
     },
     "cordova-plugin-file": {
       "PACKAGE_NAME": "com.phonegap.complaintmanager"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.phonegap.complainmanager"
     }
   },
   "dependent_plugins": {
