@@ -162,7 +162,7 @@
   "cordova-plugin-file-transfer": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-file-transfer@1.7.1"
+      "id": "cordova-plugin-file-transfer@1.6.3"
     },
     "is_top_level": true,
     "variables": {}

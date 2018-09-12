@@ -55,10 +55,10 @@
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.phonegap.complainmanager"
     },
-    "cordova-plugin-file-transfer": {
+    "cordova-plugin-file-downloader": {
       "PACKAGE_NAME": "com.phonegap.complainmanager"
     },
-    "cordova-plugin-file-downloader": {
+    "cordova-plugin-file-transfer": {
       "PACKAGE_NAME": "com.phonegap.complainmanager"
     }
   },

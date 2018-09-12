@@ -35,7 +35,7 @@
     "cordova-plugin-file": "^5.0.0",
     "cordova-plugin-file-downloader": "^0.3.2",
     "cordova-plugin-file-md5": "^0.3.3",
-    "cordova-plugin-file-transfer": "^1.7.1",
+    "cordova-plugin-file-transfer": "^1.6.3",
     "cordova-plugin-geolocation": "~2.4.3",
     "cordova-plugin-globalization": "~1.0.7",
     "cordova-plugin-inappbrowser": "~1.7.1",

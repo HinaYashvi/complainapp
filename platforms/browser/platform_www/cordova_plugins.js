@@ -468,30 +468,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
-        "id": "cordova-plugin-file-transfer.FileTransferError",
-        "pluginId": "cordova-plugin-file-transfer",
-        "clobbers": [
-            "window.FileTransferError"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-file-transfer/www/FileTransfer.js",
-        "id": "cordova-plugin-file-transfer.FileTransfer",
-        "pluginId": "cordova-plugin-file-transfer",
-        "clobbers": [
-            "window.FileTransfer"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-file-transfer/www/browser/FileTransfer.js",
-        "id": "cordova-plugin-file-transfer.BrowserFileTransfer",
-        "pluginId": "cordova-plugin-file-transfer",
-        "clobbers": [
-            "window.FileTransfer"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-zip/zip.js",
         "id": "cordova-plugin-zip.Zip",
         "pluginId": "cordova-plugin-zip",
@@ -513,6 +489,30 @@ module.exports = [
         "pluginId": "cordova-plugin-file-downloader",
         "clobbers": [
             "downloader"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
+        "id": "cordova-plugin-file-transfer.FileTransferError",
+        "pluginId": "cordova-plugin-file-transfer",
+        "clobbers": [
+            "window.FileTransferError"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-file-transfer/www/FileTransfer.js",
+        "id": "cordova-plugin-file-transfer.FileTransfer",
+        "pluginId": "cordova-plugin-file-transfer",
+        "clobbers": [
+            "window.FileTransfer"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-file-transfer/www/browser/FileTransfer.js",
+        "id": "cordova-plugin-file-transfer.BrowserFileTransfer",
+        "pluginId": "cordova-plugin-file-transfer",
+        "clobbers": [
+            "window.FileTransfer"
         ]
     }
 ];
@@ -536,10 +536,10 @@ module.exports.metadata =
     "cordova-plugin-media": "2.2.0",
     "cordova-plugin-file": "5.0.0",
     "cordova-plugin-statusbar": "2.1.2",
-    "cordova-plugin-file-transfer": "1.7.1",
     "cordova-plugin-zip": "3.1.0",
     "cordova-plugin-file-md5": "0.3.3",
-    "cordova-plugin-file-downloader": "0.3.2"
+    "cordova-plugin-file-downloader": "0.3.2",
+    "cordova-plugin-file-transfer": "1.6.3"
 }
 // BOTTOM OF METADATA
 });
