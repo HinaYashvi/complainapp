@@ -158,5 +158,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-downloadmanager": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/vasani-arpit/cordova-plugin-downloadmanager"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

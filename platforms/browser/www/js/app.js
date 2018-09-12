@@ -692,11 +692,13 @@ function comp_det_page(comp_no){
                 var file_type = json_attach[j].file_type;
                 var file_name = json_attach[j].file_name;
                 var full_path = base_url+file_path;
-                allcomp_attached+='<p><a href="'+full_path+'" onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
+                //allcomp_attached+='<p><a href="'+full_path+'" onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
 
                 //allcomp_attached+='<p><a  onclick="downloadFile('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
 
               // allcomp_attached+='<p><a  onclick="storeIntelligrapeLogo('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
+
+              allcomp_attached+='<p><a onclick="downloadme('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
                
 
                 $(".attach_collapse").html(allcomp_attached);             
@@ -742,7 +744,17 @@ function comp_det_page(comp_no){
     }
   });
 }
+function downloadme(fullpath,filename){
+alert("in downloadme");
+cordova.plugins.DownloadManager.download(fullpath, downloadsuccess, downloadfail);
+}
 
+var downloadfail = function (message) {    
+   alert(message)
+}
+var downloadsuccess = function (data) {
+       alert("succes");
+}
 
 function call_handler(u_mo){
   //alert("clicked");

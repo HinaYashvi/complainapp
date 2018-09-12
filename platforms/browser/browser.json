@@ -75,6 +75,9 @@
     },
     "cordova-plugin-file-transfer": {
       "PACKAGE_NAME": "com.phonegap.complainmanager"
+    },
+    "cordova-plugin-downloadmanager": {
+      "PACKAGE_NAME": "com.phonegap.complainmanager"
     }
   },
   "dependent_plugins": {},
@@ -569,6 +572,14 @@
       "clobbers": [
         "window.FileTransfer"
       ]
+    },
+    {
+      "file": "plugins/cordova-plugin-downloadmanager/www/DownloadManager.js",
+      "id": "cordova-plugin-downloadmanager.DownloadManager",
+      "pluginId": "cordova-plugin-downloadmanager",
+      "clobbers": [
+        "cordova.plugins.DownloadManager"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -589,6 +600,7 @@
     "cordova-plugin-media": "2.2.0",
     "cordova-plugin-file": "5.0.0",
     "cordova-plugin-statusbar": "2.1.2",
-    "cordova-plugin-file-transfer": "1.5.0"
+    "cordova-plugin-file-transfer": "1.5.0",
+    "cordova-plugin-downloadmanager": "0.0.1"
   }
 }
