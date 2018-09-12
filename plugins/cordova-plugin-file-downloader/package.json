@@ -1,27 +1,27 @@
 {
-  "_from": "cordova-plugin-file-downloader@0.3.0",
-  "_id": "cordova-plugin-file-downloader@0.3.0",
+  "_from": "cordova-plugin-file-downloader@0.3.2",
+  "_id": "cordova-plugin-file-downloader@0.3.2",
   "_inBundle": false,
-  "_integrity": "sha1-CGGZckC380lY0C1lSFrecqTJYb0=",
+  "_integrity": "sha512-B9O8CmoEKRAE+N4c9DyVOzTHfoRGkSkJnYaeRkVcz0gnsLoF682nBBfnFJ7eyCp2aPcZvmp+eicpWRltew24SQ==",
   "_location": "/cordova-plugin-file-downloader",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "cordova-plugin-file-downloader@0.3.0",
+    "raw": "cordova-plugin-file-downloader@0.3.2",
     "name": "cordova-plugin-file-downloader",
     "escapedName": "cordova-plugin-file-downloader",
-    "rawSpec": "0.3.0",
+    "rawSpec": "0.3.2",
     "saveSpec": null,
-    "fetchSpec": "0.3.0"
+    "fetchSpec": "0.3.2"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-file-downloader/-/cordova-plugin-file-downloader-0.3.0.tgz",
-  "_shasum": "0861997240b7f34958d02d65485ade72a4c961bd",
-  "_spec": "cordova-plugin-file-downloader@0.3.0",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-file-downloader/-/cordova-plugin-file-downloader-0.3.2.tgz",
+  "_shasum": "72320c1bf874b85031e48cf7ea54e7fc1a0941bb",
+  "_spec": "cordova-plugin-file-downloader@0.3.2",
   "_where": "C:\\xampp\\htdocs\\complainapp",
   "author": {
     "name": "Fabian Strachanski, Manuel Ramon Lopez Torres"
@@ -58,5 +58,5 @@
     "type": "git",
     "url": "git+https://github.com/mramonlopez/cordova-plugin-file-downloader.git"
   },
-  "version": "0.3.0"
+  "version": "0.3.2"
 }

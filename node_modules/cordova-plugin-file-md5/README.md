@@ -3,7 +3,7 @@ Cordova MD5 checksum plugin for Android and iOS. The plugin reads large files in
 
 ## install
 ```
-yourAppDir$ cordova plugin add https://github.com/mramonlopez/cordova-plugin-file-md5.git
+cordova plugin add cordova-plugin-file-md5
 ```
 
 ## usage

@@ -1,4 +1,4 @@
-package de.fastr.phonegap.plugins;
+package com.manuelramonlopez.cordova.plugins;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;

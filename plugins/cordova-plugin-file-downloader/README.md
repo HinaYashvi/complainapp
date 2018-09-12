@@ -25,7 +25,7 @@ Cordova plugin to download a List of files or a single file to the Phone, check 
 
 ## install
 ```
-yourAppDir$ cordova plugin add https://github.com/mramonlopez/cordova-plugin-file-downloader.git
+cordova plugin add cordova-plugin-file-downloader
 ```
 
 ## usage
