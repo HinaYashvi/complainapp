@@ -18,11 +18,11 @@
       "cordova-plugin-call-number": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-file-transfer": {},
       "cordova-plugin-media": {},
       "cordova-plugin-file": {},
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-file-downloader": {}
+      "cordova-plugin-file-downloader": {},
+      "cordova-plugin-file-transfer": {}
     }
   },
   "dependencies": {
@@ -35,7 +35,7 @@
     "cordova-plugin-file": "^5.0.0",
     "cordova-plugin-file-downloader": "^0.3.0",
     "cordova-plugin-file-md5": "^0.3.0",
-    "cordova-plugin-file-transfer": "^1.5.0",
+    "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-geolocation": "~2.4.3",
     "cordova-plugin-globalization": "~1.0.7",
     "cordova-plugin-inappbrowser": "~1.7.1",

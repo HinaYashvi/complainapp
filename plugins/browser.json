@@ -46,9 +46,6 @@
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.phonegap.complaintmanager"
     },
-    "cordova-plugin-file-transfer": {
-      "PACKAGE_NAME": "com.phonegap.complaintmanager"
-    },
     "cordova-plugin-media": {
       "PACKAGE_NAME": "com.phonegap.complaintmanager"
     },
@@ -59,6 +56,9 @@
       "PACKAGE_NAME": "com.phonegap.complainmanager"
     },
     "cordova-plugin-file-downloader": {
+      "PACKAGE_NAME": "com.phonegap.complainmanager"
+    },
+    "cordova-plugin-file-transfer": {
       "PACKAGE_NAME": "com.phonegap.complainmanager"
     }
   },
