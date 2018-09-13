@@ -918,9 +918,9 @@ function downloaddoc(fullpath,folder_path){
     fileTransfer.download(assetURL, store + fileName, 
       function(entry) {
           console.log("Success!");
-          alert("Success!");
-          alert(entry.fullPath);
-          alert("download toURL: " + entry.toURL());
+          //alert("Success!");
+          //alert(entry.fullPath);
+          //alert("download toURL: " + entry.toURL());
       }, 
       function(err) {
           console.log("Error");
@@ -937,22 +937,19 @@ function downloaddoc(fullpath,folder_path){
         app.dialog.alert('<div class="progressbar" data-progress="'+percent+'"> %<span></span></div> Downloaded:  ' + percent + '%');
       }*/
       var percent = 0;
-      var dialog = app.dialog.progress('Download in Progress', percent);
-      dialog.setText('Downloaded : '+percent);
-      //var interval = setInterval(function () {
+      var dialog = app.dialog.progress('Downloading...', percent);      
       fileTransfer.onprogress = function(result){
-        //progress += 10;
         var percent =  result.loaded / result.total * 100;
         percent = Math.round(percent);
+        dialog.setText('Downloaded : '+percent+' %');
         dialog.setProgress(percent);
-        //dialog.setText('Image ' + ((progress) / 10) + ' of 10');
         if (percent === 100) {
           clearInterval(interval);
-          dialog.close();
+          app.dialog.close();
         }
       }
-      //}, 300);
-
+      app.dialog.close();
+      //dialog.close();
 }
 function changeCompStatus(complaint_no){
   //alert(complaint_no);

@@ -942,7 +942,6 @@ function downloaddoc(fullpath,folder_path){
         var percent =  result.loaded / result.total * 100;
         percent = Math.round(percent);
         dialog.setText('Downloaded : '+percent+' %');
-        app.progressbar.show('orange');
         dialog.setProgress(percent);
         if (percent === 100) {
           clearInterval(interval);
