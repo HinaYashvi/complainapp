@@ -913,8 +913,8 @@ function downloaddoc(fullpath,folder_path){
   //alert(fullpath+"-----"+folder_path);
 
 var assetURL = fullpath;
-//var store = cordova.file.externalRootDirectory; // output in android: file:///storage/emulated/0/
-var store = cordova.file.dataDirectory;
+var store = cordova.file.externalRootDirectory; // output in android: file:///storage/emulated/0/
+//var store = cordova.file.dataDirectory;
 // or
  //var store = "cdvfile://localhost/persistent/";
 var fileName = folder_path;
