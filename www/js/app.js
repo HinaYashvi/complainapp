@@ -692,7 +692,7 @@ function comp_det_page(comp_no){
                 var file_type = json_attach[j].file_type;
                 var file_name = json_attach[j].file_name;
                 var full_path = base_url+file_path;
-                allcomp_attached+='<p><a href="'+full_path+'" onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
+                allcomp_attached+='<p><a href="'+full_path+'" onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_name+"'"+')" class="open-progress">'+(j+1)+'. '+file_name+'</a></p>';
 
                 //allcomp_attached+='<p><a  onclick="downloadFile('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
 
@@ -910,110 +910,49 @@ function showUploadbtn(){
   $("#upldbtn").addClass("display-block"); 
 }
 function downloaddoc(fullpath,folder_path){
-  //alert(fullpath+"-----"+folder_path);
-
-var assetURL = fullpath;
-var store = cordova.file.externalRootDirectory; // output in android: file:///storage/emulated/0/
-//var store = cordova.file.dataDirectory;
-// or
- //var store = "cdvfile://localhost/persistent/";
-var fileName = folder_path;
-// NOTE: Sounds folder should already be there in order to download file in that folder
-alert(assetURL+"-----"+fileName);
-
-var fileTransfer = new FileTransfer();
-fileTransfer.download(assetURL, store + fileName, 
-        function(entry) {
-            console.log("Success!");
-            alert("Success!");
-            alert(entry.fullPath);
-            alert("download toURL: " + entry.toURL());
-            //appStart();
-        }, 
-        function(err) {
-            console.log("Error");
-            console.dir(err);
-            alert("Some error");
-            alert(err);
-        });
-fileTransfer.onprogress = function(result){
-     var percent =  result.loaded / result.total * 100;
-     percent = Math.round(percent);
-     console.log('Downloaded:  ' + percent + '%');    
-     alert('Downloaded:  ' + percent + '%');
-     if (result.lengthComputable) {
-        var test = loadingStatus.setPercentage(result.loaded / result.total);
-    } else {
-        var test = loadingStatus.increment();
-    }
-    alert('Downloaded test:  ' + test + '%');
-};
-
-}
-function storeIntelligrapeLogo(fullpath,file_name){
-  var url = fullpath; // image url
-  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
-      var imagePath = fs.root.fullPath + file_name; // full file path
-      alert(imagePath);
-      var fileTransfer = new FileTransfer();
-      fileTransfer.download(url, imagePath, function (entry) {
-               console.log(entry.fullPath); // entry is fileEntry object
-      }, function (error) {
-               console.log("Some error");
-      });
-   });
-}
-/*function storeIntelligrapeLogo(fullpath,file_name){
-  //alert("called" + fullpath+"******"+file_name);
-  var url = fullpath; // image url
-  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
-    //alert("fs.root.fullPath------"+fs.root.fullPath);
-      /*var imagePath = fs.root.fullPath + "/"+file_name; // full file path
-      var store = cordova.file.externalRootDirectory+file_name;
-      alert(store);
-      alert(imagePath);*/
-      /*var assetURL = fullpath;
-var store = cordova.file.externalRootDirectory; 
-var fileName = file_name;
-
-alert(assetURL+"-----"+fileName);
-alert(store + fileName);
-      var fileTransfer = new FileTransfer();
-      fileTransfer.download(assetURL, store + fileName, function (entry) {
-               console.log(entry.fullPath); // entry is fileEntry object
-               alert("Success!");
-      }, function (error) {
-               console.log("Some error");
-               alert("Some error");
-      });
-      fileTransfer.onprogress = function(result){
-     var percent =  result.loaded / result.total * 100;
-     percent = Math.round(percent);
-     console.log('Downloaded:  ' + percent + '%');    
-     alert('Downloaded:  ' + percent + '%'); 
-}
-   });
-}*/  
-function downloadFile(url, filename) {
-  alert(url+"^^^^^^^^^^^^"+filename);
+    var assetURL = fullpath;
+    var store = cordova.file.externalRootDirectory; // output in android: file:///storage/emulated/0/
+    //var store = cordova.file.dataDirectory; // or //var store = "cdvfile://localhost/persistent/";
+    var fileName = folder_path;
     var fileTransfer = new FileTransfer();
-    //alert(cordova.file.dataDirectory);
-    alert(cordova.file.externalRootDirectory);
-    fileTransfer.download(url,
-        //cordova.file.dataDirectory + "cache/" + filename,
-        cordova.file.externalRootDirectory + filename,
-        function (entry) {
-               console.log(entry.fullPath); // entry is fileEntry object.
-               alert(entry.fullPath);
-               alert("Success!");
-      }, function (error) {
-                console.log("download error source " + error.source);
-            console.log("download error target " + error.target);
-            console.log("upload error code: " + error.code);
-               alert("Some error");
+    fileTransfer.download(assetURL, store + fileName, 
+      function(entry) {
+          console.log("Success!");
+          alert("Success!");
+          alert(entry.fullPath);
+          alert("download toURL: " + entry.toURL());
+      }, 
+      function(err) {
+          console.log("Error");
+          console.dir(err);
+          alert("Some error");
+          alert(err);
       });
-        
-    
+
+      /*fileTransfer.onprogress = function(result){
+        var percent =  result.loaded / result.total * 100;
+        percent = Math.round(percent);
+        console.log('Downloaded:  ' + percent + '%');    
+        //alert('Downloaded:  ' + percent + '%');
+        app.dialog.alert('<div class="progressbar" data-progress="'+percent+'"> %<span></span></div> Downloaded:  ' + percent + '%');
+      }*/
+      var percent = 0;
+      var dialog = app.dialog.progress('Download in Progress', percent);
+      dialog.setText('Downloaded : '+percent);
+      //var interval = setInterval(function () {
+      fileTransfer.onprogress = function(result){
+        //progress += 10;
+        var percent =  result.loaded / result.total * 100;
+        percent = Math.round(percent);
+        dialog.setProgress(percent);
+        //dialog.setText('Image ' + ((progress) / 10) + ' of 10');
+        if (percent === 100) {
+          clearInterval(interval);
+          dialog.close();
+        }
+      }
+      //}, 300);
+
 }
 function changeCompStatus(complaint_no){
   //alert(complaint_no);
