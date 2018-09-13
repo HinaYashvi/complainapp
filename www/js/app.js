@@ -470,7 +470,8 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
         var is_seen_byuser=json_res[j].is_seen_byuser;
         var complain = json_res[j].complain;
         var comp_adddate = json_res[j].comp_adddate;
-
+        var is_impt = json_res[j].is_impt;
+        var ref_name = json_res[j].ref_name;
        // alert(complain+"-----"+comp_adddate); 
         
         //var last_status_id = json_res[j].last_status_id;
@@ -482,24 +483,37 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
         }else{
           var comp_status = status;
         } */
-
+        
         if(status=='Assigned'){
           var badge_color = "color-custom";
           if(is_seen_byuser==0){
-            lightred='notseen';
-          } 
+            //lightred='notseen';
+            //var notseen="<i class='f7-icons fs-16 text-red'>eye_fill</i>";
+            var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+          }else{
+            var notseen="";
+          }
         }else if(status=='Executed'){
           var badge_color = "color-executed";
+          var notseen="";
         }else if(status=='In progress'){
           var badge_color = "color-progress";
+          var notseen="";
         }else if(status=='Completed'){
           var badge_color = "color-complete";
+          var notseen="";
         }
-        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p">'+comp_no+'</a><br/><span class="float-left w-45 ">'+complain+'..</span><br/><p class="fs-12"><i class="fa fa-calendar mr-5p orange-text fs-12 ml-5x"></i>'+comp_adddate+'</p></td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span></td></tr><br>'; 
+        if(is_impt==1){
+          lightred='notseen';
+          var ref_by = '<em><span class="float-left fw-700 text-blue">Ref : ['+ref_name+'] </span></em>';
+        }else{
+          lightred="";
+          var ref_by = '';
+        }
+        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span></td></tr><br>'; 
         $('#complaints').html(comaplintdata);  
         app.preloader.hide(); 
       }
-
     }
   });
 });
@@ -910,6 +924,8 @@ function showUploadbtn(){
   $("#upldbtn").addClass("display-block"); 
 }
 function downloaddoc(fullpath,folder_path){
+  alert(device.platform);
+  if(device.platform == "Android"){
     var assetURL = fullpath;
     var store = cordova.file.externalRootDirectory+"Download/"; // output in android: file:///storage/emulated/0/
     //var store = cordova.file.dataDirectory; // or //var store = "cdvfile://localhost/persistent/";
@@ -950,8 +966,50 @@ function downloaddoc(fullpath,folder_path){
           dialog.close();
           //app.dialog.alert("Download Completed.");
         }
-
       }
+    }else if(device.platform == 'iOS'){
+      alert("in iOS");
+      var fileName = folder_path;
+      alert(fileName);
+      window.requestFileSystem(  
+        LocalFileSystem.PERSISTENT, 0,  
+        function onFileSystemSuccess(fileSystem) {  
+        //fileSystem.root.getFile(  
+                 //   "dummy.html", {create: true, exclusive: false},  
+          function gotFileEntry(fileEntry){  
+                    var sPath = fileEntry.fullPath; 
+                    //var sPath = fileEntry.fullPath.replace("dummy.html","");  
+                    var fileTransfer = new FileTransfer();  
+                    //fileEntry.remove();  
+                    fileTransfer.download(  
+                     fullpath,  
+                     sPath + fileName,  
+                     function(theFile) {  
+                      alert("download complete: " + theFile.toURI()); 
+
+                     },  
+                     function(error) {  
+                      alert("download error source " + error.source);  
+                      alert("download error target " + error.target);  
+                      alert("upload error code: " + error.code);  
+                     }  
+                     ); 
+                     
+                    //},fail);  
+        } 
+        var percent = 0;
+          var dialog = app.dialog.progress('Downloading...', percent);      
+          fileTransfer.onprogress = function(result){
+            var percent =  result.loaded / result.total * 100;
+            percent = Math.round(percent);
+            dialog.setText('Downloaded : '+percent+' %');
+            dialog.setProgress(percent);
+            if (percent == 100) {
+              dialog.close();
+            }
+          }  
+      });
+    }
 }
 function changeCompStatus(complaint_no){
   //alert(complaint_no);

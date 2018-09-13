@@ -137,11 +137,17 @@ body{
 .fs-12{
 	font-size: 12px;
 }
+.fs-22{
+	font-size: 22px;
+}
 .fs-28{
 	font-size: 28px!important;
 }
 .fs-2em{
 	font-size: 2.5em;
+}
+.text-blue{
+	color: #5FBEAA!important;
 }
 .textarea{
 	/*background-color: #bbe1ff;
