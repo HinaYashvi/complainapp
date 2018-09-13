@@ -927,6 +927,7 @@ fileTransfer.download(assetURL, store + fileName,
             console.log("Success!");
             alert("Success!");
             alert(entry.fullPath);
+            alert("download toURL: " + entry.toURL());
             //appStart();
         }, 
         function(err) {
@@ -940,6 +941,12 @@ fileTransfer.onprogress = function(result){
      percent = Math.round(percent);
      console.log('Downloaded:  ' + percent + '%');    
      alert('Downloaded:  ' + percent + '%');
+     if (result.lengthComputable) {
+        var test = loadingStatus.setPercentage(result.loaded / result.total);
+    } else {
+        var test = loadingStatus.increment();
+    }
+    alert('Downloaded test:  ' + test + '%');
 };
 
 }
