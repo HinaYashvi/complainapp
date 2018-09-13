@@ -949,7 +949,8 @@ function downloaddoc(fullpath,folder_path){
           app.dialog.close();
         }
       }
-      dialog.close();
+      app.dialog.close();
+      //dialog.close();
 }
 function changeCompStatus(complaint_no){
   //alert(complaint_no);
