@@ -57,9 +57,6 @@
     },
     "cordova-plugin-file-transfer": {
       "PACKAGE_NAME": "com.phonegap.complainmanager"
-    },
-    "cordova-plugin-downloadmanager": {
-      "PACKAGE_NAME": "com.phonegap.complainmanager"
     }
   },
   "dependent_plugins": {

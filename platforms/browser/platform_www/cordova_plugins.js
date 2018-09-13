@@ -490,14 +490,6 @@ module.exports = [
         "clobbers": [
             "window.FileTransfer"
         ]
-    },
-    {
-        "file": "plugins/cordova-plugin-downloadmanager/www/DownloadManager.js",
-        "id": "cordova-plugin-downloadmanager.DownloadManager",
-        "pluginId": "cordova-plugin-downloadmanager",
-        "clobbers": [
-            "cordova.plugins.DownloadManager"
-        ]
     }
 ];
 module.exports.metadata = 
@@ -520,8 +512,7 @@ module.exports.metadata =
     "cordova-plugin-media": "2.2.0",
     "cordova-plugin-file": "5.0.0",
     "cordova-plugin-statusbar": "2.1.2",
-    "cordova-plugin-file-transfer": "1.5.0",
-    "cordova-plugin-downloadmanager": "0.0.1"
+    "cordova-plugin-file-transfer": "1.5.0"
 }
 // BOTTOM OF METADATA
 });
