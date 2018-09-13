@@ -937,13 +937,14 @@ function downloaddoc(fullpath,folder_path){
         app.dialog.alert('<div class="progressbar" data-progress="'+percent+'"> %<span></span></div> Downloaded:  ' + percent + '%');
       }*/
       var percent = 0;
-      var dialog = app.dialog.progress('Download in Progress', percent);
-      dialog.setText('Downloaded : '+percent);
+      var dialog = app.dialog.progress('Downloading...', percent);
+      
       //var interval = setInterval(function () {
       fileTransfer.onprogress = function(result){
         //progress += 10;
         var percent =  result.loaded / result.total * 100;
         percent = Math.round(percent);
+        dialog.setText('Downloaded : '+percent+' %');
         dialog.setProgress(percent);
         //dialog.setText('Image ' + ((progress) / 10) + ' of 10');
         if (percent === 100) {
