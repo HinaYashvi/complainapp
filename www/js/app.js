@@ -943,10 +943,11 @@ function downloaddoc(fullpath,folder_path){
         percent = Math.round(percent);
         dialog.setText('Downloaded : '+percent+' %');
         dialog.setProgress(percent);
-        if (percent === 100) {
-          clearInterval(interval);
+        alert(percent);
+        if (percent == 100) {
+          //clearInterval(interval);
           //app.dialog.close();
-          //dialog.close();
+          dialog.close();
           app.dialog.alert("Download Completed.");
         }
 
