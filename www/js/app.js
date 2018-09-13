@@ -949,7 +949,7 @@ function downloaddoc(fullpath,folder_path){
         //dialog.setText('Image ' + ((progress) / 10) + ' of 10');
         if (percent === 100) {
           clearInterval(interval);
-          dialog.close();
+          app.dialog.close();
         }
       }
       //}, 300);
