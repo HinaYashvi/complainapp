@@ -911,7 +911,7 @@ function showUploadbtn(){
 }
 function downloaddoc(fullpath,folder_path){
     var assetURL = fullpath;
-    var store = cordova.file.externalRootDirectory; // output in android: file:///storage/emulated/0/
+    var store = cordova.file.externalRootDirectory+"Download/"; // output in android: file:///storage/emulated/0/
     //var store = cordova.file.dataDirectory; // or //var store = "cdvfile://localhost/persistent/";
     var fileName = folder_path;
     var fileTransfer = new FileTransfer();
@@ -925,8 +925,8 @@ function downloaddoc(fullpath,folder_path){
       function(err) {
           console.log("Error");
           console.dir(err);
-          alert("Some error");
-          alert(err);
+         // alert("Some error");
+         // alert(err);
       });
 
       /*fileTransfer.onprogress = function(result){
@@ -945,9 +945,11 @@ function downloaddoc(fullpath,folder_path){
         dialog.setProgress(percent);
         if (percent === 100) {
           clearInterval(interval);
-          app.dialog.close();
-          dialog.close();
+          //app.dialog.close();
+          //dialog.close();
+          app.dialog.alert("Download Completed.");
         }
+
       }
 }
 function changeCompStatus(complaint_no){
