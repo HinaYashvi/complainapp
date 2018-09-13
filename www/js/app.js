@@ -946,6 +946,7 @@ function downloaddoc(fullpath,folder_path){
         if (percent === 100) {
           clearInterval(interval);
           app.dialog.close();
+          dialog.close();
         }
       }
 }
