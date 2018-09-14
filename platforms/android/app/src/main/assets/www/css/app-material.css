@@ -149,6 +149,9 @@ body{
 .text-blue{
 	color: #5FBEAA!important;
 }
+.md .page-content > .card:last-child{
+	margin-bottom: 60px;
+}
 .textarea{
 	/*background-color: #bbe1ff;
 	border:1px dashed #2196f3;
@@ -207,6 +210,9 @@ body{
 .w-45{
 	width: 45%!important;
 }
+.w-96{
+	width: 96%!important;
+}
 .uploadDiv{
 	height: 150px;
 }
@@ -242,6 +248,9 @@ body{
 .form-div{
 	padding: 2% 0 0 0%;
 	width:85%;
+}
+.color-red{
+	background-color: red;
 }
 .color-custom{
 	background-color: #5FBEAA;
@@ -291,6 +300,25 @@ color: #f99104!important;
     width: 100%!important;
     text-align: center!important;
 }
+#triangle-topleft {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    display: block;
+    border-left: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-top: 30px solid #f00;
+}
+.impfont{
+    color: #ffffff!important;
+    transform: rotate(45deg);
+    font-size: 7px!important;
+    right: 1px;
+    position: absolute;
+    top: -24px;
+}
 /* ---------------------- ROTATE STAR -------------------- */
 .gly-spin {
       -webkit-animation: spin 5s infinite linear;
@@ -332,4 +360,59 @@ color: #f99104!important;
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
 }
+}
+/* ------------------------- BLINK IMAGE ------------------- */
+/* Firefox old*/
+@-moz-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
+
+@-webkit-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+/* IE */
+@-ms-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
+/* Opera and prob css3 final iteration */
+@keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
+.blink-image {
+    -moz-animation: blink normal 2s infinite ease-in-out; /* Firefox */
+    -webkit-animation: blink normal 2s infinite ease-in-out; /* Webkit */
+    -ms-animation: blink normal 2s infinite ease-in-out; /* IE */
+    animation: blink normal 2s infinite ease-in-out; /* Opera and prob css3 final iteration */
 }

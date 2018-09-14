@@ -28,6 +28,14 @@ var routes = [
     path:'/addComplain/',
     url: './addComplain.html',
   },
+  {
+    path:'/comp_rep/',
+    url: './comp_rep.html',
+  },
+  {
+    path:'/comp_mon_rep/',
+    url: './comp_mon_rep.html',
+  },
   
   /*{
     path: '/action-sheet/',

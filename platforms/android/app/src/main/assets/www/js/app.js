@@ -316,7 +316,7 @@ function checklogin(){
 } 
 // ******************************************************************************************************* //
 
-// ------------------------------------------- D A S H B O A R D ----------------------------------------- //
+// ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
   checkConnection();
   //console.log(cordova.file);
@@ -404,21 +404,71 @@ function getStatusWiseComps(statusid,status_type){
           var is_seen_byuser = parseInt(json_compres[j].is_seen_byuser);  
           var complain = json_compres[j].complain;
           var comp_adddate = json_compres[j].comp_adddate;
+          var is_impt = json_compres[j].is_impt;
+          var ref_name = json_compres[j].ref_name;
+          var onemonth_added_dt = json_compres[j].onemonth_added_dt;
+          var today = new Date();
+          var month = today.getMonth()+1;
+          var day = today.getDate();
+          if(month>=9){
+            var mm = "0"+month;
+          }else{
+            var mm = month;
+          }
+
+          if(day>=9){
+            var dd = "0"+day;
+          }else{
+            var dd = day;
+          }
+
+          var date = today.getFullYear()+'-'+(mm)+'-'+dd;
+          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+          var todaydateTime = date+' '+time;
           
           if(status_type=='Assigned'){
-            var badge_color = "color-custom";
-            if(is_seen_byuser==0){
+            //alert(onemonth_added_dt+"----onemonth_added_dt----"+todaydateTime);
+            if(todaydateTime > onemonth_added_dt){
+              var badge_color = "color-red";
+            }else{
+              var badge_color = "color-custom";
+            }
+            /*if(is_seen_byuser==0){
              lightred='notseen';
-            }            
+            }  */
+            if(is_seen_byuser==0){
+              //lightred='notseen';
+              var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+            }else{
+              var notseen="";
+            }  
+            var imp_triangle = '';        
           }else if(status_type=='Executed'){
             var badge_color = "color-executed";
+            var notseen="";
+            var imp_triangle = '';
           }else if(status_type=='In progress'){
             var badge_color = "color-progress";
+            var notseen="";
+            var imp_triangle = '';
           }else if(status_type=='Completed'){
             var badge_color = "color-complete";
+            var notseen="";
+            var imp_triangle = '';
           }         
-          
-          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p">'+comp_no+'</a><br/><span class="float-left w-45 ">'+complain+'..</span><br/><p class="fs-12"><i class="fa fa-calendar mr-5p orange-text fs-12 ml-5x"></i>'+comp_adddate+'</p></td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span></td></tr>';      
+          if(is_impt==1){
+            lightred='notseen';
+            var ref_by = '<em><span class="float-left fw-700 text-blue">Ref : ['+ref_name+'] </span></em>';
+            var imp_triangle = '<div id="triangle-topleft"><span class="impfont fw-700">IMP</span></div>';
+            
+          }else{
+            lightred="";
+            var ref_by = '';
+            var imp_triangle = '';
+          }
+          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
+
+            
             //$('#complaintsbyStatus').html(comaplintStatusdata);
         }
     }else{
@@ -472,6 +522,25 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
         var comp_adddate = json_res[j].comp_adddate;
         var is_impt = json_res[j].is_impt;
         var ref_name = json_res[j].ref_name;
+        var onemonth_added_dt = json_res[j].onemonth_added_dt;
+          var today = new Date();
+          var month = today.getMonth()+1;
+          var day = today.getDate();
+          if(month>=9){
+            var mm = "0"+month;
+          }else{
+            var mm = month;
+          } 
+
+          if(day>=9){
+            var dd = "0"+day;
+          }else{
+            var dd = day;
+          }
+
+          var date = today.getFullYear()+'-'+(mm)+'-'+dd;
+          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+          var todaydateTime = date+' '+time;
        // alert(complain+"-----"+comp_adddate); 
         
         //var last_status_id = json_res[j].last_status_id;
@@ -485,7 +554,12 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
         } */
         
         if(status=='Assigned'){
-          var badge_color = "color-custom";
+          //var badge_color = "color-custom";
+          if(todaydateTime > onemonth_added_dt){
+              var badge_color = "color-red";
+            }else{
+              var badge_color = "color-custom";
+            }
           if(is_seen_byuser==0){
             //lightred='notseen';
             //var notseen="<i class='f7-icons fs-16 text-red'>eye_fill</i>";
@@ -493,25 +567,36 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
           }else{
             var notseen="";
           }
+          var imp_triangle = '';
         }else if(status=='Executed'){
           var badge_color = "color-executed";
           var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
         }else if(status=='In progress'){
           var badge_color = "color-progress";
           var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
         }else if(status=='Completed'){
           var badge_color = "color-complete";
           var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
         }
         if(is_impt==1){
           lightred='notseen';
-          var ref_by = '<em><span class="float-left fw-700 text-blue">Ref : ['+ref_name+'] </span></em>';
+          var ref_by = '<em><span class="float-left fw-700 text-blue">Ref : [ '+ref_name+' ] </span></em>';
+          //var imp_img = '<img src="img/important-red-stamp.png" height="28" width="28" class="ml-5p blink-image"/>';
+          var imp_triangle = '<div id="triangle-topleft"><span class="impfont fw-700">IMP</span></div>';
         }else{
           lightred="";
           var ref_by = '';
+          //var imp_img = '';
+          var imp_triangle = '';
         }
-        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span></td></tr><br>'; 
-        $('#complaints').html(comaplintdata);  
+        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>'; 
+        $('#complaints').html(comaplintdata);   
         app.preloader.hide(); 
       }
     }
@@ -550,6 +635,17 @@ function comp_det_page(comp_no){
       var comp_adddate = json.complaint_data[0].comp_adddate;
       var last_editbyadmin_date = json.complaint_data[0].last_editbyadmin_date;
       var u_mo = json.complaint_data[0].u_mo;
+      var is_impt = json.complaint_data[0].is_impt;
+      var ref_name = json.complaint_data[0].ref_name;
+      //alert(is_impt);
+      if(is_impt==1){
+        
+        var refre = '<tr><td class="label-cell" id="ref_by_lbl">Reference By</td><td class="numeric-cell">'+ref_name+'</td></tr>';
+
+      }else{
+        
+        var refre = '';
+      }
       //alert(u_mo);
 
       var s_id = json.complaint_data[0].s_id;
@@ -623,7 +719,7 @@ function comp_det_page(comp_no){
       }      
       
       //$(".totalattacehs").html("("+json_attach.length+")"); 
-      showcomaplintdata='<div class="card data-table"><table><tbody><tr><td class="label-cell">Complain</td><td class="numeric-cell">'+complain+'</td></tr><tr><td class="label-cell">Department</td><td class="numeric-cell">'+d_name+'</td></tr><tr><td class="label-cell">Handled By</td><td class="numeric-cell">'+u_fullname+'<span class="col button color-green button-small outline-green button-outline float-right ml-5p" onclick="call_handler('+"'"+u_mo+"'"+')"><span ><i class="fa fa-phone color-green"></i></span></span></td></tr><tr><td class="label-cell">Remarks</td><td class="numeric-cell">'+remarks+'</td></tr><tr><td class="label-cell">Complain Added By</td><td class="numeric-cell">'+add_byfname+'</td></tr><tr><td class="label-cell">Complain Date</td><td class="numeric-cell">'+comp_adddate+'</td></tr><tr><td class="label-cell">Admin Last Edit On</td><td class="numeric-cell">'+last_editbyadmin_dt+'</td></tr><tr><td class="label-cell">Last Edit On</td><td class="numeric-cell">'+last_editbyuser_dt+'</td></tr><tr><td class="label-cell">Response By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Response Date</td><td class="numeric-cell">'+comp_respdatetime_dt+'</td></tr><tr><td class="label-cell">Response Status</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+statustype+'</span></td></tr></tbody></table><div class="list"><ul><form name="user_form" id="user_form" class="mb-15p"><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_uid" id="hidd_uid" value="'+u_id+'" /><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_compno" id="hidd_compno" value="'+complaint_no+'" /><div class="item-title item-label newlbl "></div><li class="item-content item-input show-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input show-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16" id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><div class="col button button-small button-round button-outline outline-dangerbtn mb-15p"><i class="fa fa-trash"></i></div></span><span class="grey-text float-right" onclick="editLastRem()"><div class="col button button-small button-round button-outline outline-orangebtn mb-15p"><i class="fa fa-pencil"></i></div></span></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16 id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><i class="fa fa-trash"></i></span><span class="grey-text float-right" onclick="editLastRem()"><i class="fa fa-pencil"></i></span></div></div></li></ul></div></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><label class="md-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2" id="user_remarks"></textarea></div></div></li><li class="item-content item-input mb-2"><div class="item-inner"><div class="item-input-wrap"><label class="ios-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2 ios-only" id="user_remarks"></textarea></div></div></li><li class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><select name="user_status" id="status_sel" class="grey-border fs-14 p-1"></select></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input ios-only mt-2p"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input showtwoBlocks display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-100 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><span onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><li class="item-content item-input showtwoBlocks display-none ios-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-35 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><a onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><!--br><button onclick="getPhoto(pictureSource.PHOTOLIBRARY);" class="mb-15p">From Photo Library</button><br--><li class="item-content item-input imageblock"><div class="item-inner"><div class="item-input-wrap"><img id="image" src="" style="display:none;width:100%;"></div></div></li><li class="item-content item-input upldbtnDiv " style="display:none;width:100%;" id="upldbtnDiv"><div class="item-inner"><div class="item-input-wrap"><button onclick="upload();" type="button" class="col button button-fill color-gray " id="upldbtn" >Upload</button></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li><li class="item-content item-input ios-only"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-big button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li></div></div></form></ul></div></div>';
+      showcomaplintdata='<div class="card data-table"><table><tbody><tr><td class="label-cell">Complain</td><td class="numeric-cell">'+complain+'</td></tr><tr><td class="label-cell">Department</td><td class="numeric-cell">'+d_name+'</td></tr><tr><td class="label-cell">Handled By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Mobile</td><td class="numeric-cell">'+u_mo+'<span class="col button color-green button-small outline-green button-outline float-right ml-5p" onclick="call_handler('+"'"+u_mo+"'"+')"><span ><i class="fa fa-phone color-green"></i></span></span></td></tr>'+refre+'<tr><td class="label-cell">Remarks</td><td class="numeric-cell">'+remarks+'</td></tr><tr><td class="label-cell">Complain Added By</td><td class="numeric-cell">'+add_byfname+'</td></tr><tr><td class="label-cell">Complain Date</td><td class="numeric-cell">'+comp_adddate+'</td></tr><tr><td class="label-cell">Admin Last Edit On</td><td class="numeric-cell">'+last_editbyadmin_dt+'</td></tr><tr><td class="label-cell">Last Edit On</td><td class="numeric-cell">'+last_editbyuser_dt+'</td></tr><tr><td class="label-cell">Response By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Response Date</td><td class="numeric-cell">'+comp_respdatetime_dt+'</td></tr><tr><td class="label-cell">Response Status</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+statustype+'</span></td></tr></tbody></table><div class="list"><ul><form name="user_form" id="user_form" class="mb-15p"><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_uid" id="hidd_uid" value="'+u_id+'" /><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_compno" id="hidd_compno" value="'+complaint_no+'" /><div class="item-title item-label newlbl "></div><li class="item-content item-input show-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input show-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16" id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><div class="col button button-small button-round button-outline outline-dangerbtn mb-15p"><i class="fa fa-trash"></i></div></span><span class="grey-text float-right" onclick="editLastRem()"><div class="col button button-small button-round button-outline outline-orangebtn mb-15p"><i class="fa fa-pencil"></i></div></span></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16 id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><i class="fa fa-trash"></i></span><span class="grey-text float-right" onclick="editLastRem()"><i class="fa fa-pencil"></i></span></div></div></li></ul></div></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><label class="md-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2" id="user_remarks"></textarea></div></div></li><li class="item-content item-input mb-2"><div class="item-inner"><div class="item-input-wrap"><label class="ios-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2 ios-only" id="user_remarks"></textarea></div></div></li><li class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><select name="user_status" id="status_sel" class="grey-border fs-14 p-1"></select></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input ios-only mt-2p"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input showtwoBlocks display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-100 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><span onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><li class="item-content item-input showtwoBlocks display-none ios-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-35 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><a onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><!--br><button onclick="getPhoto(pictureSource.PHOTOLIBRARY);" class="mb-15p">From Photo Library</button><br--><li class="item-content item-input imageblock"><div class="item-inner"><div class="item-input-wrap"><img id="image" src="" style="display:none;width:100%;"></div></div></li><li class="item-content item-input upldbtnDiv " style="display:none;width:100%;" id="upldbtnDiv"><div class="item-inner"><div class="item-input-wrap"><button onclick="upload();" type="button" class="col button button-fill color-gray " id="upldbtn" >Upload</button></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li><li class="item-content item-input ios-only"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-big button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li></div></div></form></ul></div></div>';
       //showcomaplintdata='<div class="card data-table"><table><tbody><tr><td class="label-cell">Complain</td><td class="numeric-cell">'+complain+'</td></tr><tr><td class="label-cell">Department</td><td class="numeric-cell">'+d_name+'</td></tr><tr><td class="label-cell">Handled By</td><td class="numeric-cell">'+u_fullname+'<span class="col button color-green button-small outline-green button-outline float-right ml-5p"><span onclick="call_handler('+"'"+u_mo+"'"+')"><i class="fa fa-phone color-green"></i></span></span></td></tr><tr><td class="label-cell">Remarks</td><td class="numeric-cell">'+remarks+'</td></tr><tr><td class="label-cell">Complain Added By</td><td class="numeric-cell">'+add_byfname+'</td></tr><tr><td class="label-cell">Complain Date</td><td class="numeric-cell">'+comp_adddate+'</td></tr><tr><td class="label-cell">Admin Last Edit On</td><td class="numeric-cell">'+last_editbyadmin_dt+'</td></tr><tr><td class="label-cell">Last Edit On</td><td class="numeric-cell">'+last_editbyuser_dt+'</td></tr><tr><td class="label-cell">Response By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Response Date</td><td class="numeric-cell">'+comp_respdatetime_dt+'</td></tr><tr><td class="label-cell">Response Status</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+statustype+'</span></td></tr></tbody></table><div class="list"><ul><form name="user_form" id="user_form" class="mb-15p"><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_uid" id="hidd_uid" value="'+u_id+'" /><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_compno" id="hidd_compno" value="'+complaint_no+'" /><div class="item-title item-label newlbl "></div><li class="item-content item-input show-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input show-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16" id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><div class="col button button-small button-round button-outline outline-dangerbtn mb-15p"><i class="fa fa-trash"></i></div></span><span class="grey-text float-right" onclick="editLastRem()"><div class="col button button-small button-round button-outline outline-orangebtn mb-15p"><i class="fa fa-pencil"></i></div></span></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16 id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><i class="fa fa-trash"></i></span><span class="grey-text float-right" onclick="editLastRem()"><i class="fa fa-pencil"></i></span></div></div></li></ul></div></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><label class="md-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2" id="user_remarks"></textarea></div></div></li><li class="item-content item-input mb-2"><div class="item-inner"><div class="item-input-wrap"><label class="ios-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2 ios-only" id="user_remarks"></textarea></div></div></li><li class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><select name="user_status" id="status_sel" class="grey-border fs-14 p-1"></select></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input ios-only mt-2p"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li>
 
 
@@ -751,7 +847,11 @@ function comp_det_page(comp_no){
             }      
           }       
         });
-
+        //alert(is_impt);
+        if(is_impt==1){
+          $("#imp_img").removeClass("display-none");
+          $("#imp_img").html('<img src="img/important-red-stamp.png" height="35" width="40" class="blink-image m-t-20p">');
+        }
         $("#comp_no").html(complaint_no);
         $("#complaint_detail").html(showcomaplintdata);
         app.preloader.hide(); 
@@ -924,7 +1024,7 @@ function showUploadbtn(){
   $("#upldbtn").addClass("display-block"); 
 }
 function downloaddoc(fullpath,folder_path){
-  alert(device.platform);
+  //alert(device.platform);
   if(device.platform == "Android"){
     var assetURL = fullpath;
     var store = cordova.file.externalRootDirectory+"Download/"; // output in android: file:///storage/emulated/0/
@@ -964,13 +1064,13 @@ function downloaddoc(fullpath,folder_path){
           //clearInterval(interval);
           //app.dialog.close();
           dialog.close();
-          //app.dialog.alert("Download Completed.");
+          app.dialog.alert("Download Completed.");
         }
       }
     }else if(device.platform == 'iOS'){
-      alert("in iOS");
+    //  alert("in iOS");
       var fileName = folder_path;
-      alert(fileName);
+     // alert(fileName);
       window.requestFileSystem(  
         LocalFileSystem.PERSISTENT, 0,  
         function onFileSystemSuccess(fileSystem) {  
@@ -1006,6 +1106,7 @@ function downloaddoc(fullpath,folder_path){
             dialog.setProgress(percent);
             if (percent == 100) {
               dialog.close();
+              app.dialog.alert("Download Completed.");
             }
           }  
       });
@@ -1033,8 +1134,61 @@ function changeCompStatus(complaint_no){
     }
   });
 }
-// ******************************************************************************************************* //
+// **************************************************************************************************** //
 
+// ----------------------------------------- D A S H B O A R D -------------------------------------- //
+$$(document).on('page:init', '.page[data-name="comp_rep"]', function (e) {
+  checkConnection();
+  app.preloader.show(); 
+  $(".popover-on-bottom").css("display","none");
+  $(".popover-backdrop").removeClass("backdrop-in");
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  var rep_inputs='';
+  rep_inputs='<tr><td class="label-cell w-100"><select name="searchstatus" class="input-with-value" id="status_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="dept" class="input-with-value" id="dept_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="user" class="input-with-value"><option value="">-----USER-----</option><option value="Male">Male</option><option value="Female">Female</option></select></td></tr><tr><td class="label-cell w-100"><select name="comp_no" class="input-with-value"><option value="">-----COMPLAIN NO-----</option><option value="Male">Male</option><option value="Female">Female</option></select></td></tr><tr><td class="label-cell w-100"><input name="mobile_no" type="url" placeholder="MOBILE" class=""></td></tr><tr><td class="label-cell w-100"><input type="text" placeholder="FROM" readonly id="calendar-disabled"></td></tr><tr><td class="label-cell w-100"><input type="text" placeholder="TO" readonly id="calendar-disabled11"></td></tr>';
+
+    var status_url = base_url+'app_controller/AllCompStatus';
+    $.ajax({
+      'type':'POST', 
+      'url':status_url,      
+      success:function(data){ 
+        var json = $.parseJSON(data);
+        var json_status = json.all_status;
+        var complaint_status = '';
+        complaint_status='<option value="" >--- COMPLAINT STATUS ---</option>';
+        //console.log(json_status);
+        for(var j=0;j<json_status.length;j++){ 
+          var selected='';              
+          var s_id_tbl = json_status[j].s_id; 
+          var status_name = json_status[j].statustype; 
+          complaint_status+='<option value="'+s_id_tbl+'" '+selected+'>'+status_name+'</option>';
+          $("#status_sel").html(complaint_status);
+        }          
+      }       
+    }); 
+
+    var dept_url = base_url+'app_controller/AllDept';
+    $.ajax({
+      'type':'POST', 
+      'url':dept_url,      
+      success:function(data){ 
+        var dept_json = $.parseJSON(data);
+        var json_dept = dept_json.all_dept;
+        var dept_nm = '';
+        dept_nm='<option value="" >--- DEPARTMENT ---</option>';
+        //console.log(json_status);
+        for(var j=0;j<json_dept.length;j++){ 
+          var selected='';              
+          var d_id = json_dept[j].d_id; 
+          var d_name = json_dept[j].d_name; 
+          dept_nm+='<option value="'+d_id+'">'+d_name+'</option>';
+          $("#dept_sel").html(dept_nm);
+        }          
+      }       
+    }); 
+
+    $("#comprep_inputs").html(rep_inputs);
+  app.preloader.hide(); 
+}); 
 // --------------------------------------------- L O G O U T ------------------------------------------ //
 function logOut(){
   checkConnection();
