@@ -1,15 +1,13 @@
-<div data-name="comp_rep" class="page navbar-fixed toolbar-fixed" >
+<div data-name="complainmon_rep_grid" class="page navbar-fixed toolbar-fixed" >
 	<!-- All parts will have "sliding" effect on page transition -->
 	<div class="navbar inner-header">
 	  <!-- Additional "sliding" class -->
 	  <div class="navbar-inner sliding">
 	    <div class="left">
 	      <a href="#" class="link back"><i class="f7-icons size-22 orange-text">arrow_left</i></a>
-
 	    </div>
 	    <div class="title text-uppercase orange-text">Complain Report</div>
 	    <div class="right">
-        <!--a href="/addComplain/" class="col button color-custom float-right btnblck-custom display-none"><i class="f7-icons size-22 grey-text p-30 fw-700">add</i></a!-->
 	      <a class="link popover-open" href="#" data-popover=".popover-links"><i class="f7-icons size-22 orange-text">more_vertical</i></a>
 
 	    </div>
@@ -20,34 +18,21 @@
     <div class="popover-inner">
       <div class="list">
         <ul>
-          <li><a class="list-button item-link" href="/comp_mon_rep/">Complain Monthly Report</a></li>
+          <li><a class="list-button item-link" href="/comp_rep/">Complain Report</a></li>
           <li><a class="list-button item-link" href="#" onclick="logOut()">Logout</a></li>
         </ul>
       </div>
     </div>
-  </div>
-
-	<div class="page-content">
-	  	<div class="card w-96 float-left">
-        <div class="card-header textarea">
-          Complain Report        
-        </div>
-        <div class="card-content">
-          <div id="complaint_report mb-2"> 
-            <div class=" data-table "> 
-              <table>
-                <tbody id="comprep_inputs">
-                  
-                </tbody>
-              </table>
-            </div>    
-          </div>
-        </div>
-      </div>
-	</div>  
-
-
-  
+  </div>  
+        
+  <div class="page-content">           
+    <div class="no-hairlines">                          
+        <div class="list no-hairlines"> 
+          <div class="ml-5x">Total : <span class="total_rep badge color-red"></span></div>
+          <ul class="compmon_rep"></ul> 
+        </div>             
+    </div>  
+  </div>     
 	
   <div class="toolbar toolbar-bottom-md footer-bg inner-footer">
     <div class="toolbar-inner">

@@ -264,6 +264,16 @@ body{
 .color-complete{
 	background-color: #81C868;
 }
+.md .calendar-header{
+    background: #ff9f00!important;
+}
+.md .calendar-day.calendar-day-selected span{
+    background: #ff9f00!important;
+    color: #fff!important;
+}
+.calendar-close{
+    color: #ff9f00!important;
+}
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color:  #FFB842!important;
   font-size: 12px;

@@ -26,32 +26,64 @@ var app = new Framework7({
   popover: {
     closeByBackdropClick: true,
   },
-  // Hide and show indicator during ajax requests
-    onAjaxStart: function (xhr) {
-      app.showIndicator();
+  /*calendar: {
+    url: 'calendar/',
+    dateFormat: 'dd.mm.yyyy',
+  },*/
+  
+  on: {
+    pageInit: function(e, page) {
+      console.log('pageInit', e.page);
+      var app = this;
+      var today = new Date();
+      var $ = app.$;
+
+      var calendarRange = app.calendar.create({
+        inputEl: '#demo-calendar-modal',
+        dateFormat: 'dd-mm-yyyy',
+        header: true,
+        footer: true,
+        openIn: 'customModal'
+      });
+      var calendarRange1 = app.calendar.create({
+        inputEl: '#demo-calendar-modal1',
+        dateFormat: 'dd-mm-yyyy',
+        header: true,
+        footer: true,
+        openIn: 'customModal'
+      });
+
+      var calendarRange2 = app.calendar.create({
+        inputEl: '#demo-calendar-modal2',
+        dateFormat: 'mm-yyyy',
+        header: true,
+        footer: true,
+        openIn: 'customModal'
+      });
     },
-    onAjaxComplete: function (xhr) {
-      app.hideIndicator();
-    }
+  },
+  // Hide and show indicator during ajax requests
+  onAjaxStart: function (xhr) {
+    app.showIndicator();
+  },
+  onAjaxComplete: function (xhr) {
+    app.hideIndicator();
+  }
 });
 
 var pictureSource; // picture source
 var destinationType;
 
-//$( document ).ready(function() { 
-
 document.addEventListener("deviceready", checkStorage, false); 
 document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener("backbutton", onBackKeyDown, false);
-    //document.addEventListener("backbutton", onBackKeyDown, false);
-//});
+//document.addEventListener("backbutton", onBackKeyDown, false);
+
 var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
 //var base_url = '';   // LIVE SERVER //
 
-function onBackKeyDown() {
+/*function onBackKeyDown() {
   //console.log("back key pressed"); 
-  alert("in back key");
-  
+  alert("in back key");  
   //console.log (app.view.name);
   //var page = app.getCurrentView().activePage;alert("page---"+page);
   //var page1 = app.views.main.router.activePage;alert("page1---"+page1);
@@ -81,119 +113,66 @@ function onBackKeyDown() {
   }else{ 
     $$(".back").click();
   }
-}
+}*/
 
 function onDeviceReady() {
   pictureSource = navigator.camera.PictureSourceType;
-  destinationType = navigator.camera.DestinationType;
+  destinationType = navigator.camera.DestinationType;  
 }
+
 function onPhotoDataSuccess(imageURI) {
-// Uncomment to view the base64-encoded image data
-console.log(imageURI);
-// Get image handle
-//
-var cameraImage = document.getElementById('image');
-var upldbtnDiv = document.getElementById('upldbtnDiv');
-
-
-//$(".imageblock").removeClass("display-none");
-//$(".imageblock").addClass("display-block");
-// Unhide image elements
-//
-cameraImage.style.display = 'block';
-upldbtnDiv.style.display = 'block';
-//$(".upldbtnDiv").removeClass("display-none");
-//  $(".upldbtnDiv").addClass("display-block");
- // $("#upldbtn").removeClass("display-none");
-//  $("#upldbtn").addClass("display-block");
-//showUploadbtn();
-// Show the captured photo
-// The inline CSS rules are used to resize the image
-//
-cameraImage.src = imageURI;
-
+  console.log(imageURI);
+  var cameraImage = document.getElementById('image');
+  var upldbtnDiv = document.getElementById('upldbtnDiv');
+  cameraImage.style.display = 'block';
+  upldbtnDiv.style.display = 'block';
+  cameraImage.src = imageURI;
 }
-// Called when a photo is successfully retrieved
-//
+
  
 function onPhotoURISuccess(imageURI) {
-// Uncomment to view the image file URI
-console.log(imageURI);
-// Get image handle
-//
-var galleryImage = document.getElementById('image');
-var upldbtnDiv = document.getElementById('upldbtnDiv');
-//alert(galleryImage+" gallery image");
-// Unhide image elements
-//
-galleryImage.style.display = 'block';
-upldbtnDiv.style.display = 'block';
-// Show the captured photo
-// The inline CSS rules are used to resize the image
-//
-galleryImage.src = imageURI;
+  console.log(imageURI);
+  var galleryImage = document.getElementById('image');
+  var upldbtnDiv = document.getElementById('upldbtnDiv');
+  galleryImage.style.display = 'block';
+  upldbtnDiv.style.display = 'block';
+  galleryImage.src = imageURI;
 }
-// A button will call this function
-//
  
 function capturePhoto() {
-// Take picture using device camera and retrieve image as base64-encoded string
-navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
-quality: 30,
-targetWidth: 600,
-targetHeight: 600,
-destinationType: destinationType.FILE_URI,
-saveToPhotoAlbum: true
-}); 
-
+  // Take picture using device camera and retrieve image as base64-encoded string
+  navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
+  quality: 30,
+  targetWidth: 600,
+  targetHeight: 600,
+  destinationType: destinationType.FILE_URI,
+  saveToPhotoAlbum: true
+  }); 
 }
-// A button will call this function
-//
+
 function onPhotoDataSuccess(imageURI){
-
-// Uncomment to view the base64-encoded image data
-console.log(imageURI);
-// Get image handle
-//
-var cameraImage = document.getElementById('image');
-var upldbtnDiv = document.getElementById('upldbtnDiv');
-
-//$(".imageblock").removeClass("display-none");
-//$(".imageblock").addClass("display-block");
-// Unhide image elements
-//
-cameraImage.style.display = 'block';
-upldbtnDiv.style.display = 'block';
-
-  //$(".upldbtnDiv").removeClass("display-none");
-  //$(".upldbtnDiv").addClass("display-block");
-  //$("#upldbtn").removeClass("display-none");
-  //$("#upldbtn").addClass("display-block");
-//showUploadbtn();
-// Show the captured photo
-// The inline CSS rules are used to resize the image
-//
-cameraImage.src = imageURI;
-
+  console.log(imageURI);
+  var cameraImage = document.getElementById('image');
+  var upldbtnDiv = document.getElementById('upldbtnDiv');
+  cameraImage.style.display = 'block';
+  upldbtnDiv.style.display = 'block';
+  cameraImage.src = imageURI;
 }
- 
+
 function getPhoto(source) {
-  
-// Retrieve image file location from specified source
-navigator.camera.getPicture(onPhotoURISuccess, onFail, {
-quality: 30,
-targetWidth: 600,
-targetHeight: 600,
-destinationType: destinationType.FILE_URI,
-sourceType: source
-});
+  navigator.camera.getPicture(onPhotoURISuccess, onFail, {
+    quality: 30,
+    targetWidth: 600,
+    targetHeight: 600,
+    destinationType: destinationType.FILE_URI,
+    sourceType: source
+  });
 }
-// Called if something bad happens.
-
  
 function onFail(message) {
-alert('Failed because: ' + message);
+  alert('Failed because: ' + message);
 }
+
 function upload(){   
   var img = document.getElementById('image'); 
   app.dialog.preloader('Uploading....');
@@ -222,6 +201,7 @@ function upload(){
   //ft.upload(imageURI,"http://starprojects.in/f7CI/Appcont/appcontroller/photoupload", win, fail, options,true); 
   ft.upload(imageURI,uploadControllerURL, win, fail, options,true);   
 }
+
 function win(r) {
     console.log("Code = " + r.responseCode);
     var responseCode = r.responseCode;
@@ -232,6 +212,7 @@ function win(r) {
     console.log("Response = " + r.response);
     console.log("Sent = " + r.bytesSent);
 }
+
 function fail(error) {
   alert("An error has occurred: Code = " + error.code);
   alert("upload error source " + error.source);
@@ -240,17 +221,16 @@ function fail(error) {
 
 // --------------------------- C H E C K  I N T E R N E T  C O N N E C T I O N --------------------- //
 function checkConnection() {
-    var networkState = navigator.connection.type;
-    //alert(networkState);
-    if(networkState=='none'){  
-        app.router.navigate('/internet/'); 
-    }
+  var networkState = navigator.connection.type;
+  //alert(networkState);
+  if(networkState=='none'){  
+      app.router.navigate('/internet/'); 
+  }
 }
-// ******************************************************************************************************* //
+// ************************************************************************************************* //
 
-// ------------------------------------------- C H E C K  S T O R A G E ------------------------------- //
-function checkStorage(){  
-
+// -------------------------------------- C H E C K  S T O R A G E --------------------------------- //
+function checkStorage(){
   pictureSource = navigator.camera.PictureSourceType;
   destinationType = navigator.camera.DestinationType;
   checkConnection();  
@@ -270,7 +250,7 @@ function checkStorage(){
   }
 }
 
-// ------------------------------------------- LOGIN : C H E C K L O G I N ------------------------------- //
+// ----------------------------------------- LOGIN : C H E C K L O G I N ----------------------------- //
 function checklogin(){
     checkConnection();    
     if (!$$('#loginForm')[0].checkValidity()) { 
@@ -324,12 +304,27 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
   //app.dialog.preloader();
   var sess_u_id = window.localStorage.getItem("session_u_id");
   //alert(sess_u_id);
-  if(sess_u_id==null){
+  if(sess_u_id==null){    
     // ADMIN //
     var data = {'session_u_id':'NULL'}   
+    $(".comprep").removeClass("display-none"); 
+    $(".compmonthrep").removeClass("display-none"); 
+    $(".logout").removeClass("display-none");
+
+    $(".comprep").addClass("display-block"); 
+    $(".compmonthrep").addClass("display-block"); 
+    $(".logout").addClass("display-block"); 
+    
   }else{
     // USER //
     var data = {'session_u_id':sess_u_id}
+    $(".comprep").addClass("display-none"); 
+    $(".compmonthrep").addClass("display-none"); 
+    $(".logout").addClass("display-block"); 
+
+    $(".comprep").removeClass("display-block"); 
+    $(".compmonthrep").removeClass("display-block"); 
+    $(".logout").removeClass("display-none");
   }
   var url=base_url+'app_controller/getComplaintsStatusandCounts';
   $.ajax({
@@ -949,15 +944,11 @@ function deltLastRem(comp_id){
 }
 function editLastRem(){
   var hidd_csid = $("#hidd_csid").val();
-  //var sess_u_id = window.localStorage.getItem("session_u_id");
-  //alert(hidd_csid);
   $(".remarknoteditable").addClass("display-none");
   $("#remarkbtns").addClass("display-none");
   $("#editablelastrem").removeClass("display-none");
   $("#editablelastrem").addClass("display-block");
   $("#editablelastrem").focus(); 
-  
-
   $("#remsvbtn").removeClass("display-none");
   $("#remsvbtn").addClass("display-block"); 
 }
@@ -966,11 +957,9 @@ function saveEditedRem(comp_id){
   var hidd_csid = $("#hidd_csid").val();
   var hidd_compid = $("#hidd_compid").val();
   var editablelastrem = $("#editablelastrem").val();
-
   var old_rem = $("#old_rem").val();
   //alert(editablelastrem);
   var sess_u_id = window.localStorage.getItem("session_u_id");
-
   if(sess_u_id==null){
     // ADMIN //
         sess_u_id = window.localStorage.getItem("session_admin_u_id");        
@@ -979,7 +968,7 @@ function saveEditedRem(comp_id){
         sess_u_id = sess_u_id;
   }
 
- // alert(hidd_csid);
+  // alert(hidd_csid);
   var editRemurl = base_url+"app_controller/EditLastRem";  
   $.ajax({
     'type':'POST',
@@ -991,10 +980,7 @@ function saveEditedRem(comp_id){
         app.dialog.alert('Remark Saved!'); 
         $(".remarknoteditable").removeClass("display-none");
         $("#remarkbtns").removeClass("display-none");
-        getLastRemarksOfUser(comp_id,sess_u_id);
-        //$(".remarknoteditable").addClass("display-block");
-        //$("#remarkbtns").addClass("display-block");  
-        //app.preloader.hide();           
+        getLastRemarksOfUser(comp_id,sess_u_id);           
       }
     }
   });
@@ -1142,15 +1128,21 @@ $$(document).on('page:init', '.page[data-name="comp_rep"]', function (e) {
   app.preloader.show(); 
   $(".popover-on-bottom").css("display","none");
   $(".popover-backdrop").removeClass("backdrop-in");
+
   var sess_u_id = window.localStorage.getItem("session_u_id");
   var rep_inputs='';
-  rep_inputs='<tr><td class="label-cell w-100"><select name="searchstatus" class="input-with-value" id="status_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="dept" class="input-with-value" id="dept_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="user" class="input-with-value"><option value="">-----USER-----</option><option value="Male">Male</option><option value="Female">Female</option></select></td></tr><tr><td class="label-cell w-100"><select name="comp_no" class="input-with-value"><option value="">-----COMPLAIN NO-----</option><option value="Male">Male</option><option value="Female">Female</option></select></td></tr><tr><td class="label-cell w-100"><input name="mobile_no" type="url" placeholder="MOBILE" class=""></td></tr><tr><td class="label-cell w-100"><input type="text" placeholder="FROM" readonly id="calendar-disabled"></td></tr><tr><td class="label-cell w-100"><input type="text" placeholder="TO" readonly id="calendar-disabled11"></td></tr>';
+  rep_inputs='<tr><td class="label-cell w-100"><select name="searchstatus" class="input-with-value" id="status_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="dept" class="input-with-value" id="dept_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="deptperson" class="input-with-value" id="user_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="compno" class="input-with-value" id="comp_no"></select></td></tr><tr><td class="label-cell w-100"><input name="user_mo" type="number" id="user_mo" placeholder="MOBILE" class=""></td></tr><tr><td class="label-cell w-100"><input type="text" placeholder="FROM" readonly="readonly" id="demo-calendar-modal" name="fromdt"></td></tr><tr><td class="label-cell w-100"><input type="text" placeholder="TO" readonly="readonly" id="demo-calendar-modal1" name="todt"></td></tr><tr><td><label class="checkbox"><input type="checkbox" name="checkbox2" id="checkbox2"><i class="icon-checkbox"></i></label> Important</td></tr><tr><td class=""><a href="#" onclick="search_comp();" class="col button button-big button-fill orange-btn grey-text mb-2 float-right mt-5p" >SEARCH</a></td></tr>';   
+ 
 
+  //rep_inputs='<div class="block-title">Open in Mondal</div><div class="list no-hairlines-md"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="text" placeholder="Select date" readonly="readonly" id="demo-calendar-modal"/></div></div></div></li></ul></div>';
+    
+     
     var status_url = base_url+'app_controller/AllCompStatus';
     $.ajax({
       'type':'POST', 
       'url':status_url,      
       success:function(data){ 
+        app.preloader.show(); 
         var json = $.parseJSON(data);
         var json_status = json.all_status;
         var complaint_status = '';
@@ -1162,15 +1154,19 @@ $$(document).on('page:init', '.page[data-name="comp_rep"]', function (e) {
           var status_name = json_status[j].statustype; 
           complaint_status+='<option value="'+s_id_tbl+'" '+selected+'>'+status_name+'</option>';
           $("#status_sel").html(complaint_status);
+          app.preloader.hide();  
         }          
       }       
-    }); 
+    });
+    
 
+    
     var dept_url = base_url+'app_controller/AllDept';
     $.ajax({
       'type':'POST', 
       'url':dept_url,      
       success:function(data){ 
+        app.preloader.show(); 
         var dept_json = $.parseJSON(data);
         var json_dept = dept_json.all_dept;
         var dept_nm = '';
@@ -1182,13 +1178,331 @@ $$(document).on('page:init', '.page[data-name="comp_rep"]', function (e) {
           var d_name = json_dept[j].d_name; 
           dept_nm+='<option value="'+d_id+'">'+d_name+'</option>';
           $("#dept_sel").html(dept_nm);
+          app.preloader.hide(); 
         }          
       }       
     }); 
+    
 
-    $("#comprep_inputs").html(rep_inputs);
+    
+    var user_url = base_url+'app_controller/AllUsers';
+    $.ajax({
+      'type':'POST', 
+      'url':user_url,      
+      success:function(data){
+        app.preloader.show(); 
+        var user_url_json = $.parseJSON(data);
+        var json_user = user_url_json.all_users;
+        var user_nm = '';
+        user_nm='<option value="">----- USER -----</option>';
+        //console.log(json_status);
+        for(var j=0;j<json_user.length;j++){ 
+          var selected='';              
+          var u_id = json_user[j].u_id; 
+          var u_name = json_user[j].u_fullname; 
+          user_nm+='<option value="'+u_id+'">'+u_name+'</option>';
+          $("#user_sel").html(user_nm);
+          app.preloader.hide(); 
+        }          
+      }       
+    });
+    
+
+    
+    var comp_url = base_url+'app_controller/AllNotDltedComps';
+    $.ajax({
+      'type':'POST', 
+      'url':comp_url,      
+      success:function(data){ 
+        app.preloader.show(); 
+        var comp_url_json = $.parseJSON(data);
+        var json_comp = comp_url_json.all_notdltcomps;
+        var comps = '';
+        comps='<option value="">----- COMPLAIN NO -----</option>';
+        //console.log(json_status);
+        for(var j=0;j<json_comp.length;j++){ 
+          var selected='';              
+          var comp_id = json_comp[j].comp_id; 
+          var comp_no = json_comp[j].comp_no; 
+          comps+='<option value="'+comp_id+'">'+comp_no+'</option>';
+          $("#comp_no").html(comps);
+          app.preloader.hide(); 
+        }          
+      }       
+    });
+    
+
+    
+  $("#comprep_inputs").html(rep_inputs);
   app.preloader.hide(); 
 }); 
+
+function search_comp(){
+  $(".popover-on-bottom").css("display","none");
+  $(".popover-backdrop").removeClass("backdrop-in");
+  app.router.navigate("/complain_rep_grid/");
+
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  var status_sel = $("#status_sel").val();
+  var dept_sel = $("#dept_sel").val();
+  var user_sel = $("#user_sel").val();
+  var comp_no = $("#comp_no").val();
+  var user_mo = $("#user_mo").val();
+  var fromdt = $("#demo-calendar-modal").val();
+  var todt = $("#demo-calendar-modal1").val();
+  if ($('#checkbox2').is(":checked")){
+      var isimpt = 1;
+  }else{
+      var isimpt = 0;
+  }
+  app.preloader.show(); 
+  var comp_rep = base_url+"app_controller/searchComp";
+  $.ajax({
+    'type':'POST', 
+    'url':comp_rep,      
+    'data':{'searchstatus':status_sel,'dept':dept_sel,'deptperson':user_sel,'compno':comp_no,'user_mo':user_mo,'fromdt':fromdt,'todt':todt,'isimpt':isimpt},
+    success:function(data){      
+      var comp_json = $.parseJSON(data);
+      var json_comp = comp_json.compdata;
+      var comps_rep = '';      
+      console.log(json_comp);
+      if(json_comp.length!=0){
+        $(".total_rep").html(json_comp.length);
+        for(var j=0;j<json_comp.length;j++){                     
+          var comp_id = json_comp[j].comp_id; 
+          var comp_no = json_comp[j].comp_no; 
+          var comp_adddate = json_comp[j].comp_dt;
+          var complain = json_comp[j].complain;
+          var is_impt = json_comp[j].is_impt;
+          var is_seen_byuser = json_comp[j].is_seen_byuser;
+          var statustype = json_comp[j].statustype;
+          var u_fullname = json_comp[j].u_fullname;
+          var u_mo = json_comp[j].u_mo;
+
+          if(statustype=='Assigned'){
+            var badge_color = "color-custom";
+          }else if(statustype=='Executed'){
+            var badge_color = "color-executed";
+          }else if(statustype=='In progress'){
+            var badge_color = "color-progress";
+          }else if(statustype=='Completed'){
+            var badge_color = "color-complete";
+          }
+
+          if(is_impt==1){            
+            lightred='notseen';
+            var imp_triangle = '<div id="triangle-topleft"><span class="impfont fw-700">IMP</span></div>';
+          }else{            
+            lightred='';
+            var imp_triangle = '';
+          }       
+
+          if(is_seen_byuser==1) {
+            var seen = 'હા';
+          }else{
+            var seen = 'ના';
+          }     
+          comps_rep+='<div class="card '+lightred+'" ><li><a href="#" onclick="comp_det_page('+"'"+comp_no+"'"+')" class="item-link item-content"><div class="item-inner"><div class="item-title"><div class="item-header text-blue fw-700">'+comp_no+'</div>ફરિયાદ બાબત : '+complain+'<div class="item-footer">વિભાગ વ્યક્તિ : '+u_fullname+'</div><div class="item-footer">વિભાગ સંપર્ક નં : '+u_mo+'</div><div class="badge '+badge_color+'">'+statustype+'</div><span class="ml-5p">જોયેલ : '+seen+'</span></div><div class="item-after">'+comp_adddate+'</div></div></a>'+imp_triangle+'</li></div>';           
+        }          
+      }else{
+        comps_rep+='<div class="card p-2">No Data Available.</div>';
+      }    
+      $(".comp_rep").html(comps_rep); 
+      app.preloader.hide();  
+      } 
+  });
+}
+
+
+
+
+$$(document).on('page:init', '.page[data-name="comp_mon_rep"]', function (e) {
+  checkConnection();
+  app.preloader.show(); 
+  $(".popover-on-bottom").css("display","none");
+  $(".popover-backdrop").removeClass("backdrop-in");
+
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  var mon_rep_inputs='';
+  mon_rep_inputs='<tr><td class="label-cell w-100"><select name="searchstatus" class="input-with-value" id="status_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="dept" class="input-with-value" id="dept_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="deptperson" class="input-with-value" id="user_sel"></select></td></tr><tr><td class="label-cell w-100"><select name="compno" class="input-with-value" id="comp_no"></select></td></tr><tr><td class="label-cell w-100"><input name="user_mo" type="number" id="user_mo" placeholder="MOBILE" class=""></td></tr><tr><td class="label-cell w-100"><input type="text" placeholder="SELECT MONTH" readonly="readonly" id="demo-calendar-modal2" name="mnth"></td></tr><tr><td><label class="checkbox"><input type="checkbox" name="checkbox2" id="checkbox2"><i class="icon-checkbox"></i></label> Important</td></tr><tr><td class=""><a href="#" onclick="search_comp_month();" class="col button button-big button-fill orange-btn grey-text mb-2 float-right mt-5p" >SEARCH</a></td></tr>';   
+ 
+
+  //rep_inputs='<div class="block-title">Open in Mondal</div><div class="list no-hairlines-md"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="text" placeholder="Select date" readonly="readonly" id="demo-calendar-modal"/></div></div></div></li></ul></div>';
+    
+     
+    var status_url = base_url+'app_controller/AllCompStatus';
+    $.ajax({
+      'type':'POST', 
+      'url':status_url,      
+      success:function(data){ 
+        app.preloader.show(); 
+        var json = $.parseJSON(data);
+        var json_status = json.all_status;
+        var complaint_status = '';
+        complaint_status='<option value="" >--- COMPLAINT STATUS ---</option>';
+        //console.log(json_status);
+        for(var j=0;j<json_status.length;j++){ 
+          var selected='';              
+          var s_id_tbl = json_status[j].s_id; 
+          var status_name = json_status[j].statustype; 
+          complaint_status+='<option value="'+s_id_tbl+'" '+selected+'>'+status_name+'</option>';
+          $("#status_sel").html(complaint_status);
+          app.preloader.hide();  
+        }          
+      }       
+    });
+    
+
+    
+    var dept_url = base_url+'app_controller/AllDept';
+    $.ajax({
+      'type':'POST', 
+      'url':dept_url,      
+      success:function(data){ 
+        app.preloader.show(); 
+        var dept_json = $.parseJSON(data);
+        var json_dept = dept_json.all_dept;
+        var dept_nm = '';
+        dept_nm='<option value="" >--- DEPARTMENT ---</option>';
+        //console.log(json_status);
+        for(var j=0;j<json_dept.length;j++){ 
+          var selected='';              
+          var d_id = json_dept[j].d_id; 
+          var d_name = json_dept[j].d_name; 
+          dept_nm+='<option value="'+d_id+'">'+d_name+'</option>';
+          $("#dept_sel").html(dept_nm);
+          app.preloader.hide(); 
+        }          
+      }       
+    }); 
+    
+
+    
+    var user_url = base_url+'app_controller/AllUsers';
+    $.ajax({
+      'type':'POST', 
+      'url':user_url,      
+      success:function(data){
+        app.preloader.show(); 
+        var user_url_json = $.parseJSON(data);
+        var json_user = user_url_json.all_users;
+        var user_nm = '';
+        user_nm='<option value="">----- USER -----</option>';
+        //console.log(json_status);
+        for(var j=0;j<json_user.length;j++){ 
+          var selected='';              
+          var u_id = json_user[j].u_id; 
+          var u_name = json_user[j].u_fullname; 
+          user_nm+='<option value="'+u_id+'">'+u_name+'</option>';
+          $("#user_sel").html(user_nm);
+          app.preloader.hide(); 
+        }          
+      }       
+    });
+    
+
+    
+    var comp_url = base_url+'app_controller/AllNotDltedComps';
+    $.ajax({
+      'type':'POST', 
+      'url':comp_url,      
+      success:function(data){ 
+        app.preloader.show(); 
+        var comp_url_json = $.parseJSON(data);
+        var json_comp = comp_url_json.all_notdltcomps;
+        var comps = '';
+        comps='<option value="">----- COMPLAIN NO -----</option>';
+        //console.log(json_status);
+        for(var j=0;j<json_comp.length;j++){ 
+          var selected='';              
+          var comp_id = json_comp[j].comp_id; 
+          var comp_no = json_comp[j].comp_no; 
+          comps+='<option value="'+comp_id+'">'+comp_no+'</option>';
+          $("#comp_no").html(comps);
+          app.preloader.hide(); 
+        }          
+      }       
+    });    
+  $("#compmonrep_inputs").html(mon_rep_inputs);
+  app.preloader.hide(); 
+});
+
+
+function search_comp_month(){
+  $(".popover-on-bottom").css("display","none");
+  $(".popover-backdrop").removeClass("backdrop-in");
+  app.router.navigate("/complainmon_rep_grid/");
+
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  var status_sel = $("#status_sel").val();
+  var dept_sel = $("#dept_sel").val();
+  var user_sel = $("#user_sel").val();
+  var comp_no = $("#comp_no").val();
+  var user_mo = $("#user_mo").val();
+  var mnth = $("#demo-calendar-modal2").val();
+  
+  if ($('#checkbox2').is(":checked")){
+      var isimpt = 1;
+  }else{
+      var isimpt = 0;
+  }
+  app.preloader.show(); 
+  var comp_rep = base_url+"app_controller/searchCompMonth";
+  $.ajax({
+    'type':'POST', 
+    'url':comp_rep,      
+    'data':{'searchstatus':status_sel,'dept':dept_sel,'deptperson':user_sel,'compno':comp_no,'user_mo':user_mo,'mnth':mnth,'isimpt':isimpt},
+    success:function(data){      
+      var compmonth_json = $.parseJSON(data);
+      var jsonmonth_comp = compmonth_json.compmonthdata;
+      var compsmonth_rep = '';      
+      console.log(jsonmonth_comp);
+      if(jsonmonth_comp.length!=0){
+        $(".total_rep").html(jsonmonth_comp.length);
+        for(var j=0;j<jsonmonth_comp.length;j++){                     
+          var comp_id = jsonmonth_comp[j].comp_id; 
+          var comp_no = jsonmonth_comp[j].comp_no; 
+          var comp_adddate = jsonmonth_comp[j].comp_dt;
+          var complain = jsonmonth_comp[j].complain;
+          var is_impt = jsonmonth_comp[j].is_impt;
+          var is_seen_byuser = jsonmonth_comp[j].is_seen_byuser;
+          var statustype = jsonmonth_comp[j].statustype;
+          var u_fullname = jsonmonth_comp[j].u_fullname;
+          var u_mo = jsonmonth_comp[j].u_mo;
+
+          if(statustype=='Assigned'){
+            var badge_color = "color-custom";
+          }else if(statustype=='Executed'){
+            var badge_color = "color-executed";
+          }else if(statustype=='In progress'){
+            var badge_color = "color-progress";
+          }else if(statustype=='Completed'){
+            var badge_color = "color-complete";
+          }
+
+          if(is_impt==1){            
+            lightred='notseen';
+            var imp_triangle = '<div id="triangle-topleft"><span class="impfont fw-700">IMP</span></div>';
+          }else{            
+            lightred='';
+            var imp_triangle = '';
+          }       
+
+          if(is_seen_byuser==1) {
+            var seen = 'હા';
+          }else{
+            var seen = 'ના';
+          }     
+          compsmonth_rep+='<div class="card '+lightred+'" ><li><a href="#" onclick="comp_det_page('+"'"+comp_no+"'"+')" class="item-link item-content"><div class="item-inner"><div class="item-title"><div class="item-header text-blue fw-700">'+comp_no+'</div>ફરિયાદ બાબત : '+complain+'<div class="item-footer">વિભાગ વ્યક્તિ : '+u_fullname+'</div><div class="item-footer">વિભાગ સંપર્ક નં : '+u_mo+'</div><div class="badge '+badge_color+'">'+statustype+'</div><span class="ml-5p">જોયેલ : '+seen+'</span></div><div class="item-after">'+comp_adddate+'</div></div></a>'+imp_triangle+'</li></div>';           
+        }          
+      }else{
+        compsmonth_rep+='<div class="card p-2">No Data Available.</div>';
+      }    
+      $(".compmon_rep").html(compsmonth_rep); 
+      app.preloader.hide();  
+      } 
+  });
+}
 // --------------------------------------------- L O G O U T ------------------------------------------ //
 function logOut(){
   checkConnection();

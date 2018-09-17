@@ -36,6 +36,14 @@ var routes = [
     path:'/comp_mon_rep/',
     url: './comp_mon_rep.html',
   },
+  {
+    path:'/complain_rep_grid/',
+    url: './complain_rep_grid.html',
+  },
+  {
+    path:'/complainmon_rep_grid/',
+    url: './complainmon_rep_grid.html',
+  },
   
   /*{
     path: '/action-sheet/',
