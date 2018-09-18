@@ -9,6 +9,7 @@ var app = new Framework7({
   panel: {
     swipe: 'left', // Enable swipe panel
   },
+  
   //theme:'material',
   //material: true, //enable Material theme
   routes: routes, 
@@ -18,6 +19,7 @@ var app = new Framework7({
   navbar: {
     hideOnPageScroll: false,
     iosCenterTitle: false,
+    closeByBackdropClick: true,
   },
   picker: {
     rotateEffect: true,
@@ -33,7 +35,7 @@ var app = new Framework7({
   
   on: {
     pageInit: function(e, page) {
-      console.log('pageInit', e.page);
+      //console.log('pageInit', e.page);
       var app = this;
       var today = new Date();
       var $ = app.$;
@@ -76,44 +78,27 @@ var destinationType;
 
 document.addEventListener("deviceready", checkStorage, false); 
 document.addEventListener("deviceready", onDeviceReady, false);
-//document.addEventListener("backbutton", onBackKeyDown, false);
+document.addEventListener("backbutton", onBackKeyDown, false); 
 
 var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
-//var base_url = '';   // LIVE SERVER //
+//var base_url = '';   // LIVE SERVER // 
 
-/*function onBackKeyDown() {
-  //console.log("back key pressed"); 
-  alert("in back key");  
-  //console.log (app.view.name);
-  //var page = app.getCurrentView().activePage;alert("page---"+page);
-  //var page1 = app.views.main.router.activePage;alert("page1---"+page1);
-  //var page2 = app.getCurrentView().activePage; alert("page2---"+page2);
-  //app.hidePreloader(); 
-  alert(app.data.name+"##### app.data.name");
-  alert(app.data.page+"^^^^ app.data.page");
-  alert(app.view.name+"******* app.view.name");
-  alert(app.data.view+"******* app.data.view");
-  
- // alert(data.name+"##### data.name");
-  //alert(data.page+"^^^^ data.page");
- // alert(view.name+"******* view.name");
-  
-  var view = app.views.current;
-  alert(view+"---view");
-  console.log(view+"---view");
-  //document.write(view+"---view");
-  alert(view.name+"---view.name");
-  
-
-
-  if(data.name=="index"){  
-    app.confirm('Do you want to Exit !', function () {
+function onBackKeyDown() { 
+  //alert(app.views.main.router.currentPageEl);
+  //alert(app.views.main.router.history.length);
+  //alert(app.views.main.routes[0].name);   
+  //alert(app.views.main.router.url);
+  //if(app.views.main.router.currentPageEl=="/index/"){ 
+  if(app.views.main.router.history.length==2){
+    //alert("in if"); 
+    app.dialog.confirm('Do you want to Exit ?', function () {
       navigator.app.clearHistory(); navigator.app.exitApp();
     });
   }else{ 
+    //alert("in else");
     $$(".back").click();
   }
-}*/
+}
 
 function onDeviceReady() {
   pictureSource = navigator.camera.PictureSourceType;
@@ -121,7 +106,7 @@ function onDeviceReady() {
 }
 
 function onPhotoDataSuccess(imageURI) {
-  console.log(imageURI);
+  //console.log(imageURI);
   var cameraImage = document.getElementById('image');
   var upldbtnDiv = document.getElementById('upldbtnDiv');
   cameraImage.style.display = 'block';
@@ -131,7 +116,7 @@ function onPhotoDataSuccess(imageURI) {
 
  
 function onPhotoURISuccess(imageURI) {
-  console.log(imageURI);
+  //console.log(imageURI);
   var galleryImage = document.getElementById('image');
   var upldbtnDiv = document.getElementById('upldbtnDiv');
   galleryImage.style.display = 'block';
@@ -151,7 +136,7 @@ function capturePhoto() {
 }
 
 function onPhotoDataSuccess(imageURI){
-  console.log(imageURI);
+  //console.log(imageURI);
   var cameraImage = document.getElementById('image');
   var upldbtnDiv = document.getElementById('upldbtnDiv');
   cameraImage.style.display = 'block';
@@ -203,14 +188,14 @@ function upload(){
 }
 
 function win(r) {
-    console.log("Code = " + r.responseCode);
+    //console.log("Code = " + r.responseCode);
     var responseCode = r.responseCode;
     if(responseCode==200){
       app.dialog.alert("Upload Done.");      
       app.dialog.close();
     }
-    console.log("Response = " + r.response);
-    console.log("Sent = " + r.bytesSent);
+    //console.log("Response = " + r.response);
+    //console.log("Sent = " + r.bytesSent);
 }
 
 function fail(error) {
@@ -221,6 +206,7 @@ function fail(error) {
 
 // --------------------------- C H E C K  I N T E R N E T  C O N N E C T I O N --------------------- //
 function checkConnection() {
+  
   var networkState = navigator.connection.type;
   //alert(networkState);
   if(networkState=='none'){  
@@ -231,6 +217,7 @@ function checkConnection() {
 
 // -------------------------------------- C H E C K  S T O R A G E --------------------------------- //
 function checkStorage(){
+
   pictureSource = navigator.camera.PictureSourceType;
   destinationType = navigator.camera.DestinationType;
   checkConnection();  
@@ -293,38 +280,120 @@ function checklogin(){
         }
       });
     }
-} 
-// ******************************************************************************************************* //
+}  
+//*************************************************************************************************** //
+/*function openmenu_bg(){
+  //alert("openmenu_bg");
+  $(".popover-backdrop.backdrop-in").css("visibility","visible");
+  $(".popover.modal-in").css("display","block");
+}*/
+function popover_menu(){
+ // var menu = '';
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  //$(".popover-backdrop.backdrop-in").css("visibility","hidden");
+  //$(".popover.modal-in").css("display","none");
 
+
+
+  var dynamicPopover=''; 
+  if(sess_u_id==null){    //alert("ADMIN");    
+    //menu='<div class="popover-inner"><div class="list"><ul><li class="comprep" ><a class="list-button item-link" href="/comp_rep/">Complain Report</a></li><li class="compmonthrep" ><a class="list-button item-link" href="/comp_mon_rep/">Complain Monthly Report</a></li><li class="logout"><a class="list-button item-link" href="#" onclick="logOut()">Logout</a></li></ul></div></div>';
+    var dynamicPopover = app.popover.create({
+      targetEl: 'a.dynamic-popover',
+      content: '<div class="popover">'+
+                  '<div class="popover-inner">'+
+                    '<div class="list">'+
+                      '<ul><li class="comprep" ><a class="list-button item-link" href="/comp_rep/">Complain Report</a></li><li class="compmonthrep" ><a class="list-button item-link" href="/comp_mon_rep/">Complain Monthly Report</a></li><li class="logout"><a class="list-button item-link" href="#" onclick="logOut()">Logout</a></li></ul>'+       
+                    '</div>'+
+                  '</div>'+
+                '</div>'
+      
+    });
+
+  }else{ //alert("USER");        
+    //menu='<div class="popover-inner"><div class="list"><ul><li class="logout"><a class="list-button item-link" href="#" onclick="logOut()">Logout</a></li></ul></div></div>';
+    var dynamicPopover = app.popover.create({
+      targetEl: 'a.dynamic-popover',
+      content: '<div class="popover">'+
+                  '<div class="popover-inner">'+
+                    '<div class="list">'+
+                      '<ul><li class="logout"><a class="list-button item-link" href="#" onclick="logOut()">Logout</a></li></ul>'+       
+                    '</div>'+
+                  '</div>'+
+                '</div>'
+      
+    });
+  }
+  //$(".menu").html(menu);
+  // Open dynamic popover
+$$('.dynamic-popover').on('click', function () {
+  dynamicPopover.open();
+});
+}
+
+/*function gotoCompRep(){
+  app.router.navigate("/comp_rep/");
+}
+function gotoCompRep(){
+  app.router.navigate("/comp_mon_rep/");
+}*/
+function openPanel(){
+ // alert("hello"); 
+  $(".panel-cover").addClass("panel-active");
+  $(".panel-active").css("display","block");
+}
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
-$$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
+$$(document).on('page:init', '.page[data-name="dashboard"]', function (e) { 
+  
+  //console.log(app.views.main.router);
   checkConnection();
   //console.log(cordova.file);
   app.preloader.show(); 
+
+  
+
+  //popover_menu();
   //app.dialog.preloader();
   var sess_u_id = window.localStorage.getItem("session_u_id");
+  var sess_u_type = window.localStorage.getItem("session_u_type");
+  var session_admin_u_id = window.localStorage.getItem("session_admin_u_id");
+  //$(".admin-menu").css("display","none");
+  //$(".user-menu").css("display","none"); 
   //alert(sess_u_id);
-  if(sess_u_id==null){    
-    // ADMIN //
-    var data = {'session_u_id':'NULL'}   
-    $(".comprep").removeClass("display-none"); 
-    $(".compmonthrep").removeClass("display-none"); 
-    $(".logout").removeClass("display-none");
-
-    $(".comprep").addClass("display-block"); 
-    $(".compmonthrep").addClass("display-block"); 
-    $(".logout").addClass("display-block"); 
-    
-  }else{
-    // USER //
+  if(sess_u_id==null){ // ADMIN //    
+    var data = {'session_u_id':'NULL'}     
+    var login_id = session_admin_u_id; 
+  }else{  // USER //
     var data = {'session_u_id':sess_u_id}
-    $(".comprep").addClass("display-none"); 
-    $(".compmonthrep").addClass("display-none"); 
-    $(".logout").addClass("display-block"); 
+    var login_id = sess_u_id; 
+  }
 
-    $(".comprep").removeClass("display-block"); 
-    $(".compmonthrep").removeClass("display-block"); 
-    $(".logout").removeClass("display-none");
+  var user_url = base_url+'app_controller/userDet';
+  $.ajax({
+    'type':'POST',
+    'url': user_url, 
+    'data':{'login_id':login_id},
+    success:function(user_data){
+    //alert(seen_data);   
+      var json = $.parseJSON(user_data);
+      var json_user = json.user_data; 
+      var u_fullname=json_user[0].u_fullname; 
+      var u_mo=json_user[0].u_mo; 
+      var u_since=json_user[0].u_ceratedate;
+      $("#userName").html("<span class='text-white'>Name : "+u_fullname+"</span>"); 
+      $("#userMo").html("<span class='text-white'>Mobile : "+u_mo+"</span>"); 
+      $("#userSince").html("<span class='text-white'>User Since : "+u_since+"</span>");        
+    }
+  });
+
+  if(sess_u_type==0){
+    $(".leftbars").removeClass("display-none");
+    $(".leftbars").addClass("display-block");
+    $("#userDiv").html("<span class='text-white'>( ADMIN )</span>");
+  }else if(sess_u_type==1){
+    $(".leftbars").removeClass("display-block");
+    $(".leftbars").addClass("display-none");
+    $("#userDiv").html("<span class='text-white'>(USER)</span>");
   }
   var url=base_url+'app_controller/getComplaintsStatusandCounts';
   $.ajax({
@@ -335,7 +404,7 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
     success:function(data){
       var json = $.parseJSON(data);
       var json_res = json.complaint_counts;
-      console.log(json_res);
+      //console.log(json_res);
       var statusdata='';   
       for(var i=0;i<json_res.length;i++){
           var status_type=json_res[i].statustype;
@@ -364,6 +433,13 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
     });
     app.preloader.hide();
 });
+$$(document).on('page:init', '.page[data-name="statusComp"]', function (e) {
+  checkConnection();
+  app.preloader.show(); 
+  //popover_menu();  
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  app.preloader.hide();
+});
 function getStatusWiseComps(statusid,status_type){
   checkConnection();  
   app.router.navigate("/statusComp/");  
@@ -387,7 +463,7 @@ function getStatusWiseComps(statusid,status_type){
     success:function(data){
       var json_comps = $.parseJSON(data);
       var json_compres = json_comps.complaintByStatus;
-      console.log(json_compres);
+     // console.log(json_compres);
       var comaplintStatusdata=''; 
       
       if(json_compres.length!=0){
@@ -480,8 +556,11 @@ function getStatusWiseComps(statusid,status_type){
 
 // ---------------------------------------- C O M P L A I N T S ----------------------------------------- //
 $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
+  //console.log(app.views.main.router.url);
+  //console.log(app.views.main.router);
   checkConnection();
   app.preloader.show();
+  //popover_menu();
   var url=base_url+'app_controller/getAllComplaintsOfUser';
   var sess_u_id = window.localStorage.getItem("session_u_id");
   var sess_u_type = window.localStorage.getItem("session_u_type");
@@ -597,7 +676,13 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
     }
   });
 });
-
+$$(document).on('page:init', '.page[data-name="complaintData"]', function (e) {
+  checkConnection();
+  app.preloader.show(); 
+  //popover_menu();  
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  app.preloader.hide();
+});
 function comp_det_page(comp_no){
   //alert(comp_no);
   checkConnection();
@@ -820,7 +905,7 @@ function comp_det_page(comp_no){
           success:function(useratt_data){
             var user_json_att = $.parseJSON(useratt_data);
             var user_json_attach = user_json_att.allUserAttached;
-            console.log(user_json_attach);
+            //console.log(user_json_attach);
             var alluser_attached = '';  
             if(user_json_attach.length!=0){ 
               $(".user-attach").removeClass("display-none");
@@ -1126,6 +1211,7 @@ function changeCompStatus(complaint_no){
 $$(document).on('page:init', '.page[data-name="comp_rep"]', function (e) {
   checkConnection();
   app.preloader.show(); 
+  //popover_menu();
   $(".popover-on-bottom").css("display","none");
   $(".popover-backdrop").removeClass("backdrop-in");
 
@@ -1318,7 +1404,8 @@ function search_comp(){
 
 $$(document).on('page:init', '.page[data-name="comp_mon_rep"]', function (e) {
   checkConnection();
-  app.preloader.show(); 
+  app.preloader.show();
+  //popover_menu(); 
   $(".popover-on-bottom").css("display","none");
   $(".popover-backdrop").removeClass("backdrop-in");
 
@@ -1426,8 +1513,20 @@ $$(document).on('page:init', '.page[data-name="comp_mon_rep"]', function (e) {
   $("#compmonrep_inputs").html(mon_rep_inputs);
   app.preloader.hide(); 
 });
-
-
+$$(document).on('page:init', '.page[data-name="complain_rep_grid"]', function (e) {
+  checkConnection();
+  app.preloader.show(); 
+  //popover_menu();  
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  app.preloader.hide();
+});
+$$(document).on('page:init', '.page[data-name="complainmon_rep_grid"]', function (e) {
+  checkConnection();
+  app.preloader.show(); 
+  //popover_menu();  
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  app.preloader.hide();
+}); 
 function search_comp_month(){
   $(".popover-on-bottom").css("display","none");
   $(".popover-backdrop").removeClass("backdrop-in");
@@ -1508,6 +1607,8 @@ function logOut(){
   checkConnection();
   $(".popover-backdrop.backdrop-in").css("visibility","hidden");
   $(".popover.modal-in").css("display","none");
+  //$(".admin-menu").css("display","none");
+  //$(".user-menu").css("display","none");
   window.localStorage.removeItem("session_u_fullname"); 
   window.localStorage.removeItem("session_u_id"); 
   window.localStorage.removeItem("session_u_mo"); 
