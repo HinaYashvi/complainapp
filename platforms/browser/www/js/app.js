@@ -341,7 +341,7 @@ function openPanel(){
  // alert("hello"); 
   $(".panel-cover").addClass("panel-active");
   $(".panel-active").css("display","block");
-}
+} 
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) { 
   
@@ -349,9 +349,6 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
   checkConnection();
   //console.log(cordova.file);
   app.preloader.show(); 
-
-  
-
   //popover_menu();
   //app.dialog.preloader();
   var sess_u_id = window.localStorage.getItem("session_u_id");
@@ -403,15 +400,17 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
     'data':data,
     success:function(data){
       var json = $.parseJSON(data);
-      var json_res = json.complaint_counts;
+      var json_res = json.complaint_counts; 
       //console.log(json_res);
-      var statusdata='';   
+      var statusdata=''; 
+
       for(var i=0;i<json_res.length;i++){
           var status_type=json_res[i].statustype;
           var status_id=json_res[i].s_id;  
           var status_counts=json_res[i].cnt;  
           var all_compcnt = json_res[i].all_compcnt; 
-
+          var impcnt = json_res[i].imp_compcnt;
+          //alert(impcnt);
           if(status_type == 'Assigned'){
             var block_class = "block-assign";
           }else if(status_type == 'Executed'){
@@ -425,13 +424,123 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
 
           statusdata +='<div class="ios-only col-100 card-content card-content-padding dashboard-blocks text-uppercase '+block_class+'" onclick="getStatusWiseComps('+status_id+','+"'"+status_type+"'"+')"><span class="fs-16">'+status_type+'</span><p id="data_counts" class="fs-2em float-right">'+status_counts+'</p></div>'; 
 
-          $('#dashboard-boxes').html(statusdata); 
+
+
+          $('#dashboard-boxes').html(statusdata);    
+
           //app.preloader.hide();    
           $("#total_complaints").html(all_compcnt);
+          $("#imp_counts").html(impcnt);
         }   
       }
     });
+    
+    //var impdata ='<div class="md-only col-100 card-content card-content-padding text-uppercase block-imp" onclick="ImportantComps()"><span class="fs-14">important</span><p id="imp_counts" class="fs-2em"></p></div>';
+    //$("#impblock").html(impdata);
     app.preloader.hide();
+});
+
+function ImportantComps(){
+  app.router.navigate("/imp-comps/");
+}
+$$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
+  checkConnection();
+  app.preloader.show();  
+  var sess_u_id = window.localStorage.getItem("session_u_id");  
+  if(sess_u_id==null){
+    // ADMIN //
+    var data = {'session_u_id':'NULL'}     
+  }else{
+    // USER //
+    var data = {'session_u_id':sess_u_id}  
+  }
+
+  var imp_comp_url = base_url+'app_controller/AllImpComps';
+  $.ajax({
+    'type':'POST', 
+    'url':imp_comp_url, 
+    'data':data,     
+    success:function(data){ 
+      app.preloader.show(); 
+      var imp_comp_url_json = $.parseJSON(data);
+      var json_comp_imp = imp_comp_url_json.all_impcomps;
+      var comps_imp = '';              
+      for(var j=0;j<json_comp_imp.length;j++){                              
+       // var comp_id = json_comp_imp[j].comp_id; 
+       // var comp_no = json_comp_imp[j].comp_no; 
+        var lightred='';        
+        var status=json_comp_imp[j].statustype;
+        var comp_no=json_comp_imp[j].comp_no;
+        var is_seen_byuser=json_comp_imp[j].is_seen_byuser;
+        var complain = json_comp_imp[j].complain;
+        var comp_adddate = json_comp_imp[j].comp_adddate;
+        var is_impt = json_comp_imp[j].is_impt;
+        var ref_name = json_comp_imp[j].ref_name;
+        var onemonth_added_dt = json_comp_imp[j].onemonth_added_dt;
+          var today = new Date();
+          var month = today.getMonth()+1;
+          var day = today.getDate();
+          if(month>=9){
+            var mm = "0"+month;
+          }else{
+            var mm = month;
+          } 
+
+          if(day>=9){
+            var dd = "0"+day;
+          }else{
+            var dd = day;
+          }
+
+          var date = today.getFullYear()+'-'+(mm)+'-'+dd;
+          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+          var todaydateTime = date+' '+time;
+       
+        
+        if(status=='Assigned'){
+          if(todaydateTime > onemonth_added_dt){
+              var badge_color = "color-red";
+            }else{
+              var badge_color = "color-custom";
+            }
+          if(is_seen_byuser==0){ 
+            var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+          }else{
+            var notseen="";
+          }
+          var imp_triangle = '';
+        }else if(status=='Executed'){
+          var badge_color = "color-executed";
+          var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
+        }else if(status=='In progress'){
+          var badge_color = "color-progress";
+          var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
+        }else if(status=='Completed'){
+          var badge_color = "color-complete";
+          var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
+        }
+        if(is_impt==1){
+          lightred='notseen';
+          var ref_by = '<em><span class="float-left fw-700 text-blue">Ref : [ '+ref_name+' ] </span></em>';
+          var imp_triangle = '<div id="triangle-topleft"><span class="impfont fw-700">IMP</span></div>';
+        }else{
+          lightred="";
+          var ref_by = '';
+          var imp_triangle = '';
+        }
+        comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
+        $("#important-comps").html(comps_imp);         
+        app.preloader.hide();              
+      }          
+    }       
+  });
+  
 });
 $$(document).on('page:init', '.page[data-name="statusComp"]', function (e) {
   checkConnection();

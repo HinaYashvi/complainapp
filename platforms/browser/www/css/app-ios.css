@@ -130,6 +130,12 @@ body{
     color: #4C5667;
     font-weight: 700;
 }
+.block-imp{
+    border: 1px dashed #f44336;
+    background-color: #fde1e1!important;
+    color: #f44336;
+    font-weight: 700;
+}
 .fw-700{
 	font-weight: 700!important;
 }

@@ -44,7 +44,10 @@ var routes = [
     path:'/complainmon_rep_grid/',
     url: './complainmon_rep_grid.html',
   },
-  
+  {
+    path:'/imp-comps/',
+    url: './imp-comps.html',
+  },
   /*{
     path: '/action-sheet/',
     componentUrl: './pages/action-sheet.html',
