@@ -89,13 +89,14 @@ function onBackKeyDown() {
   //alert(app.views.main.routes[0].name);   
   //alert(app.views.main.router.url);
   //if(app.views.main.router.currentPageEl=="/index/"){ 
+    alert(app.views.main.router.history.length);
   if(app.views.main.router.history.length==2){
-    //alert("in if"); 
+    alert("in if"); 
     app.dialog.confirm('Do you want to Exit ?', function () {
       navigator.app.clearHistory(); navigator.app.exitApp();
     });
   }else{ 
-    //alert("in else");
+    alert("in else");
     $$(".back").click();
   }
 }
