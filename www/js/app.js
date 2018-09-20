@@ -28,11 +28,6 @@ var app = new Framework7({
   popover: {
     closeByBackdropClick: true,
   },
-  /*calendar: {
-    url: 'calendar/',
-    dateFormat: 'dd.mm.yyyy',
-  },*/
-  
   on: {
     pageInit: function(e, page) {
       //console.log('pageInit', e.page);
@@ -88,15 +83,17 @@ function onBackKeyDown() {
   //alert(app.views.main.router.history.length);
   //alert(app.views.main.routes[0].name);   
   //alert(app.views.main.router.url);
-  //if(app.views.main.router.currentPageEl=="/index/"){ 
-    alert(app.views.main.router.history.length);
+  //if(app.views.main.router.currentPageEl=="/index/"){
+  //var page=app.getCurrentView().activePage; //app.hidePreloader(); 
+  //alert(page);
+  //alert(app.views.main.router.history.length);
   if(app.views.main.router.history.length==2){
-    alert("in if"); 
+    //alert("in if"); 
     app.dialog.confirm('Do you want to Exit ?', function () {
       navigator.app.clearHistory(); navigator.app.exitApp();
     });
   }else{ 
-    alert("in else");
+    //alert("in else");
     $$(".back").click();
   }
 }
@@ -344,20 +341,39 @@ function openPanel(){
   $(".panel-active").css("display","block");
 } 
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
-$$(document).on('page:init', '.page[data-name="dashboard"]', function (e) { 
+$$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
   
   //console.log(app.views.main.router);
+  checkConnection();  
+  var $ptrContent = $$('.ptr-content');
+  dashboardPage();
+  app.dialog.preloader('Loading Dashboard...'); 
+  /*setInterval(function(){  
+  //alert("hi");  
+    dashboardPage();
+  },5000); 
+    */ 
+  app.dialog.close();
+  $ptrContent.on('ptr:refresh', function (e) {   
+    dashboardPage();
+    //console.log(e.detail());
+     app.ptr.done(); // or e.detail();
+  }, 30000);
+});
+function dashboardPage(){
+
   checkConnection();
-  //console.log(cordova.file);
-  app.preloader.show(); 
-  //popover_menu();
-  //app.dialog.preloader();
   var sess_u_id = window.localStorage.getItem("session_u_id");
   var sess_u_type = window.localStorage.getItem("session_u_type");
   var session_admin_u_id = window.localStorage.getItem("session_admin_u_id");
   //$(".admin-menu").css("display","none");
   //$(".user-menu").css("display","none"); 
   //alert(sess_u_id);
+
+  
+
+
+
   if(sess_u_id==null){ // ADMIN //    
     var data = {'session_u_id':'NULL'}     
     var login_id = session_admin_u_id; 
@@ -365,82 +381,75 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
     var data = {'session_u_id':sess_u_id}
     var login_id = sess_u_id; 
   }
-
-  var user_url = base_url+'app_controller/userDet';
-  $.ajax({
-    'type':'POST',
-    'url': user_url, 
-    'data':{'login_id':login_id},
-    success:function(user_data){
-    //alert(seen_data);   
-      var json = $.parseJSON(user_data);
-      var json_user = json.user_data; 
-      var u_fullname=json_user[0].u_fullname; 
-      var u_mo=json_user[0].u_mo; 
-      var u_since=json_user[0].u_ceratedate;
-      $("#userName").html("<span class='text-white'>Name : "+u_fullname+"</span>"); 
-      $("#userMo").html("<span class='text-white'>Mobile : "+u_mo+"</span>"); 
-      $("#userSince").html("<span class='text-white'>User Since : "+u_since+"</span>");        
-    }
-  });
-
-  if(sess_u_type==0){
-    $(".leftbars").removeClass("display-none");
-    $(".leftbars").addClass("display-block");
-    $("#userDiv").html("<span class='text-white'>( ADMIN )</span>");
-  }else if(sess_u_type==1){
-    $(".leftbars").removeClass("display-block");
-    $(".leftbars").addClass("display-none");
-    $("#userDiv").html("<span class='text-white'>(USER)</span>");
-  }
-  var url=base_url+'app_controller/getComplaintsStatusandCounts';
-  $.ajax({
-    'type':'POST',
-    'url': url, 
-    //'data':{'session_u_id':sess_u_id},
-    'data':data,
-    success:function(data){
-      var json = $.parseJSON(data);
-      var json_res = json.complaint_counts; 
-      //console.log(json_res);
-      var statusdata=''; 
-
-      for(var i=0;i<json_res.length;i++){
-          var status_type=json_res[i].statustype;
-          var status_id=json_res[i].s_id;  
-          var status_counts=json_res[i].cnt;  
-          var all_compcnt = json_res[i].all_compcnt; 
-          var impcnt = json_res[i].imp_compcnt;
-          //alert(impcnt);
-          if(status_type == 'Assigned'){
-            var block_class = "block-assign";
-          }else if(status_type == 'Executed'){
-            var block_class = "block-exec";
-          }else if(status_type == 'In progress'){
-            var block_class = "block-preogress";
-          }else if(status_type == 'Completed'){
-            var block_class = "block-comp";
-          }   
-          statusdata +='<div class="md-only col-50 card-content card-content-padding dashboard-blocks text-uppercase '+block_class+'" onclick="getStatusWiseComps('+status_id+','+"'"+status_type+"'"+')"><span class="fs-14">'+status_type+'</span><p id="data_counts" class="fs-2em">'+status_counts+'</p></div>';   
-
-          statusdata +='<div class="ios-only col-100 card-content card-content-padding dashboard-blocks text-uppercase '+block_class+'" onclick="getStatusWiseComps('+status_id+','+"'"+status_type+"'"+')"><span class="fs-16">'+status_type+'</span><p id="data_counts" class="fs-2em float-right">'+status_counts+'</p></div>'; 
-
-
-
-          $('#dashboard-boxes').html(statusdata);    
-
-          //app.preloader.hide();    
-          $("#total_complaints").html(all_compcnt);
-          $("#imp_counts").html(impcnt);
-        }   
+  
+    var user_url = base_url+'app_controller/userDet';
+    $.ajax({
+      'type':'POST',
+      'url': user_url, 
+      'data':{'login_id':login_id},
+      success:function(user_data){
+      //alert(seen_data);   
+        var json = $.parseJSON(user_data);
+        var json_user = json.user_data; 
+        var u_fullname=json_user[0].u_fullname; 
+        var u_mo=json_user[0].u_mo; 
+        var u_since=json_user[0].u_ceratedate;
+        $("#userName").html("<span class='text-white'>Name : "+u_fullname+"</span>"); 
+        $("#userMo").html("<span class='text-white'>Mobile : "+u_mo+"</span>"); 
+        $("#userSince").html("<span class='text-white'>User Since : "+u_since+"</span>");        
       }
     });
-    
-    //var impdata ='<div class="md-only col-100 card-content card-content-padding text-uppercase block-imp" onclick="ImportantComps()"><span class="fs-14">important</span><p id="imp_counts" class="fs-2em"></p></div>';
-    //$("#impblock").html(impdata);
-    app.preloader.hide();
-});
 
+    if(sess_u_type==0){
+      $(".leftbars").removeClass("display-none");
+      $(".leftbars").addClass("display-block");
+      $("#userDiv").html("<span class='text-white'>( ADMIN )</span>");
+    }else if(sess_u_type==1){
+      $(".leftbars").removeClass("display-block");
+      $(".leftbars").addClass("display-none");
+      $("#userDiv").html("<span class='text-white'>(USER)</span>");
+    }
+    var url=base_url+'app_controller/getComplaintsStatusandCounts';
+    $.ajax({
+      'type':'POST',
+      'url': url, 
+      //'data':{'session_u_id':sess_u_id},
+      'data':data,
+      success:function(data){
+        var json = $.parseJSON(data);
+        var json_res = json.complaint_counts; //console.log(json_res);      
+        var statusdata=''; 
+        app.preloader.show(); 
+        for(var i=0;i<json_res.length;i++){
+            var status_type=json_res[i].statustype;
+            var status_id=json_res[i].s_id;  
+            var status_counts=json_res[i].cnt;  
+            var all_compcnt = json_res[i].all_compcnt; 
+            var impcnt = json_res[i].imp_compcnt;
+            //alert(impcnt);
+            if(status_type == 'Assigned'){
+              var block_class = "block-assign";
+            }else if(status_type == 'Executed'){
+              var block_class = "block-exec";
+            }else if(status_type == 'In progress'){
+              var block_class = "block-preogress";
+            }else if(status_type == 'Completed'){
+              var block_class = "block-comp";
+            }   
+            statusdata +='<div class="md-only col-50 card-content card-content-padding dashboard-blocks text-uppercase '+block_class+'" onclick="getStatusWiseComps('+status_id+','+"'"+status_type+"'"+')"><span class="fs-14">'+status_type+'</span><p id="data_counts" class="fs-2em">'+status_counts+'</p></div>';   
+
+            statusdata +='<div class="ios-only col-100 card-content card-content-padding dashboard-blocks text-uppercase '+block_class+'" onclick="getStatusWiseComps('+status_id+','+"'"+status_type+"'"+')"><span class="fs-16">'+status_type+'</span><p id="data_counts" class="fs-2em float-right">'+status_counts+'</p></div>'; 
+
+            $('#dashboard-boxes').html(statusdata); 
+            //app.preloader.hide();    
+            $("#total_complaints").html(all_compcnt);
+            $("#imp_counts").html(impcnt);
+          }  
+          app.preloader.hide(); 
+        }
+      });
+     
+}
 function ImportantComps(){
   app.router.navigate("/imp-comps/");
 }
@@ -545,17 +554,32 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
 });
 $$(document).on('page:init', '.page[data-name="statusComp"]', function (e) {
   checkConnection();
-  app.preloader.show(); 
+  var $ptrContent = $$('.ptr-content');
+  //app.preloader.show(); 
   //popover_menu();  
+  var dashboard_clicked_stid = window.localStorage.getItem("dashboard_clicked_stid");
+  var dashboard_clicked_sttype = window.localStorage.getItem("dashboard_clicked_sttype");
+  //alert(dashboard_clicked_stid+"*******"+dashboard_clicked_sttype);
+  getStatusWiseComps(dashboard_clicked_stid,dashboard_clicked_sttype);
   var sess_u_id = window.localStorage.getItem("session_u_id");
-  app.preloader.hide();
+  //app.preloader.hide(); 
+ 
+  $ptrContent.on('ptr:refresh', function (e) {   
+    getStatusWiseComps(dashboard_clicked_stid,dashboard_clicked_sttype);
+    //console.log(e.detail());
+     //app.ptr.done(); // or e.detail();
+      e.detail();
+  }, 30000);
+
 });
 function getStatusWiseComps(statusid,status_type){
+  window.localStorage.setItem("dashboard_clicked_stid",statusid);
+  window.localStorage.setItem("dashboard_clicked_sttype",status_type);
   checkConnection();  
-  app.router.navigate("/statusComp/");  
-  app.preloader.show();
+  app.router.navigate("/statusComp/");   
+  
   //app.dialog.preloader();
-  var sess_u_id = window.localStorage.getItem("session_u_id");
+    var sess_u_id = window.localStorage.getItem("session_u_id");
   var url=base_url+'app_controller/complinsByStatus'; 
   //var statusurl = base_url+"app_controller/assignedId";
   if(sess_u_id==null){
@@ -565,6 +589,7 @@ function getStatusWiseComps(statusid,status_type){
     // USER //
     var data = {'session_u_id':sess_u_id,'statusid':statusid}
   } 
+  app.preloader.show();
   $.ajax({
     'type':'POST',
     'url': url, 
@@ -657,11 +682,11 @@ function getStatusWiseComps(statusid,status_type){
     }
     $("#page_title").html(status_type);
     $('#complaintsbyStatus').html(comaplintStatusdata);
-      app.preloader.hide();
+    app.preloader.hide();
     }
   });
-  
 }
+
 // ******************************************************************************************************* //
 
 // ---------------------------------------- C O M P L A I N T S ----------------------------------------- //
@@ -669,7 +694,22 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
   //console.log(app.views.main.router.url);
   //console.log(app.views.main.router);
   checkConnection();
-  app.preloader.show();
+  app.preloader.show();  
+  var $ptrContent = $$('.ptr-content');
+  complaintsPage();
+  
+  /*setInterval(function(){  
+  //alert("hi");  
+    complaintsPage();
+  },5000);     */ 
+  $ptrContent.on('ptr:refresh', function (e) {     
+    complaintsPage();//console.log(e.detail());    
+     //app.ptr.done(); // or e.detail();
+     e.detail();
+  }, 3000);
+});
+function complaintsPage(){  
+  checkConnection();
   //popover_menu();
   var url=base_url+'app_controller/getAllComplaintsOfUser';
   var sess_u_id = window.localStorage.getItem("session_u_id");
@@ -721,7 +761,6 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
           }else{
             var dd = day;
           }
-
           var date = today.getFullYear()+'-'+(mm)+'-'+dd;
           var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
           var todaydateTime = date+' '+time;
@@ -781,11 +820,11 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
         }
         comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>'; 
         $('#complaints').html(comaplintdata);   
-        app.preloader.hide(); 
+        
       }
     }
-  });
-});
+  });app.preloader.hide(); 
+}
 $$(document).on('page:init', '.page[data-name="complaintData"]', function (e) {
   checkConnection();
   app.preloader.show(); 
