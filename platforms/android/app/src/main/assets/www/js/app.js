@@ -345,20 +345,18 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
   
   //console.log(app.views.main.router);
   checkConnection();  
-  var $ptrContent = $$('.ptr-content');
+  //var $ptrContent = $$('.ptr-content');
   dashboardPage();
   app.dialog.preloader('Loading Dashboard...'); 
-  /*setInterval(function(){  
-  //alert("hi");  
+  setInterval(function(){  
     dashboardPage();
-  },5000); 
-    */ 
+  },5000);      
   app.dialog.close();
-  $ptrContent.on('ptr:refresh', function (e) {   
+  /*$ptrContent.on('ptr:refresh', function (e) {   
     dashboardPage();
     //console.log(e.detail());
      app.ptr.done(); // or e.detail();
-  }, 30000);
+  }, 30000);*/
 });
 function dashboardPage(){
 
@@ -512,12 +510,7 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
               var badge_color = "color-red";
             }else{
               var badge_color = "color-custom";
-            }
-          if(is_seen_byuser==0){ 
-            var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
-          }else{
-            var notseen="";
-          }
+            }          
           var imp_triangle = '';
         }else if(status=='Executed'){
           var badge_color = "color-executed";
@@ -544,6 +537,11 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
           var ref_by = '';
           var imp_triangle = '';
         }
+        if(is_seen_byuser==0){ 
+          var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+        }else{
+          var notseen="";
+        }
         comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
         $("#important-comps").html(comps_imp);         
         app.preloader.hide();              
@@ -567,9 +565,13 @@ $$(document).on('page:init', '.page[data-name="statusComp"]', function (e) {
   $ptrContent.on('ptr:refresh', function (e) {   
     getStatusWiseComps(dashboard_clicked_stid,dashboard_clicked_sttype);
     //console.log(e.detail());
-     //app.ptr.done(); // or e.detail();
-      e.detail();
-  }, 30000);
+     app.ptr.done(); // or e.detail();
+      //e.detail();
+  }, 5000);
+ /* setInterval(function(){ 
+  //alert("hi");  
+    getStatusWiseComps(dashboard_clicked_stid,dashboard_clicked_sttype);
+  },5000); */
 
 });
 function getStatusWiseComps(statusid,status_type){
@@ -578,9 +580,9 @@ function getStatusWiseComps(statusid,status_type){
   checkConnection();  
   app.router.navigate("/statusComp/");   
   
-  //app.dialog.preloader();
-    var sess_u_id = window.localStorage.getItem("session_u_id");
-  var url=base_url+'app_controller/complinsByStatus'; 
+  
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  var url=base_url+'app_controller/complinsByStatus';  
   //var statusurl = base_url+"app_controller/assignedId";
   if(sess_u_id==null){
     // ADMIN // 
@@ -589,6 +591,7 @@ function getStatusWiseComps(statusid,status_type){
     // USER //
     var data = {'session_u_id':sess_u_id,'statusid':statusid}
   } 
+  
   app.preloader.show();
   $.ajax({
     'type':'POST',
@@ -641,13 +644,7 @@ function getStatusWiseComps(statusid,status_type){
             }
             /*if(is_seen_byuser==0){
              lightred='notseen';
-            }  */
-            if(is_seen_byuser==0){
-              //lightred='notseen';
-              var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
-            }else{
-              var notseen="";
-            }  
+            }  */            
             var imp_triangle = '';        
           }else if(status_type=='Executed'){
             var badge_color = "color-executed";
@@ -672,6 +669,12 @@ function getStatusWiseComps(statusid,status_type){
             var ref_by = '';
             var imp_triangle = '';
           }
+          if(is_seen_byuser==0){
+            //lightred='notseen';
+            var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+          }else{
+            var notseen="";
+          }
           comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
 
             
@@ -680,11 +683,15 @@ function getStatusWiseComps(statusid,status_type){
     }else{
       comaplintStatusdata+='<tr><td>No Data Available.</td></tr>';
     }
+    
+      //alert("hi");   
     $("#page_title").html(status_type);
     $('#complaintsbyStatus').html(comaplintStatusdata);
+    
     app.preloader.hide();
     }
   });
+
 }
 
 // ******************************************************************************************************* //
@@ -694,32 +701,24 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
   //console.log(app.views.main.router.url);
   //console.log(app.views.main.router);
   checkConnection();
-  app.preloader.show();  
+  //app.preloader.show();  
   var $ptrContent = $$('.ptr-content');
-  complaintsPage();
-  
-  /*setInterval(function(){  
-  //alert("hi");  
+  complaintsPage();  
+  /*setInterval(function(){    
     complaintsPage();
-  },5000);     */ 
+  },5000); */    
+  
   $ptrContent.on('ptr:refresh', function (e) {     
     complaintsPage();//console.log(e.detail());    
-     //app.ptr.done(); // or e.detail();
-     e.detail();
+     app.ptr.done(); // or e.detail();
+     //e.detail();
   }, 3000);
 });
 function complaintsPage(){  
   checkConnection();
-  //popover_menu();
   var url=base_url+'app_controller/getAllComplaintsOfUser';
   var sess_u_id = window.localStorage.getItem("session_u_id");
-  var sess_u_type = window.localStorage.getItem("session_u_type");
-  /*if(sess_u_type==0){ 
-    // ADMIN //
-    $(".btnblck-custom").removeClass("display-none");
-    $(".btnblck-custom").addClass("display-block");
-  }*/
-  //alert(sess_u_id); 
+  var sess_u_type = window.localStorage.getItem("session_u_type"); 
   if(sess_u_id==null){
     // ADMIN //
     var data = {'session_u_id':'NULL'}   
@@ -727,6 +726,7 @@ function complaintsPage(){
     // USER //
     var data = {'session_u_id':sess_u_id}  
   }
+  app.preloader.show(); 
   $.ajax({
     'type':'POST',
     'url': url, 
@@ -747,23 +747,23 @@ function complaintsPage(){
         var is_impt = json_res[j].is_impt;
         var ref_name = json_res[j].ref_name;
         var onemonth_added_dt = json_res[j].onemonth_added_dt;
-          var today = new Date();
-          var month = today.getMonth()+1;
-          var day = today.getDate();
-          if(month>=9){
-            var mm = "0"+month;
-          }else{
-            var mm = month;
-          } 
+        var today = new Date();
+        var month = today.getMonth()+1;
+        var day = today.getDate();
+        if(month>=9){
+          var mm = "0"+month;
+        }else{
+          var mm = month;
+        } 
 
-          if(day>=9){
-            var dd = "0"+day;
-          }else{
-            var dd = day;
-          }
-          var date = today.getFullYear()+'-'+(mm)+'-'+dd;
-          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-          var todaydateTime = date+' '+time;
+        if(day>=9){
+          var dd = "0"+day;
+        }else{
+          var dd = day;
+        }
+        var date = today.getFullYear()+'-'+(mm)+'-'+dd;
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var todaydateTime = date+' '+time;
        // alert(complain+"-----"+comp_adddate); 
         
         //var last_status_id = json_res[j].last_status_id;
@@ -783,14 +783,7 @@ function complaintsPage(){
             }else{
               var badge_color = "color-custom";
             }
-          if(is_seen_byuser==0){
-            //lightred='notseen';
-            //var notseen="<i class='f7-icons fs-16 text-red'>eye_fill</i>";
-            var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
-          }else{
-            var notseen="";
-          }
-          var imp_triangle = '';
+            var imp_triangle = '';
         }else if(status=='Executed'){
           var badge_color = "color-executed";
           var notseen="";
@@ -818,12 +811,21 @@ function complaintsPage(){
           //var imp_img = '';
           var imp_triangle = '';
         }
+
+        if(is_seen_byuser==0){
+          //lightred='notseen';
+          //var notseen="<i class='f7-icons fs-16 text-red'>eye_fill</i>";
+          var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+        }else{
+          var notseen="";
+        }
+
         comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>'; 
         $('#complaints').html(comaplintdata);   
-        
+         app.preloader.hide(); 
       }
     }
-  });app.preloader.hide(); 
+  });
 }
 $$(document).on('page:init', '.page[data-name="complaintData"]', function (e) {
   checkConnection();
@@ -866,6 +868,37 @@ function comp_det_page(comp_no){
       var u_mo = json.complaint_data[0].u_mo;
       var is_impt = json.complaint_data[0].is_impt;
       var ref_name = json.complaint_data[0].ref_name;
+      var onemonth_added_dt = json.complaint_data[0].onemonth_added_dt;
+        var today = new Date();
+        var month = today.getMonth()+1;
+        var day = today.getDate();
+        if(month>=9){
+          var mm = "0"+month;
+        }else{
+          var mm = month;
+        } 
+
+        if(day>=9){
+          var dd = "0"+day;
+        }else{
+          var dd = day;
+        }
+        var date = today.getFullYear()+'-'+(mm)+'-'+dd;
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var todaydateTime = date+' '+time;
+       // alert(complain+"-----"+comp_adddate); 
+        
+        //var last_status_id = json_res[j].last_status_id;
+        //var last_statustype = json_res[j].last_statustype;
+        //var comp_status;
+        //alert(status+"---"+comp_no+"---"+last_statustype+"---"+last_status_id);
+        /*if(last_status_id!=null){
+          var comp_status = last_statustype;
+        }else{
+          var comp_status = status;
+        } */
+        
+        
       //alert(is_impt);
       if(is_impt==1){
         
@@ -938,7 +971,12 @@ function comp_det_page(comp_no){
       //var attach_image = '<img src="'+base_url+file_path+'" width="280" height="200"/>';
 
       if(statustype=='Assigned'){
-        var badge_color = "color-custom";
+        //var badge_color = "color-custom";
+        if(todaydateTime > onemonth_added_dt){
+          var badge_color = "color-red";
+        }else{
+          var badge_color = "color-custom";
+        }
       }else if(statustype=='Executed'){
         var badge_color = "color-executed";
       }else if(statustype=='In progress'){
@@ -1765,6 +1803,7 @@ function logOut(){
   window.localStorage.removeItem("session_u_pwd");
   window.localStorage.removeItem("session_u_type");
   window.localStorage.removeItem("session_admin_u_id");
+
   app.router.navigate('/index/'); 
 }
 // ******************************************************************************************************* //
