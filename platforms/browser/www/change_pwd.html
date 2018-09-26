@@ -1,0 +1,82 @@
+<div data-name="change_pwd" class="page navbar-fixed toolbar-fixed" >
+	<!-- All parts will have "sliding" effect on page transition -->
+	<div class="navbar inner-header">
+	  <!-- Additional "sliding" class -->
+	  <div class="navbar-inner sliding">
+	    <div class="left">
+	      <a href="#" class="link back"><i class="f7-icons size-22 orange-text">arrow_left</i></a>
+	    </div>
+	    <div class="title text-uppercase orange-text">Change Password</div>
+	    <div class="right">        
+        <a class="link panel-open" href="#" data-panel="left" onclick="openPanel()">
+          <i class="f7-icons size-22 orange-text leftbars">bars</i>
+        </a>         
+	    </div>
+	  </div>
+	</div>  
+
+	<div class="page-content">
+    <div class="card w-96 float-left">
+      <div class="card-header textarea">
+        <div class="data-table-title" id="u_name"></div>     
+      </div>
+      <div class="card-content">
+        <div id="change_pass"> 
+          <form class="changePwdForm" id="changePwdForm">
+            <input type="hidden" name="hidden_uid" id="hidden_uid">
+            <div class="center">        
+              <div class="list form-div no-hairlines">          
+                <ul>                 
+                  <li class="item-content item-input">      
+                    <div class="item-inner">
+                        <div class="item-title item-floating-label">OLD PASSWORD</div>
+                        <div class="item-input-wrap">
+                          <input type="password" name="old_pwd" id="old_pwd" placeholder="OLD PASSWORD" required validate>
+                          <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                  </li>
+                  <li class="item-content item-input">      
+                    <div class="item-inner">
+                        <div class="item-title item-floating-label">NEW PASSWORD</div>
+                        <div class="item-input-wrap">
+                          <input type="password" name="new_pwd" id="new_pwd" placeholder="NEW PASSWORD" required validate>
+                          <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                  </li>
+                  <li class="item-content item-input">      
+                    <div class="item-inner">
+                        <div class="item-title item-floating-label">RETYPE PASSWORD</div>
+                        <div class="item-input-wrap">
+                          <input type="password" name="retype_pwd" id="retype_pwd" placeholder="RETYPE PASSWORD" required validate>
+                          <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                  </li>
+                  <div id="success-badge" class="display-none ml-5p w-45"><span class="badge color-green match-text ml-5" ></span></div>
+                  <div id="warning-badge" class="display-none ml-5p w-45"><span class="badge color-red unmatch-text ml-5" ></span></div>
+                  <li class="item-content item-input mt-5p">
+                    <div class="item-inner">
+                        <div class="item-input-wrap">
+                          <a href="#" class="col button orange-btn grey-text" onclick="changePass()">CHANGE PASSWORD</a>  
+                        </div>
+                    </div>
+                  </li>        
+                </ul>
+              </div>
+            </div>
+          </form>    
+        </div>
+      </div>
+    </div>    
+  </div> 
+	
+  <div class="toolbar toolbar-bottom-md footer-bg inner-footer">
+    <div class="toolbar-inner">
+      <a class="link"></a>
+      <a class="link orange-text text-capitalize ">powered by &nbsp; <span class="fa fa-star gly-spin m-r-5 m-l-5"></span><span class="orange-text text-uppercase"> star one web</span></a>
+      <a class="link"></a> 
+    </div>
+  </div>
+</div>

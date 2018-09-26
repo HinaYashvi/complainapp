@@ -13,5 +13,6 @@
       "sizes": "undefinedxundefined"
     }
   ],
+  "orientation": "portrait",
   "start_url": "index.html"
 }

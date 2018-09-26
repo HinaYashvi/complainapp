@@ -75,6 +75,7 @@ document.addEventListener("deviceready", checkStorage, false);
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("backbutton", onBackKeyDown, false); 
 
+
 var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
 //var base_url = '';   // LIVE SERVER // 
 
@@ -215,7 +216,7 @@ function checkConnection() {
 
 // -------------------------------------- C H E C K  S T O R A G E --------------------------------- //
 function checkStorage(){
-
+  //alert("called");
   pictureSource = navigator.camera.PictureSourceType;
   destinationType = navigator.camera.DestinationType;
   checkConnection();  
@@ -226,16 +227,29 @@ function checkStorage(){
   }else{
     var sess_u_id = window.localStorage.getItem("session_u_id");
   }
-  
+ //  alert(sess_u_id);
   document.addEventListener("backbutton", function (e) {
     e.preventDefault(); 
     navigator.notification.confirm("Do you want to Exit ?", onConfirmExit, "Exit Application");
   }, false );
 
+  if(sess_u_id==null){
+    app.router.navigate('/');   
+  }else{  
+    app.router.navigate('/dashboard/'); 
+  }
+}
 
-  //if(sess_u_id==null){
-   // app.router.navigate('/');   
-  //}else{ 
+function chkStatusAndPwd(){
+  checkConnection();  
+  var sess_u_id = window.localStorage.getItem("session_u_id");
+  //alert(sess_u_id); 
+  if(sess_u_id==null){
+    var sess_u_id = window.localStorage.getItem("session_admin_u_id");  
+  }else{
+    var sess_u_id = window.localStorage.getItem("session_u_id");
+  }
+  if(sess_u_id!=null){ 
     var url = base_url+"app_controller/chkLogedinUserStatusPwd";
     $.ajax({
       'type':'POST',
@@ -245,26 +259,28 @@ function checkStorage(){
             var json = $.parseJSON(data);
              var json_res = json.chkStPwd[0];
              var u_pass = json.chkStPwd[0].u_pwd; 
-             var u_status = json.chkStPwd[0].u_status;
-             
+             var u_status = json.chkStPwd[0].u_status;             
 
              var session_u_status = window.localStorage.getItem("session_u_status");
              var session_u_pwd = window.localStorage.getItem("session_u_pwd");
 
-             alert(u_status+"="+session_u_status +"***"+u_pass+"="+session_u_pwd);
+             //alert(u_status+"="+session_u_status +"***"+u_pass+"="+session_u_pwd);
 
-             if(session_u_status!=u_status || session_u_pwd!=u_pass){ 
-              //0b8734431cb0fc4c749d7cb9fa0aeda9  
-              app.router.navigate('/'); 
-             }else{
-              app.router.navigate('/dashboard/'); 
+             if(session_u_status!=u_status){  
+              app.dialog.alert("You are deactivated");
+              logOut();
+              //app.router.navigate('/'); 
+             }else if(session_u_pwd!=u_pass){
+              app.dialog.alert("Your password should be changed recently.");
+              logOut();
+              //app.router.navigate('/'); 
              }
           }
     }); 
-    //app.router.navigate('/dashboard/'); 
-  //}
+  }else{
+    app.router.navigate('/dashboard/');               
+  }
 }
-
 // ----------------------------------------- LOGIN : C H E C K L O G I N ----------------------------- //
 function checklogin(){
     checkConnection();    
@@ -274,7 +290,10 @@ function checklogin(){
     }else{ 
       var form = $(".loginForm").serialize();
       var url=base_url+'app_controller/chklogin'; 
-      //console.log(form); 
+      //console.log(form);
+      
+      var unm=$('input[name="username"]').val();
+      //console.log(unm); 
       $.ajax({
         'type':'POST',
         'url': url, 
@@ -287,6 +306,7 @@ function checklogin(){
           //alert("in if"); 
             //window.localStorage.setItem("session_u_id",json.loggedin_user[0].u_id);
             window.localStorage.setItem("session_u_fullname",json.loggedin_user[0].u_fullname);
+            window.localStorage.setItem("session_unm",unm);
             window.localStorage.setItem("session_u_name",json.loggedin_user[0].u_name);
             window.localStorage.setItem("session_u_mo",json.loggedin_user[0].u_mo);
             window.localStorage.setItem("session_u_pwd",json.loggedin_user[0].u_pwd);
@@ -376,6 +396,7 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
   
   //console.log(app.views.main.router);
   checkConnection();  
+  chkStatusAndPwd();
   //var $ptrContent = $$('.ptr-content');
   dashboardPage();
   app.dialog.preloader('Loading Dashboard...'); 
@@ -422,23 +443,27 @@ function dashboardPage(){
         var json_user = json.user_data; 
         var u_fullname=json_user[0].u_fullname; 
         var u_mo=json_user[0].u_mo; 
-
         var u_since=json_user[0].u_ceratedate;
+
+
         $("#userName").html("<span class='text-white'>Name : "+u_fullname+"</span>"); 
         $("#userMo").html("<span class='text-white'>Mobile : "+u_mo+"</span>"); 
         $("#userSince").html("<span class='text-white'>User Since : "+u_since+"</span>");        
       }
     });
-
+    var panel_menus='';
     if(sess_u_type==0){
-      $(".leftbars").removeClass("display-none");
-      $(".leftbars").addClass("display-block");
+     // $(".leftbars").removeClass("display-none");
+      //$(".leftbars").addClass("display-block");
       $("#userDiv").html("<span class='text-white'>( ADMIN )</span>");
+      panel_menus = '<li class="comprep" ><a class="list-button item-link panel-close fs-14" href="/comp_rep/">Complain Report</a></li><li class="compmonthrep"><a class="list-button item-link panel-close fs-14" href="/comp_mon_rep/">Compl. Monthly Report</a></li><li class="" ><a class="list-button item-link panel-close fs-14" href="/change_pwd/">Change Password</a></li><li class="logout"><a class="list-button item-link fs-14" href="#" onclick="logOut()">Logout</a></li>';
     }else if(sess_u_type==1){
-      $(".leftbars").removeClass("display-block");
-      $(".leftbars").addClass("display-none");
+      //$(".leftbars").removeClass("display-block");
+      //$(".leftbars").addClass("display-none");
       $("#userDiv").html("<span class='text-white'>(USER)</span>");
+      panel_menus = '<li class="" ><a class="list-button item-link panel-close fs-14" href="/change_pwd/">Change Password</a></li><li class="logout"><a class="list-button item-link fs-14" href="#" onclick="logOut()">Logout</a></li>';
     }
+    $("#panel_menus").html(panel_menus);
     var url=base_url+'app_controller/getComplaintsStatusandCounts';
     $.ajax({
       'type':'POST',
@@ -485,6 +510,7 @@ function ImportantComps(){
 }
 $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
   checkConnection();
+  chkStatusAndPwd();
   app.preloader.show();  
   var sess_u_id = window.localStorage.getItem("session_u_id");  
   if(sess_u_id==null){
@@ -584,6 +610,7 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
 });
 $$(document).on('page:init', '.page[data-name="statusComp"]', function (e) {
   checkConnection();
+  chkStatusAndPwd();
   var $ptrContent = $$('.ptr-content');
   //app.preloader.show(); 
   //popover_menu();  
@@ -733,6 +760,7 @@ $$(document).on('page:init', '.page[data-name="complaints"]', function (e) {
   //console.log(app.views.main.router.url);
   //console.log(app.views.main.router);
   checkConnection();
+  chkStatusAndPwd();
   //app.preloader.show();  
   var $ptrContent = $$('.ptr-content');
   complaintsPage();  
@@ -861,6 +889,7 @@ function complaintsPage(){
 }
 $$(document).on('page:init', '.page[data-name="complaintData"]', function (e) {
   checkConnection();
+  chkStatusAndPwd();
   app.preloader.show(); 
   //popover_menu();  
   var sess_u_id = window.localStorage.getItem("session_u_id");
@@ -1429,6 +1458,7 @@ function changeCompStatus(complaint_no){
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="comp_rep"]', function (e) {
   checkConnection();
+  chkStatusAndPwd();
   app.preloader.show(); 
   //popover_menu();
   $(".popover-on-bottom").css("display","none");
@@ -1623,6 +1653,7 @@ function search_comp(){
 
 $$(document).on('page:init', '.page[data-name="comp_mon_rep"]', function (e) {
   checkConnection();
+  chkStatusAndPwd();
   app.preloader.show();
   //popover_menu(); 
   $(".popover-on-bottom").css("display","none");
@@ -1734,6 +1765,7 @@ $$(document).on('page:init', '.page[data-name="comp_mon_rep"]', function (e) {
 });
 $$(document).on('page:init', '.page[data-name="complain_rep_grid"]', function (e) {
   checkConnection();
+  chkStatusAndPwd();
   app.preloader.show(); 
   //popover_menu();  
   var sess_u_id = window.localStorage.getItem("session_u_id");
@@ -1741,6 +1773,7 @@ $$(document).on('page:init', '.page[data-name="complain_rep_grid"]', function (e
 });
 $$(document).on('page:init', '.page[data-name="complainmon_rep_grid"]', function (e) {
   checkConnection();
+  chkStatusAndPwd();
   app.preloader.show(); 
   //popover_menu();  
   var sess_u_id = window.localStorage.getItem("session_u_id");
@@ -1821,6 +1854,66 @@ function search_comp_month(){
       } 
   });
 }
+$$(document).on('page:init', '.page[data-name="change_pwd"]', function (e) {
+  checkConnection(); 
+  chkStatusAndPwd();
+  app.preloader.show();
+  var session_unm = window.localStorage.getItem("session_unm"); 
+  var sess_u_id = window.localStorage.getItem("session_u_id"); 
+  if(sess_u_id==null){
+    var sess_u_id = window.localStorage.getItem("session_admin_u_id");  
+  }else{
+    var sess_u_id = window.localStorage.getItem("session_u_id");
+  }  
+  $("#hidden_uid").val(sess_u_id);
+  $("#u_name").html('<span>Username : '+session_unm+'</span>');
+  app.preloader.hide();   
+  $("#retype_pwd").keyup(validate);  
+});
+function validate() {
+  var password1 = $("#new_pwd").val();
+  var password2 = $("#retype_pwd").val();
+  if(password1 == password2) {
+    $("#success-badge").removeClass("display-none");
+    $(".unmatch-text").css("display",'none');
+    $(".match-text").css("display",'block');
+    $(".match-text").text("Passwords match.");        
+  }
+  else{
+    $("#warning-badge").removeClass("display-none");
+    $(".match-text").css("display",'none');
+    $(".unmatch-text").css("display",'block');
+    $(".unmatch-text").text("Passwords do not match!");  
+  }    
+}
+function changePass(){
+  //alert("in changePass");
+  var changePwdForm = $(".changePwdForm").serialize();
+  var sess_city=window.localStorage.getItem("session_city");
+  var url=base_url+'app_controller/changePassWord';
+  $.ajax({
+        'type':'POST', 
+        'url':url,
+        'data':changePwdForm,
+        success:function(response){  
+          var res=response.trim();
+          if(res){
+            if(res == 'updated'){
+              app.dialog.alert("Password changed successfully."); 
+            }else if(res == 'wrongoldpwd'){
+              app.dialog.alert("Entered OldPassword is incorrect.");
+            }
+          }
+        }
+  }); 
+  $("#old_pwd").val('');
+  $("#new_pwd").val('');
+  $("#retype_pwd").val('');
+  $(".match-text").css("display",'none');
+  $(".unmatch-text").css("display",'none');
+  $("#warning-badge").addClass("display-none");
+  $("#success-badge").addClass("display-none");
+}
 // --------------------------------------------- L O G O U T ------------------------------------------ //
 function logOut(){
   checkConnection();
@@ -1835,7 +1928,12 @@ function logOut(){
   window.localStorage.removeItem("session_u_pwd");
   window.localStorage.removeItem("session_u_type");
   window.localStorage.removeItem("session_u_status");
-  window.localStorage.removeItem("session_admin_u_id");
-  app.router.navigate('/index/'); 
+  window.localStorage.removeItem("session_admin_u_id"); 
+  window.localStorage.removeItem("dashboard_clicked_stid");
+  window.localStorage.removeItem("dashboard_clicked_sttype");
+  window.localStorage.removeItem("session_unm");
+  $(".panelleft").removeClass("panel-active");
+  $(".panelleft").css("display","none");
+  app.router.navigate('/index/');  
 }
 // ******************************************************************************************************* //

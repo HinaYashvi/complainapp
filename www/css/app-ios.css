@@ -362,6 +362,14 @@ body{
     position: absolute;
     top: -24px;
 }
+.form-div{    
+    padding: 2% 0 0 0%;
+    width:100%;
+}
+.form-div-login{
+    padding: 2% 0 0 0%;
+    width:85%;
+}
 /* ---------------------- ROTATE STAR -------------------- */
 .gly-spin {
       -webkit-animation: spin 5s infinite linear;

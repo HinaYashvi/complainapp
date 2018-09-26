@@ -48,6 +48,10 @@ var routes = [
     path:'/imp-comps/',
     url: './imp-comps.html',
   },
+  {
+    path:'/change_pwd/',
+    url: './change_pwd.html',
+  },
   /*{
     path: '/action-sheet/',
     componentUrl: './pages/action-sheet.html',

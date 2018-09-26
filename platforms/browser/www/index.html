@@ -30,22 +30,7 @@
         <div id="borderDiv"></div>
         <div class="block-title text-white">Menu Navigation</div>
         <div class="list links-list">
-          <ul>
-            
-            <li class="comprep" >
-              <a class="list-button item-link panel-close fs-14" href="/comp_rep/">Complain Report</a>
-            </li>      
-
-            
-            <li class="compmonthrep">
-              <a class="list-button item-link panel-close fs-14" href="/comp_mon_rep/">Compl. Monthly Report</a>
-            </li>
-
-            <li class="logout">
-              <a class="list-button item-link fs-14" href="#" onclick="logOut()">Logout</a>
-            </li>
-                    
-          </ul>
+          <ul id="panel_menus"></ul>
         </div> 
         <div class="block">
           
@@ -63,58 +48,57 @@
                       </div>
 
                       <form class="loginForm" id="loginForm" name="loginForm" >
+                        <div class="list form-div-login no-hairlines-between-ios">
+                            <ul>
+                                <li class="item-content item-input">
+                                  <div class="item-inner">
+                                    <!--div class="item-title item-label">Username/Mobile</div-->
+                                    <div class="item-input-wrap">
+                                      <div class="inputbox md-only">
+                                        <i class="fa fa-user"></i>
+                                        <input type="text" name="username" id="username" placeholder="Username/Mobile" class="" required validate>
+                                      <span class="input-clear-button"></span>
+                                      </div>
 
-                          <div class="list form-div no-hairlines-between-ios">
-                              <ul>
-                                  <li class="item-content item-input">
-                                    <div class="item-inner">
-                                      <!--div class="item-title item-label">Username/Mobile</div-->
-                                      <div class="item-input-wrap">
-                                        <div class="inputbox md-only">
-                                          <i class="fa fa-user"></i>
-                                          <input type="text" name="username" id="username" placeholder="Username/Mobile" class="" required validate>
+                                      <div class="ios-only inputbox mb-5 ">
+                                        <i class="fa fa-user"></i>
+                                        <input type="text" name="username" id="username" placeholder="Username/Mobile" class="" required validate>
+                                      <span class="input-clear-button"></span>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="item-content item-input">
+                                  <div class="item-inner">
+                                    <!--div class="item-title item-label">Password</div-->
+                                    <div class="item-input-wrap">
+                                      <div class="inputbox md-only">
+                                        <i class="fa fa-lock"></i>
+                                        <input type="password" name="password" id="password" placeholder="Password" class="" required validate>
                                         <span class="input-clear-button"></span>
-                                        </div>
+                                      </div>
 
-                                        <div class="ios-only inputbox mb-5 ">
-                                          <i class="fa fa-user"></i>
-                                          <input type="text" name="username" id="username" placeholder="Username/Mobile" class="" required validate>
+                                      <div class="ios-only inputbox mb-5">
+                                        <i class="fa fa-lock"></i>
+                                        <input type="password" name="password" id="password" placeholder="Password" class="" required validate>
                                         <span class="input-clear-button"></span>
-                                        </div>
-
-                                      </div>
+                                      </div> 
                                     </div>
-                                  </li>
-                                  <li class="item-content item-input">
-                                    <div class="item-inner">
-                                      <!--div class="item-title item-label">Password</div-->
-                                      <div class="item-input-wrap">
-                                        <div class="inputbox md-only">
-                                          <i class="fa fa-lock"></i>
-                                          <input type="password" name="password" id="password" placeholder="Password" class="" required validate>
-                                          <span class="input-clear-button"></span>
-                                        </div>
+                                  </div>
+                                </li>
+                                <li class="item-content item-input">
+                                  <div class="item-inner">
+                                    <div class="item-input-wrap ">
+                                      <a href="#" onclick="checklogin();" class="md-only col button button-fill orange-btn grey-text" >LOG IN</a>
 
-                                        <div class="ios-only inputbox mb-5">
-                                          <i class="fa fa-lock"></i>
-                                          <input type="password" name="password" id="password" placeholder="Password" class="" required validate>
-                                          <span class="input-clear-button"></span>
-                                        </div> 
-                                      </div>
+                                      <a href="#" onclick="checklogin();" class="ios-only col button button-big button-fill orange-btn grey-text" >LOG IN</a>       
+
                                     </div>
-                                  </li>
-                                  <li class="item-content item-input">
-                                    <div class="item-inner">
-                                      <div class="item-input-wrap ">
-                                        <a href="#" onclick="checklogin();" class="md-only col button button-fill orange-btn grey-text" >LOG IN</a>
-
-                                        <a href="#" onclick="checklogin();" class="ios-only col button button-big button-fill orange-btn grey-text" >LOG IN</a>       
-
-                                      </div>
-                                    </div>
-                                  </li> 
-                              </ul>
-                          </div>                                   
+                                  </div>
+                                </li> 
+                            </ul>
+                        </div>                                   
                       </form>
                   </div><!-- .page-content -->
 
