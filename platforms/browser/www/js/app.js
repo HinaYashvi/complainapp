@@ -223,16 +223,46 @@ function checkStorage(){
   //alert(sess_u_id); 
   if(sess_u_id==null){
     var sess_u_id = window.localStorage.getItem("session_admin_u_id");  
+  }else{
+    var sess_u_id = window.localStorage.getItem("session_u_id");
   }
+  
   document.addEventListener("backbutton", function (e) {
     e.preventDefault(); 
     navigator.notification.confirm("Do you want to Exit ?", onConfirmExit, "Exit Application");
   }, false );
-  if(sess_u_id==null){
-    app.router.navigate('/');   
-  }else{  
-    app.router.navigate('/dashboard/'); 
-  }
+
+
+  //if(sess_u_id==null){
+   // app.router.navigate('/');   
+  //}else{ 
+    var url = base_url+"app_controller/chkLogedinUserStatusPwd";
+    $.ajax({
+      'type':'POST',
+          'url': url, 
+          'data':{'session_u_id':sess_u_id}, 
+          success:function(data){ 
+            var json = $.parseJSON(data);
+             var json_res = json.chkStPwd[0];
+             var u_pass = json.chkStPwd[0].u_pwd; 
+             var u_status = json.chkStPwd[0].u_status;
+             
+
+             var session_u_status = window.localStorage.getItem("session_u_status");
+             var session_u_pwd = window.localStorage.getItem("session_u_pwd");
+
+             alert(u_status+"="+session_u_status +"***"+u_pass+"="+session_u_pwd);
+
+             if(session_u_status!=u_status || session_u_pwd!=u_pass){ 
+              //0b8734431cb0fc4c749d7cb9fa0aeda9  
+              app.router.navigate('/'); 
+             }else{
+              app.router.navigate('/dashboard/'); 
+             }
+          }
+    }); 
+    //app.router.navigate('/dashboard/'); 
+  //}
 }
 
 // ----------------------------------------- LOGIN : C H E C K L O G I N ----------------------------- //
@@ -261,6 +291,7 @@ function checklogin(){
             window.localStorage.setItem("session_u_mo",json.loggedin_user[0].u_mo);
             window.localStorage.setItem("session_u_pwd",json.loggedin_user[0].u_pwd);
             window.localStorage.setItem("session_u_type",json.loggedin_user[0].u_type);
+            window.localStorage.setItem("session_u_status",json.loggedin_user[0].u_status);
             var u_type = json.loggedin_user[0].u_type;
             if(u_type==0){
               // ADMIN //
@@ -391,6 +422,7 @@ function dashboardPage(){
         var json_user = json.user_data; 
         var u_fullname=json_user[0].u_fullname; 
         var u_mo=json_user[0].u_mo; 
+
         var u_since=json_user[0].u_ceratedate;
         $("#userName").html("<span class='text-white'>Name : "+u_fullname+"</span>"); 
         $("#userMo").html("<span class='text-white'>Mobile : "+u_mo+"</span>"); 
@@ -1795,15 +1827,15 @@ function logOut(){
   $(".popover-backdrop.backdrop-in").css("visibility","hidden");
   $(".popover.modal-in").css("display","none");
   //$(".admin-menu").css("display","none");
-  //$(".user-menu").css("display","none");
+  //$(".user-menu").css("display","none"); 
   window.localStorage.removeItem("session_u_fullname"); 
   window.localStorage.removeItem("session_u_id"); 
   window.localStorage.removeItem("session_u_mo"); 
   window.localStorage.removeItem("session_u_name");
   window.localStorage.removeItem("session_u_pwd");
   window.localStorage.removeItem("session_u_type");
+  window.localStorage.removeItem("session_u_status");
   window.localStorage.removeItem("session_admin_u_id");
-
   app.router.navigate('/index/'); 
 }
 // ******************************************************************************************************* //
