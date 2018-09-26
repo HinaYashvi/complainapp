@@ -4,8 +4,8 @@ var app = new Framework7({
   root: '#app', // App root element
   pushState: true,
   //popupCloseByOutside:true,
-  name: 'Complain Manager',// App Name
-  id: 'com.phonegap.complainmanager',       // App id
+  name: 'Your Collector',// App Name
+  id: 'com.phonegap.yourcollector',       // App id
   panel: {
     swipe: 'left', // Enable swipe panel
   },
