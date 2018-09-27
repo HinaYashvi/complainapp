@@ -45,7 +45,7 @@ var routes = [
     path:'/complainmon_rep_grid/',
     url: './complainmon_rep_grid.html',
   },
-  {
+  { 
     path:'/imp-comps/',
     url: './imp-comps.html',
   },
@@ -53,7 +53,10 @@ var routes = [
     path:'/change_pwd/',
     url: './change_pwd.html',
   },
-  
+  {
+    path:'/internet/',
+    url: './internet.html',
+  },  
   /*{
     path: '/action-sheet/',
     componentUrl: './pages/action-sheet.html',

@@ -8,8 +8,7 @@ var app = new Framework7({
   id: 'com.phonegap.yourcollector',       // App id
   panel: {
     swipe: 'left', // Enable swipe panel
-  },
-  
+  },  
   //theme:'material',
   //material: true, //enable Material theme
   routes: routes, 
@@ -49,7 +48,6 @@ var app = new Framework7({
         footer: true,
         openIn: 'customModal'
       });
-
       var calendarRange2 = app.calendar.create({
         inputEl: '#demo-calendar-modal2',
         dateFormat: 'mm-yyyy',
@@ -73,22 +71,12 @@ var destinationType;
 
 document.addEventListener("deviceready", checkStorage, false); 
 document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener("backbutton", onBackKeyDown, false); 
-
+document.addEventListener("backbutton", onBackKeyDown, false);
 
 var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
 //var base_url = '';   // LIVE SERVER // 
 
 function onBackKeyDown() {
-  //alert(app.views.main.router.currentPageEl);
-  //alert(app.views.main.router.history.length);
-  //alert(app.views.main.routes[0].name);   
-  //alert(app.views.main.router.url);
-  //if(app.views.main.router.currentPageEl=="/index/"){
-  //var page=app.getCurrentView().activePage; //app.hidePreloader(); 
-  //alert(page);
-  //alert(app.views.main.router.url);
-  //alert(app.views.main.router.history.length);
   if(app.views.main.router.history.length==2 || app.views.main.router.url=='/'){
     app.dialog.confirm('Do you want to Exit ?', function () {
       navigator.app.clearHistory(); navigator.app.exitApp();
@@ -97,12 +85,10 @@ function onBackKeyDown() {
     $$(".back").click();
   } 
 }
-
 function onDeviceReady() {
   pictureSource = navigator.camera.PictureSourceType;
   destinationType = navigator.camera.DestinationType;  
 }
-
 function onPhotoDataSuccess(imageURI) {
   //console.log(imageURI);
   var cameraImage = document.getElementById('image');
@@ -110,9 +96,7 @@ function onPhotoDataSuccess(imageURI) {
   cameraImage.style.display = 'block';
   upldbtnDiv.style.display = 'block';
   cameraImage.src = imageURI;
-}
-
- 
+} 
 function onPhotoURISuccess(imageURI) {
   //console.log(imageURI);
   var galleryImage = document.getElementById('image');
@@ -120,8 +104,7 @@ function onPhotoURISuccess(imageURI) {
   galleryImage.style.display = 'block';
   upldbtnDiv.style.display = 'block';
   galleryImage.src = imageURI;
-}
- 
+} 
 function capturePhoto() {
   // Take picture using device camera and retrieve image as base64-encoded string
   navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
@@ -132,7 +115,6 @@ function capturePhoto() {
   saveToPhotoAlbum: true
   }); 
 }
-
 function onPhotoDataSuccess(imageURI){
   //console.log(imageURI);
   var cameraImage = document.getElementById('image');
@@ -141,7 +123,6 @@ function onPhotoDataSuccess(imageURI){
   upldbtnDiv.style.display = 'block';
   cameraImage.src = imageURI;
 }
-
 function getPhoto(source) {
   navigator.camera.getPicture(onPhotoURISuccess, onFail, {
     quality: 30,
@@ -150,12 +131,10 @@ function getPhoto(source) {
     destinationType: destinationType.FILE_URI,
     sourceType: source
   });
-}
- 
+} 
 function onFail(message) {
   alert('Failed because: ' + message);
 }
-
 function upload(){   
   var img = document.getElementById('image'); 
   app.dialog.preloader('Uploading....');
@@ -170,23 +149,17 @@ function upload(){
   options.headers = {
      Connection: "close"
   };
-  // setup parameters
   var params = {};
   params.fullpath =imageURI;
   params.name = options.fileName;
   var ft = new FileTransfer();
   var hidd_compid = $("#hidd_compid").val();
-
   var sess_u_id = window.localStorage.getItem("session_u_id");
-  var uploadControllerURL = base_url+"app_controller/photoupload/"+hidd_compid+"/"+sess_u_id;
-  //var url="";
-  //ft.upload(imageURI, encodeURI(url+'www/contact_photo'), win, fail, options);
-  //ft.upload(imageURI,"http://starprojects.in/f7CI/Appcont/appcontroller/photoupload", win, fail, options,true); 
+  var uploadControllerURL = base_url+"app_controller/photoupload/"+hidd_compid+"/"+sess_u_id; 
   ft.upload(imageURI,uploadControllerURL, win, fail, options,true);   
 }
 
-function win(r) {
-    //console.log("Code = " + r.responseCode);
+function win(r) { //console.log("Code = " + r.responseCode);    
     var responseCode = r.responseCode;
     if(responseCode==200){
       app.dialog.alert("Upload Done.");      
@@ -195,21 +168,19 @@ function win(r) {
     //console.log("Response = " + r.response);
     //console.log("Sent = " + r.bytesSent);
 }
-
 function fail(error) {
   alert("An error has occurred: Code = " + error.code);
   alert("upload error source " + error.source);
   alert("upload error target " + error.target);
 }
-
 // --------------------------- C H E C K  I N T E R N E T  C O N N E C T I O N --------------------- //
-function checkConnection() {
-  
+function checkConnection() {  
   var networkState = navigator.connection.type;
-  //alert(networkState);
+  app.preloader.show(); //alert(networkState);  
   if(networkState=='none'){  
-      app.router.navigate('/internet/'); 
+      app.router.navigate('/internet/');  
   }
+  app.preloader.hide();
 }
 // ************************************************************************************************* //
 
@@ -239,8 +210,7 @@ function checkStorage(){
     var sess_u_id = window.localStorage.getItem("session_admin_u_id");  
   }else{
     var sess_u_id = window.localStorage.getItem("session_u_id");
-  }
-  
+  }  
 
   if(sess_u_id==null){
     app.router.navigate('/');   
@@ -251,8 +221,7 @@ function checkStorage(){
 
 function chkStatusAndPwd(){
   checkConnection();  
-  var sess_u_id = window.localStorage.getItem("session_u_id");
-  //alert(sess_u_id); 
+  var sess_u_id = window.localStorage.getItem("session_u_id");  //alert(sess_u_id); 
   if(sess_u_id==null){
     var sess_u_id = window.localStorage.getItem("session_admin_u_id");  
   }else{
@@ -262,29 +231,24 @@ function chkStatusAndPwd(){
     var url = base_url+"app_controller/chkLogedinUserStatusPwd";
     $.ajax({
       'type':'POST',
-          'url': url, 
-          'data':{'session_u_id':sess_u_id}, 
-          success:function(data){ 
-            var json = $.parseJSON(data);
-             var json_res = json.chkStPwd[0];
-             var u_pass = json.chkStPwd[0].u_pwd; 
-             var u_status = json.chkStPwd[0].u_status;             
-
-             var session_u_status = window.localStorage.getItem("session_u_status");
-             var session_u_pwd = window.localStorage.getItem("session_u_pwd");
-
-             //alert(u_status+"="+session_u_status +"***"+u_pass+"="+session_u_pwd);
-
-             if(session_u_status!=u_status){  
-              app.dialog.alert("You are deactivated");
-              logOut();
-              //app.router.navigate('/'); 
-             }else if(session_u_pwd!=u_pass){
-              app.dialog.alert("Your password should be changed recently.");
-              logOut();
-              //app.router.navigate('/'); 
-             }
-          }
+      'url': url, 
+      'data':{'session_u_id':sess_u_id}, 
+      success:function(data){ 
+        var json = $.parseJSON(data);
+         var json_res = json.chkStPwd[0];
+         var u_pass = json.chkStPwd[0].u_pwd; 
+         var u_status = json.chkStPwd[0].u_status;
+         var session_u_status = window.localStorage.getItem("session_u_status");
+         var session_u_pwd = window.localStorage.getItem("session_u_pwd");
+         //alert(u_status+"="+session_u_status +"***"+u_pass+"="+session_u_pwd);
+         if(session_u_status!=u_status){  
+          app.dialog.alert("You are deactivated");
+          logOut(); //app.router.navigate('/');           
+         }else if(session_u_pwd!=u_pass){
+          app.dialog.alert("Your password should be changed recently.");
+          logOut(); //app.router.navigate('/');           
+         }
+      }
     }); 
   }else{
     app.router.navigate('/dashboard/');               
@@ -298,9 +262,7 @@ function checklogin(){
      // console.log('Check Validity!');
     }else{ 
       var form = $(".loginForm").serialize();
-      var url=base_url+'app_controller/chklogin'; 
-      //console.log(form);
-      
+      var url=base_url+'app_controller/chklogin'; //console.log(form);     
       var unm=$('input[name="username"]').val();
       //console.log(unm); 
       $.ajax({
@@ -309,10 +271,9 @@ function checklogin(){
         'data':form, 
         success:function(data){
           var json = $.parseJSON(data);
-          var json_res = json.loggedin_user[0];
-          //console.log("!!!!!!!!"+json_res);
+          var json_res = json.loggedin_user[0];   //console.log("!!!!!!!!"+json_res);          
           if(json_res!=undefined){ 
-          //alert("in if"); 
+            //alert("in if"); 
             //window.localStorage.setItem("session_u_id",json.loggedin_user[0].u_id);
             window.localStorage.setItem("session_u_fullname",json.loggedin_user[0].u_fullname);
             window.localStorage.setItem("session_unm",unm);
@@ -322,11 +283,9 @@ function checklogin(){
             window.localStorage.setItem("session_u_type",json.loggedin_user[0].u_type);
             window.localStorage.setItem("session_u_status",json.loggedin_user[0].u_status);
             var u_type = json.loggedin_user[0].u_type;
-            if(u_type==0){
-              // ADMIN //
+            if(u_type==0){  // ADMIN //              
               window.localStorage.setItem("session_admin_u_id",json.loggedin_user[0].u_id);
-            }else if(u_type==1){
-              // USER //
+            }else if(u_type==1){  // USER //              
               window.localStorage.setItem("session_u_id",json.loggedin_user[0].u_id);
             }
             app.router.navigate("/dashboard/");
