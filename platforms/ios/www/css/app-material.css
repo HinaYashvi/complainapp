@@ -357,6 +357,43 @@ color: #f99104!important;
 .linkspace{
     padding: 0 8px!important;
 }
+/*.app_title:after{
+    background-color: #FFB842;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 35%;
+}*/
+.theme-title {
+    text-align: center;
+      font-size: 2em;
+      color: #32A560;
+      margin-bottom: 10px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      position: relative;
+}
+
+.theme-title span:before, .theme-title span:after {
+      content: '';
+      position: absolute;
+      bottom: -4%;
+}
+
+.theme-title span:after {
+      left: 0%;
+      right: 0%;
+      margin: 0 auto;
+      width: 25%;
+      background: #FFB842;
+      height: 1px;
+}
+.small_pre{
+    width: 22px!important; 
+    height: 22px!important;
+}
 /* ---------------------- ROTATE STAR -------------------- */
 .gly-spin {
       -webkit-animation: spin 5s infinite linear;
