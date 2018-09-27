@@ -1,7 +1,8 @@
 var routes = [
   // Index page
   {
-    path: '/index/',
+    //path: '/index/',
+    path: '/',
     url: './index.html',
     name: 'index',
   },
@@ -52,6 +53,7 @@ var routes = [
     path:'/change_pwd/',
     url: './change_pwd.html',
   },
+  
   /*{
     path: '/action-sheet/',
     componentUrl: './pages/action-sheet.html',

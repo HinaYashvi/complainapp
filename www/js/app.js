@@ -13,7 +13,7 @@ var app = new Framework7({
   //theme:'material',
   //material: true, //enable Material theme
   routes: routes, 
-  clicks: {
+  clicks: { 
     externalLinks: '.external',
   },
   navbar: {
@@ -79,7 +79,7 @@ document.addEventListener("backbutton", onBackKeyDown, false);
 var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
 //var base_url = '';   // LIVE SERVER // 
 
-function onBackKeyDown() { 
+function onBackKeyDown() {
   //alert(app.views.main.router.currentPageEl);
   //alert(app.views.main.router.history.length);
   //alert(app.views.main.routes[0].name);   
@@ -87,16 +87,15 @@ function onBackKeyDown() {
   //if(app.views.main.router.currentPageEl=="/index/"){
   //var page=app.getCurrentView().activePage; //app.hidePreloader(); 
   //alert(page);
-  alert(app.views.main.router.history.length);
-  if(app.views.main.router.history.length==2){
-    //alert("in if"); 
+  //alert(app.views.main.router.url);
+  //alert(app.views.main.router.history.length);
+  if(app.views.main.router.history.length==2 || app.views.main.router.url=='/'){
     app.dialog.confirm('Do you want to Exit ?', function () {
       navigator.app.clearHistory(); navigator.app.exitApp();
     });
   }else{ 
-    //alert("in else");
     $$(".back").click();
-  }
+  } 
 }
 
 function onDeviceReady() {
@@ -386,18 +385,12 @@ $$('.dynamic-popover').on('click', function () {
 function gotoCompRep(){
   app.router.navigate("/comp_mon_rep/");
 }*/
-function openPanel(){
- // alert("hello"); 
-  $(".panel-cover").addClass("panel-active");
-  $(".panel-active").css("display","block");
-} 
+
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
-$$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
-  
+$$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {  
   //console.log(app.views.main.router);
   checkConnection();  
   chkStatusAndPwd();
-  //var $ptrContent = $$('.ptr-content');
   dashboardPage();
   //app.dialog.preloader('Loading Dashboard...'); 
   app.preloader.show();
@@ -405,15 +398,8 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
     dashboardPage();
   },5000);      
   app.preloader.hide();
-  //app.dialog.close();
-  /*$ptrContent.on('ptr:refresh', function (e) {   
-    dashboardPage();
-    //console.log(e.detail());
-     app.ptr.done(); // or e.detail();
-  }, 30000);*/
 });
 function dashboardPage(){
-
   checkConnection();
   var sess_u_id = window.localStorage.getItem("session_u_id");
   var sess_u_type = window.localStorage.getItem("session_u_type");
@@ -421,19 +407,13 @@ function dashboardPage(){
   //$(".admin-menu").css("display","none");
   //$(".user-menu").css("display","none"); 
   //alert(sess_u_id);
-
-  
-
-
-
   if(sess_u_id==null){ // ADMIN //    
     var data = {'session_u_id':'NULL'}     
     var login_id = session_admin_u_id; 
   }else{  // USER //
     var data = {'session_u_id':sess_u_id}
     var login_id = sess_u_id; 
-  }
-  
+  }  
     var user_url = base_url+'app_controller/userDet';
     $.ajax({
       'type':'POST',
@@ -826,17 +806,7 @@ function complaintsPage(){
         var date = today.getFullYear()+'-'+(mm)+'-'+dd;
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var todaydateTime = date+' '+time;
-       // alert(complain+"-----"+comp_adddate); 
-        
-        //var last_status_id = json_res[j].last_status_id;
-        //var last_statustype = json_res[j].last_statustype;
-        //var comp_status;
-        //alert(status+"---"+comp_no+"---"+last_statustype+"---"+last_status_id);
-        /*if(last_status_id!=null){
-          var comp_status = last_statustype;
-        }else{
-          var comp_status = status;
-        } */
+       
         
         if(status=='Assigned'){
           //var badge_color = "color-custom";
@@ -1937,6 +1907,6 @@ function logOut(){
   $(".panelleft").removeClass("panel-active");
   $(".panel").css("display","none");
   $(".panel-backdrop").css("display","none");
-  app.router.navigate('/index/');  
+  app.router.navigate('/');  
 }
 // ******************************************************************************************************* //
