@@ -87,7 +87,7 @@ function onBackKeyDown() {
   //if(app.views.main.router.currentPageEl=="/index/"){
   //var page=app.getCurrentView().activePage; //app.hidePreloader(); 
   //alert(page);
-  //alert(app.views.main.router.history.length);
+  alert(app.views.main.router.history.length);
   if(app.views.main.router.history.length==2){
     //alert("in if"); 
     app.dialog.confirm('Do you want to Exit ?', function () {
@@ -399,11 +399,13 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
   chkStatusAndPwd();
   //var $ptrContent = $$('.ptr-content');
   dashboardPage();
-  app.dialog.preloader('Loading Dashboard...'); 
+  //app.dialog.preloader('Loading Dashboard...'); 
+  app.preloader.show();
   setInterval(function(){  
     dashboardPage();
   },5000);      
-  app.dialog.close();
+  app.preloader.hide();
+  //app.dialog.close();
   /*$ptrContent.on('ptr:refresh', function (e) {   
     dashboardPage();
     //console.log(e.detail());
@@ -456,12 +458,12 @@ function dashboardPage(){
      // $(".leftbars").removeClass("display-none");
       //$(".leftbars").addClass("display-block");
       $("#userDiv").html("<span class='text-white'>( ADMIN )</span>");
-      panel_menus = '<li class="comprep" ><a class="list-button item-link panel-close fs-14" href="/comp_rep/">Complain Report</a></li><li class="compmonthrep"><a class="list-button item-link panel-close fs-14" href="/comp_mon_rep/">Compl. Monthly Report</a></li><li class="" ><a class="list-button item-link panel-close fs-14" href="/change_pwd/">Change Password</a></li><li class="logout"><a class="list-button item-link fs-14" href="#" onclick="logOut()">Logout</a></li>';
+      panel_menus = '<li class="" ><a class="list-button item-link panel-close fs-14" href="/dashboard/">Dashboard</a></li><li class="comprep" ><a class="list-button item-link panel-close fs-14" href="/comp_rep/">Complain Report</a></li><li class="compmonthrep"><a class="list-button item-link panel-close fs-14" href="/comp_mon_rep/">Compl. Monthly Report</a></li><li class="" ><a class="list-button item-link panel-close fs-14" href="/change_pwd/">Change Password</a></li><li class="logout"><a class="list-button item-link fs-14" href="#" onclick="logOut()">Logout</a></li>'; 
     }else if(sess_u_type==1){
       //$(".leftbars").removeClass("display-block");
       //$(".leftbars").addClass("display-none");
       $("#userDiv").html("<span class='text-white'>(USER)</span>");
-      panel_menus = '<li class="" ><a class="list-button item-link panel-close fs-14" href="/change_pwd/">Change Password</a></li><li class="logout"><a class="list-button item-link fs-14" href="#" onclick="logOut()">Logout</a></li>';
+      panel_menus = '<li class="" ><a class="list-button item-link panel-close fs-14" href="/dashboard/">Dashboard</a></li><li class="" ><a class="list-button item-link panel-close fs-14" href="/change_pwd/">Change Password</a></li><li class="logout"><a class="list-button item-link fs-14" href="#" onclick="logOut()">Logout</a></li>';
     }
     $("#panel_menus").html(panel_menus);
     var url=base_url+'app_controller/getComplaintsStatusandCounts';
