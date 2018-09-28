@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\xampp\\htdocs\\complainapp\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi_icon.png.flat",
+        "source": "C:\\xampp\\htdocs\\complainapp\\platforms\\android\\app\\src\\main\\res\\mipmap-mdpi\\icon.png"
+    },
+    {
+        "merged": "C:\\xampp\\htdocs\\complainapp\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_screen.png.flat",
+        "source": "C:\\xampp\\htdocs\\complainapp\\platforms\\android\\app\\src\\main\\res\\drawable-mdpi\\screen.png"
+    },
+    {
+        "merged": "C:\\xampp\\htdocs\\complainapp\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\xml_config.xml.flat",
+        "source": "C:\\xampp\\htdocs\\complainapp\\platforms\\android\\app\\src\\main\\res\\xml\\config.xml"
+    }
+]
