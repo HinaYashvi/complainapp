@@ -271,10 +271,9 @@ function checklogin(){
         'data':form, 
         success:function(data){
           var json = $.parseJSON(data);
-          var json_res = json.loggedin_user[0];   //console.log("!!!!!!!!"+json_res);
-          
+          var json_res = json.loggedin_user[0];   //console.log("!!!!!!!!"+json_res);          
           if(json_res!=undefined){ 
-          //alert("in if"); 
+            //alert("in if"); 
             //window.localStorage.setItem("session_u_id",json.loggedin_user[0].u_id);
             window.localStorage.setItem("session_u_fullname",json.loggedin_user[0].u_fullname);
             window.localStorage.setItem("session_unm",unm);
@@ -284,11 +283,9 @@ function checklogin(){
             window.localStorage.setItem("session_u_type",json.loggedin_user[0].u_type);
             window.localStorage.setItem("session_u_status",json.loggedin_user[0].u_status);
             var u_type = json.loggedin_user[0].u_type;
-            if(u_type==0){
-              // ADMIN //
+            if(u_type==0){  // ADMIN //              
               window.localStorage.setItem("session_admin_u_id",json.loggedin_user[0].u_id);
-            }else if(u_type==1){
-              // USER //
+            }else if(u_type==1){  // USER //              
               window.localStorage.setItem("session_u_id",json.loggedin_user[0].u_id);
             }
             app.router.navigate("/dashboard/");
@@ -389,6 +386,7 @@ function dashboardPage(){
             var status_counts=json_res[i].cnt;  
             var all_compcnt = json_res[i].all_compcnt; 
             var impcnt = json_res[i].imp_compcnt;
+            var isclosed_cnt = json_res[i].closed_cnt;
             //alert(impcnt);
             if(status_type == 'Assigned'){
               var block_class = "block-assign";
@@ -407,8 +405,10 @@ function dashboardPage(){
             //app.preloader.hide();    
             $("#total_complaints").html(all_compcnt);
             $("#imp_counts").html(impcnt);
+            $("#closed_counts").html(isclosed_cnt);
+             
           }  
-          app.preloader.hide(); 
+          app.preloader.hide();
         }
       });
      
@@ -416,10 +416,11 @@ function dashboardPage(){
 function ImportantComps(){
   app.router.navigate("/imp-comps/");
 }
+
 $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
   checkConnection();
   chkStatusAndPwd();
-  app.preloader.show();  
+  //app.preloader.show();  
   var sess_u_id = window.localStorage.getItem("session_u_id");  
   if(sess_u_id==null){
     // ADMIN //
@@ -428,8 +429,7 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
     // USER //
     var data = {'session_u_id':sess_u_id}  
   }
-
-  var imp_comp_url = base_url+'app_controller/AllImpComps';
+  var imp_comp_url = base_url+'app_controller/AllImpComps';  
   $.ajax({
     'type':'POST', 
     'url':imp_comp_url, 
@@ -451,6 +451,7 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
         var is_impt = json_comp_imp[j].is_impt;
         var ref_name = json_comp_imp[j].ref_name;
         var onemonth_added_dt = json_comp_imp[j].onemonth_added_dt;
+        var isclosed = json_comp_imp[j].is_closed;
           var today = new Date();
           var month = today.getMonth()+1;
           var day = today.getDate();
@@ -465,11 +466,9 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
           }else{
             var dd = day;
           }
-
           var date = today.getFullYear()+'-'+(mm)+'-'+dd;
           var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-          var todaydateTime = date+' '+time;
-       
+          var todaydateTime = date+' '+time;       
         
         if(status=='Assigned'){
           if(todaydateTime > onemonth_added_dt){
@@ -508,13 +507,121 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
         }else{
           var notseen="";
         }
-        comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
+        if(isclosed==0){ // closed //
+          var lock = '<i class="fa fa-lock text-red fs-12"></i>';
+        }else if(isclosed==1){ // not closed / in process //
+          var lock = '<i class="fa fa-unlock-alt text-red fs-12"></i>';
+        }
+        comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
         $("#important-comps").html(comps_imp);         
         app.preloader.hide();              
       }          
     }       
-  });
-  
+  });  
+});
+
+function ClosedComps(){
+  app.router.navigate("/closed-comps/");
+}
+
+$$(document).on('page:init', '.page[data-name="closed-comps"]', function (e) {
+  checkConnection();
+  chkStatusAndPwd();
+  app.preloader.show();  
+  var sess_u_id = window.localStorage.getItem("session_u_id");  
+  if(sess_u_id==null){ // ADMIN //    
+    var data = {'session_u_id':'NULL'}     
+  }else{ // USER //    
+    var data = {'session_u_id':sess_u_id}  
+  }
+  var closed_comp_url = base_url+'app_controller/AllclosedComps';
+  $.ajax({
+    'type':'POST', 
+    'url':closed_comp_url, 
+    'data':data,     
+    success:function(data){ 
+      app.preloader.show(); 
+      var imp_comp_url_json = $.parseJSON(data);
+      var json_comp_closed = imp_comp_url_json.all_closedcomps;
+      var comps_imp = '';              
+      for(var j=0;j<json_comp_closed.length;j++){                               
+        var lightred='';        
+        var status=json_comp_closed[j].statustype;
+        var comp_no=json_comp_closed[j].comp_no;
+        var is_seen_byuser=json_comp_closed[j].is_seen_byuser;
+        var complain = json_comp_closed[j].complain;
+        var comp_adddate = json_comp_closed[j].comp_adddate;
+        var is_impt = json_comp_closed[j].is_impt;
+        var ref_name = json_comp_closed[j].ref_name;
+        var onemonth_added_dt = json_comp_closed[j].onemonth_added_dt;
+        var isclosed = json_comp_closed[j].is_closed;
+          var today = new Date();
+          var month = today.getMonth()+1;
+          var day = today.getDate();
+          if(month>=9){
+            var mm = "0"+month;
+          }else{
+            var mm = month;
+          } 
+
+          if(day>=9){
+            var dd = "0"+day;
+          }else{
+            var dd = day;
+          }
+          var date = today.getFullYear()+'-'+(mm)+'-'+dd;
+          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+          var todaydateTime = date+' '+time;       
+        
+        if(status=='Assigned'){
+          if(todaydateTime > onemonth_added_dt){
+              var badge_color = "color-red";
+            }else{
+              var badge_color = "color-custom";
+            }          
+          var imp_triangle = '';
+        }else if(status=='Executed'){
+          var badge_color = "color-executed";
+          var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
+        }else if(status=='In progress'){
+          var badge_color = "color-progress";
+          var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
+        }else if(status=='Completed'){
+          var badge_color = "color-complete";
+          var notseen="";
+          //var imp_img='';
+          var imp_triangle = '';
+        }
+        if(is_impt==1){
+          lightred='notseen';
+          var ref_by = '<em><span class="float-left fw-700 text-blue">Ref : [ '+ref_name+' ] </span></em>';
+          var imp_triangle = '<div id="triangle-topleft"><span class="impfont fw-700">IMP</span></div>';
+        }else{
+          lightred="";
+          var ref_by = '';
+          var imp_triangle = '';
+        }
+        if(is_seen_byuser==0){ 
+          var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+        }else{
+          var notseen="";
+        } 
+
+        if(isclosed==0){ // closed //
+          var lock = '<i class="fa fa-lock text-red fs-12"></i>';
+        }else if(isclosed==1){ // not closed / in process //
+          var lock = '<i class="fa fa-unlock-alt text-red fs-12"></i>';
+        }
+        comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span><span class="ml-5p">બંધ : '+lock+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
+        $("#important-comps").html(comps_imp);         
+        app.preloader.hide();              
+      }          
+    }       
+  });  
 });
 $$(document).on('page:init', '.page[data-name="statusComp"]', function (e) {
   checkConnection();
@@ -545,32 +652,26 @@ function getStatusWiseComps(statusid,status_type){
   window.localStorage.setItem("dashboard_clicked_stid",statusid);
   window.localStorage.setItem("dashboard_clicked_sttype",status_type);
   checkConnection();  
-  app.router.navigate("/statusComp/");   
-  
+  app.router.navigate("/statusComp/");  
   
   var sess_u_id = window.localStorage.getItem("session_u_id");
   var url=base_url+'app_controller/complinsByStatus';  
   //var statusurl = base_url+"app_controller/assignedId";
-  if(sess_u_id==null){
-    // ADMIN // 
+  if(sess_u_id==null){ // ADMIN //     
     var data = {'session_u_id':'NULL','statusid':statusid}   
-  }else{
-    // USER //
+  }else{ // USER //    
     var data = {'session_u_id':sess_u_id,'statusid':statusid}
   } 
   
   app.preloader.show();
   $.ajax({
     'type':'POST',
-    'url': url, 
-    //'data':{'session_u_id':sess_u_id,'statusid':statusid},
+    'url': url,     
     'data': data,
     success:function(data){
       var json_comps = $.parseJSON(data);
-      var json_compres = json_comps.complaintByStatus;
-     // console.log(json_compres);
-      var comaplintStatusdata=''; 
-      
+      var json_compres = json_comps.complaintByStatus; // console.log(json_compres);     
+      var comaplintStatusdata='';       
       if(json_compres.length!=0){
         for(var j=0;j<json_compres.length;j++){
           var lightred='';
@@ -583,6 +684,7 @@ function getStatusWiseComps(statusid,status_type){
           var is_impt = json_compres[j].is_impt;
           var ref_name = json_compres[j].ref_name;
           var onemonth_added_dt = json_compres[j].onemonth_added_dt;
+          var isclosed = json_compres[j].is_closed;
           var today = new Date();
           var month = today.getMonth()+1;
           var day = today.getDate();
@@ -591,19 +693,15 @@ function getStatusWiseComps(statusid,status_type){
           }else{
             var mm = month;
           }
-
           if(day>=9){
             var dd = "0"+day;
           }else{
             var dd = day;
           }
-
           var date = today.getFullYear()+'-'+(mm)+'-'+dd;
           var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-          var todaydateTime = date+' '+time;
-          
+          var todaydateTime = date+' '+time;          
           if(status_type=='Assigned'){
-            //alert(onemonth_added_dt+"----onemonth_added_dt----"+todaydateTime);
             if(todaydateTime > onemonth_added_dt){
               var badge_color = "color-red";
             }else{
@@ -642,7 +740,12 @@ function getStatusWiseComps(statusid,status_type){
           }else{
             var notseen="";
           }
-          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
+          if(isclosed==0){ // closed //
+            var lock = '<i class="fa fa-lock text-red fs-12"></i>';
+          }else if(isclosed==1){ // not closed / in process // 
+            var lock = '<i class="fa fa-unlock-alt text-red fs-12"></i>';
+          }
+          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
 
             
             //$('#complaintsbyStatus').html(comaplintStatusdata);
@@ -715,6 +818,8 @@ function complaintsPage(){
         var is_impt = json_res[j].is_impt;
         var ref_name = json_res[j].ref_name;
         var onemonth_added_dt = json_res[j].onemonth_added_dt;
+        var isclosed = json_res[j].is_closed;
+        //console.log(isclosed);
         var today = new Date();
         var month = today.getMonth()+1;
         var day = today.getDate();
@@ -777,8 +882,12 @@ function complaintsPage(){
         }else{
           var notseen="";
         }
-
-        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>'; 
+        if(isclosed==0){ // closed //
+          var lock = '<i class="fa fa-lock text-red fs-12"></i>';
+        }else if(isclosed==1){ // not closed / in process //
+          var lock = '<i class="fa fa-unlock-alt text-red fs-12"></i>';
+        }
+        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'<i class="f7-icons ios-only">home</i><i class="material-icons ios-only">home</i></span>'+imp_triangle+'</td></tr><br>'; 
         $('#complaints').html(comaplintdata);   
          app.preloader.hide(); 
       }
@@ -813,9 +922,7 @@ function comp_det_page(comp_no){
       var json_res = json.complaint_data[0];
       //console.log(json_res+"*****");
       var showcomaplintdata=''; 
-
-      var comp_id = json.complaint_data[0].comp_id;
-      
+      var comp_id = json.complaint_data[0].comp_id;      
       var complaint_no = json.complaint_data[0].comp_no;
       var complain = json.complaint_data[0].complain;
       var d_name = json.complaint_data[0].d_name;
@@ -828,6 +935,7 @@ function comp_det_page(comp_no){
       var is_impt = json.complaint_data[0].is_impt;
       var ref_name = json.complaint_data[0].ref_name;
       var onemonth_added_dt = json.complaint_data[0].onemonth_added_dt;
+      var is_closed = json.complaint_data[0].is_closed;
         var today = new Date();
         var month = today.getMonth()+1;
         var day = today.getDate();
@@ -845,20 +953,7 @@ function comp_det_page(comp_no){
         var date = today.getFullYear()+'-'+(mm)+'-'+dd;
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var todaydateTime = date+' '+time;
-       // alert(complain+"-----"+comp_adddate); 
-        
-        //var last_status_id = json_res[j].last_status_id;
-        //var last_statustype = json_res[j].last_statustype;
-        //var comp_status;
-        //alert(status+"---"+comp_no+"---"+last_statustype+"---"+last_status_id);
-        /*if(last_status_id!=null){
-          var comp_status = last_statustype;
-        }else{
-          var comp_status = status;
-        } */
-        
-        
-      //alert(is_impt);
+       
       if(is_impt==1){
         
         var refre = '<tr><td class="label-cell" id="ref_by_lbl">Reference By</td><td class="numeric-cell">'+ref_name+'</td></tr>';
@@ -914,21 +1009,6 @@ function comp_det_page(comp_no){
       }
 
       var statustype = json.complaint_data[0].statustype;
-      //var file_type = json.complaint_data[0].file_type;
-      //var file_path = json.complaint_data[0].file_path;
-      //var last_status_id = json.complaint_data[0].last_status_id;
-      //var last_statustype = json.complaint_data[0].last_statustype;
-
-      //var comp_status;
-      //alert(status+"---"+comp_no+"---"+last_statustype+"---"+last_status_id);
-      /*if(last_status_id!=null){
-        var comp_status = last_statustype;
-      }else{
-        var comp_status = statustype;
-      } */
-
-      //var attach_image = '<img src="'+base_url+file_path+'" width="280" height="200"/>';
-
       if(statustype=='Assigned'){
         //var badge_color = "color-custom";
         if(todaydateTime > onemonth_added_dt){
@@ -942,10 +1022,15 @@ function comp_det_page(comp_no){
         var badge_color = "color-progress";
       }else if(statustype=='Completed'){
         var badge_color = "color-complete";
-      }      
-      
-      //$(".totalattacehs").html("("+json_attach.length+")"); 
-      showcomaplintdata='<div class="card data-table"><table><tbody><tr><td class="label-cell">Complain</td><td class="numeric-cell">'+complain+'</td></tr><tr><td class="label-cell">Department</td><td class="numeric-cell">'+d_name+'</td></tr><tr><td class="label-cell">Handled By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Mobile</td><td class="numeric-cell">'+u_mo+'<span class="col button color-green button-small outline-green button-outline float-right ml-5p" onclick="call_handler('+"'"+u_mo+"'"+')"><span ><i class="fa fa-phone color-green"></i></span></span></td></tr>'+refre+'<tr><td class="label-cell">Remarks</td><td class="numeric-cell">'+remarks+'</td></tr><tr><td class="label-cell">Complain Added By</td><td class="numeric-cell">'+add_byfname+'</td></tr><tr><td class="label-cell">Complain Date</td><td class="numeric-cell">'+comp_adddate+'</td></tr><tr><td class="label-cell">Admin Last Edit On</td><td class="numeric-cell">'+last_editbyadmin_dt+'</td></tr><tr><td class="label-cell">Last Edit On</td><td class="numeric-cell">'+last_editbyuser_dt+'</td></tr><tr><td class="label-cell">Response By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Response Date</td><td class="numeric-cell">'+comp_respdatetime_dt+'</td></tr><tr><td class="label-cell">Response Status</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+statustype+'</span></td></tr></tbody></table><div class="list"><ul><form name="user_form" id="user_form" class="mb-15p"><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_uid" id="hidd_uid" value="'+u_id+'" /><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_compno" id="hidd_compno" value="'+complaint_no+'" /><div class="item-title item-label newlbl "></div><li class="item-content item-input show-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input show-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16" id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><div class="col button button-small button-round button-outline outline-dangerbtn mb-15p"><i class="fa fa-trash"></i></div></span><span class="grey-text float-right" onclick="editLastRem()"><div class="col button button-small button-round button-outline outline-orangebtn mb-15p"><i class="fa fa-pencil"></i></div></span></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16 id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><i class="fa fa-trash"></i></span><span class="grey-text float-right" onclick="editLastRem()"><i class="fa fa-pencil"></i></span></div></div></li></ul></div></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><label class="md-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2" id="user_remarks"></textarea></div></div></li><li class="item-content item-input mb-2"><div class="item-inner"><div class="item-input-wrap"><label class="ios-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2 ios-only" id="user_remarks"></textarea></div></div></li><li class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><select name="user_status" id="status_sel" class="grey-border fs-14 p-1"></select></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input ios-only mt-2p"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input showtwoBlocks display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-100 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><span onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><li class="item-content item-input showtwoBlocks display-none ios-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-35 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><a onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><!--br><button onclick="getPhoto(pictureSource.PHOTOLIBRARY);" class="mb-15p">From Photo Library</button><br--><li class="item-content item-input imageblock"><div class="item-inner"><div class="item-input-wrap"><img id="image" src="" style="display:none;width:100%;"></div></div></li><li class="item-content item-input upldbtnDiv " style="display:none;width:100%;" id="upldbtnDiv"><div class="item-inner"><div class="item-input-wrap"><button onclick="upload();" type="button" class="col button button-fill color-gray " id="upldbtn" >Upload</button></div></div></li><li class="item-content item-input md-only"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li><li class="item-content item-input ios-only"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-big button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li></div></div></form></ul></div></div>';     
+      }       
+      if(is_closed==0){
+        var show_cls = "display-none";
+        var closed_seal = '<center><img src="img/closed-seal.png" height="120" width="150" /></center>';
+      }else if(is_closed==1){
+        var show_cls = "display-block";
+        var closed_seal = '';
+      }
+      showcomaplintdata='<div class="card data-table"><table><tbody><tr><td class="label-cell">Complain</td><td class="numeric-cell">'+complain+'</td></tr><tr><td class="label-cell">Department</td><td class="numeric-cell">'+d_name+'</td></tr><tr><td class="label-cell">Handled By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Mobile</td><td class="numeric-cell">'+u_mo+'<span class="col button color-green button-small outline-green button-outline float-right ml-5p" onclick="call_handler('+"'"+u_mo+"'"+')"><span ><i class="fa fa-phone color-green"></i></span></span></td></tr>'+refre+'<tr><td class="label-cell">Remarks</td><td class="numeric-cell">'+remarks+'</td></tr><tr><td class="label-cell">Complain Added By</td><td class="numeric-cell">'+add_byfname+'</td></tr><tr><td class="label-cell">Complain Date</td><td class="numeric-cell">'+comp_adddate+'</td></tr><tr><td class="label-cell">Admin Last Edit On</td><td class="numeric-cell">'+last_editbyadmin_dt+'</td></tr><tr><td class="label-cell">Last Edit On</td><td class="numeric-cell">'+last_editbyuser_dt+'</td></tr><tr><td class="label-cell">Response By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Response Date</td><td class="numeric-cell">'+comp_respdatetime_dt+'</td></tr><tr><td class="label-cell">Response Status</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+statustype+'</span></td></tr></tbody></table><div class="list"><ul><form name="user_form" id="user_form" class="mb-15p"><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_uid" id="hidd_uid" value="'+u_id+'" /><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_compno" id="hidd_compno" value="'+complaint_no+'" /><div class="item-title item-label newlbl "></div><li class="item-content item-input show-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input show-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16 '+show_cls+'" id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><div class="col button button-small button-round button-outline outline-dangerbtn mb-15p"><i class="fa fa-trash"></i></div></span><span class="grey-text float-right" onclick="editLastRem()"><div class="col button button-small button-round button-outline outline-orangebtn mb-15p"><i class="fa fa-pencil"></i></div></span></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16 '+show_cls+'" id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><i class="fa fa-trash"></i></span><span class="grey-text float-right" onclick="editLastRem()"><i class="fa fa-pencil"></i></span></div></div></li></ul></div></div></div></li><li class="item-content item-input md-only '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><label class="md-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2" id="user_remarks"></textarea></div></div></li><li class="item-content item-input mb-2 '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><label class="ios-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2 ios-only" id="user_remarks"></textarea></div></div></li><li class="item-content item-input '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><select name="user_status" id="status_sel" class="grey-border fs-14 p-1"></select></div></div></li><li class="item-content item-input md-only '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input ios-only mt-2p '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input showtwoBlocks display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-100 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><span onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><li class="item-content item-input showtwoBlocks display-none ios-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-35 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><a onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><!--br><button onclick="getPhoto(pictureSource.PHOTOLIBRARY);" class="mb-15p">From Photo Library</button><br--><li class="item-content item-input imageblock"><div class="item-inner"><div class="item-input-wrap"><img id="image" src="" style="display:none;width:100%;"></div></div></li><li class="item-content item-input upldbtnDiv " style="display:none;width:100%;" id="upldbtnDiv"><div class="item-inner"><div class="item-input-wrap"><button onclick="upload();" type="button" class="col button button-fill color-gray " id="upldbtn" >Upload</button></div></div></li><li class="item-content item-input md-only '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li><li class="item-content item-input ios-only '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-big button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li>'+closed_seal+'</div></div></form></ul></div></div>';     
 
         $.ajax({
           'type':'GET',
@@ -1064,12 +1149,12 @@ function comp_det_page(comp_no){
                 $(".attachuser_collapse").html(alluser_attached);              
               }    
             }      
-          }       
+          }        
         });
         //alert(is_impt);
         if(is_impt==1){
           $("#imp_img").removeClass("display-none");
-          $("#imp_img").html('<img src="img/important-red-stamp.png" height="35" width="40" class="blink-image m-t-20p">');
+          $("#imp_img").html('<img src="img/important-red-stamp.png" height="35" width="40" class="m-t-20p">'); 
         }
         $("#comp_no").html(complaint_no);
         $("#complaint_detail").html(showcomaplintdata);

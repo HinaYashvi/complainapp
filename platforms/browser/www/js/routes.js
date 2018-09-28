@@ -49,6 +49,10 @@ var routes = [
     path:'/imp-comps/',
     url: './imp-comps.html',
   },
+  { 
+    path:'/closed-comps/',
+    url: './closed-comps.html',
+  },
   {
     path:'/change_pwd/',
     url: './change_pwd.html',

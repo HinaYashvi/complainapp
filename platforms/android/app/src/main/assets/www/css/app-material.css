@@ -70,6 +70,7 @@ body{
 .footer-bg,.header-bg{
 	background: rgba(229, 229, 229, 0.3) none repeat scroll 0 0!important;
 }
+
 .panelleft{
     background-color: #2D313A!important;
     color: #FFB842!important;
@@ -137,6 +138,12 @@ body{
     border: 1px dashed #f44336;
     background-color: #fde1e1!important;
     color: #f44336;
+    font-weight: 700;
+}
+.block-closed{
+    border: 1px dashed #FFC107;
+    background-color: #ffefbd!important;
+    color: #FFC107;
     font-weight: 700;
 }
 .fw-700{

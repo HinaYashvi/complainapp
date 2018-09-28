@@ -51,13 +51,24 @@
   	<div class="block mb-20p">
   		<div class="row" id="dashboard-boxes"></div>
   	</div>
-
+    <div class="block">
+      <div class="border-top"></div>
+    </div>
     <div class="block mb-20p">
       <div class="row" id="impblock">
-        <div class="md-only col-100 card-content card-content-padding text-uppercase block-imp float-left mb-15p" onclick="ImportantComps()">
-          <span class="fs-14">important</span>
-          <p id="imp_counts" class="fs-2em float-right"></p>
+        <!--div class="md-only col-100 card-content card-content-padding text-uppercase block-imp float-left mb-15p" onclick="ImportantComps()"-->
+        <div class="md-only col-50 card-content card-content-padding dashboard-blocks block-imp mb-15p" onclick="ImportantComps()">  
+          <span class="fs-14">Important</span>
+          <p id="imp_counts" class="fs-2em"></p>
         </div>
+
+
+        <!--div class="md-only col-50 card-content card-content-padding dashboard-blocks block-closed mb-15p" onclick="ClosedComps()"-->
+        <div class="md-only col-50 card-content card-content-padding dashboard-blocks block-imp mb-15p" onclick="ClosedComps()">
+          <span class="fs-14">Closed</span>
+          <p id="closed_counts" class="fs-2em"></p>
+        </div>
+
       </div>      
     </div>
 
