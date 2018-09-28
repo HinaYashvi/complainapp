@@ -57,4 +57,7 @@
     <plugin name="cordova-plugin-file" spec="~5.0.0" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.2" />
     <plugin name="cordova-plugin-file-transfer" spec="~1.5.0" />
+
+    <preference name='phonegap-version' value='cli-6.5.0' />
+    <preference name='pgb-builder-version' value='2' />
 </widget>
