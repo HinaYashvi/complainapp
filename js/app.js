@@ -301,7 +301,14 @@ function checklogin(){
 //*************************************************************************************************** //
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
   checkConnection();  
-  app.panel.disableSwipe('left');
+ // app.panel.disableSwipe('left');
+  var page = e.detail;
+  if(page.name=='index'){
+    alert("page.name="+page.name);
+    app.panel.disableSwipe('left');
+  }
+  //app.panel.close();
+  //app.panel.destroy();
   var url = base_url+"app_controller/getAppCity";
   $.ajax({
     'url': url, 
