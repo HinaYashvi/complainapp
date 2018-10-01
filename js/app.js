@@ -301,6 +301,7 @@ function checklogin(){
 //*************************************************************************************************** //
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
   checkConnection();  
+  var page = e.detail;
   var url = base_url+"app_controller/getAppCity";
   $.ajax({
     'url': url, 
@@ -308,7 +309,10 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
       $("#district").html(data);      
     }
   });
-  panel.close();
+  if(page.name=="index"){
+    panel.destroy();
+    panel.close();
+  }
 });
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {  
@@ -1913,9 +1917,7 @@ function logOut(){
   //$(".panel").css("display","none");
   //$(".panel-backdrop").css("display","none");    
   app.router.navigate('/');  
-  $$('.panel-left').on('close', function () {
-     panel.close();
-  });
+  panel.destroy();
   
 }
 // ******************************************************************************************************* //
