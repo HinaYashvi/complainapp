@@ -1913,8 +1913,9 @@ function logOut(){
   //$(".panelleft").removeClass("panel-active");
   //$(".panel").css("display","none");
   //$(".panel-backdrop").css("display","none");    
-  app.router.navigate('/');  
-  panel.destroy();
+  app.router.navigate('/');
+  app.panel.close();
+  app.panel.destroy();
   
 }
 // ******************************************************************************************************* //
