@@ -1908,9 +1908,9 @@ function logOut(){
   window.localStorage.removeItem("dashboard_clicked_stid");
   window.localStorage.removeItem("dashboard_clicked_sttype");
   window.localStorage.removeItem("session_unm");
-  $(".panelleft").removeClass("panel-active");
-  $(".panel").css("display","none");
-  $(".panel-backdrop").css("display","none");
+  //$(".panelleft").removeClass("panel-active");
+  //$(".panel").css("display","none");
+  //$(".panel-backdrop").css("display","none");
   app.router.navigate('/');  
 }
 // ******************************************************************************************************* //
