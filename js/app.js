@@ -1911,7 +1911,7 @@ function logOut(){
   //$(".panelleft").removeClass("panel-active");
   //$(".panel").css("display","none");
   //$(".panel-backdrop").css("display","none");
-  panel.destroy();
+  
   app.router.navigate('/');  
 }
 // ******************************************************************************************************* //
