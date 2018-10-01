@@ -20,12 +20,6 @@
         <preference name="ShowSplashScreenSpinner" value="false" />
         <splash src="splash.png" />
     </platform>
-    <platform name="ios">
-        <preference name="SplashScreen" value="screen" />
-        <preference name="SplashScreenDelay" value="7000" />
-        <preference name="ShowSplashScreenSpinner" value="false" />
-        <splash src="splash.png" />
-    </platform>
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
