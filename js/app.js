@@ -301,7 +301,7 @@ function checklogin(){
 //*************************************************************************************************** //
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
   checkConnection();  
-  var page = e.detail;
+  app.panel.disableSwipe('left');
   var url = base_url+"app_controller/getAppCity";
   $.ajax({
     'url': url, 
@@ -309,13 +309,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
       $("#district").html(data);      
     }
   });
-  if(page.name=="index"){
-    $(".panelleft").removeClass("panel-active");
-    $(".panel").css("display","none");
-    $(".panel-backdrop").css("display","none"); 
-    panel.destroy();
-    panel.close();
-  }
+  
 });
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {  
