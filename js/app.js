@@ -301,6 +301,7 @@ function checklogin(){
 //*************************************************************************************************** //
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
   checkConnection();
+  panel.close();
   var url = base_url+"app_controller/getAppCity";
   $.ajax({
     'url': url, 
