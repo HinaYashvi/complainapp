@@ -1910,8 +1910,8 @@ function logOut(){
   window.localStorage.removeItem("session_unm");
   //$(".panelleft").removeClass("panel-active");
   //$(".panel").css("display","none");
-  //$(".panel-backdrop").css("display","none");
-  panel.close();
+  //$(".panel-backdrop").css("display","none");  
   app.router.navigate('/');  
+  panel.close();
 }
 // ******************************************************************************************************* //
