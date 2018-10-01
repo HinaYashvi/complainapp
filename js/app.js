@@ -300,8 +300,7 @@ function checklogin(){
 }  
 //*************************************************************************************************** //
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
-  checkConnection();
-  panel.close();
+  checkConnection();  
   var url = base_url+"app_controller/getAppCity";
   $.ajax({
     'url': url, 
@@ -309,6 +308,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
       $("#district").html(data);      
     }
   });
+  panel.close();
 });
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {  
