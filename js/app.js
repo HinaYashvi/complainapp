@@ -73,8 +73,8 @@ document.addEventListener("deviceready", checkStorage, false);
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("backbutton", onBackKeyDown, false);
 
-var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
-//var base_url = 'http://yourcollectorand.in/';   // LIVE SERVER // 
+//var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
+var base_url = 'http://yourcollectorand.in/';   // LIVE SERVER // 
 
 function onBackKeyDown() {
   if(app.views.main.router.history.length==2 || app.views.main.router.url=='/'){
@@ -310,6 +310,9 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
     }
   });
   if(page.name=="index"){
+    $(".panelleft").removeClass("panel-active");
+    $(".panel").css("display","none");
+    $(".panel-backdrop").css("display","none"); 
     panel.destroy();
     panel.close();
   }
