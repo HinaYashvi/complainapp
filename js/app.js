@@ -323,10 +323,7 @@ $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {
   app.preloader.hide();
 });
 function dashboardPage(){
-  checkConnection();
-  $(".panelleft").removeClass("panel-active");
-  $(".panel").css("display","none");
-  $(".panel-backdrop").css("display","none");
+  checkConnection();  
   var sess_u_id = window.localStorage.getItem("session_u_id");
   var sess_u_type = window.localStorage.getItem("session_u_type");
   var session_admin_u_id = window.localStorage.getItem("session_admin_u_id");
@@ -1911,9 +1908,10 @@ function logOut(){
   window.localStorage.removeItem("dashboard_clicked_stid");
   window.localStorage.removeItem("dashboard_clicked_sttype");
   window.localStorage.removeItem("session_unm");
-  $(".panelleft").removeClass("panel-active");
-  $(".panel").css("display","none");
-  $(".panel-backdrop").css("display","none");
+  //$(".panelleft").removeClass("panel-active");
+  //$(".panel").css("display","none");
+  //$(".panel-backdrop").css("display","none");
+  panel.destroy();
   app.router.navigate('/');  
 }
 // ******************************************************************************************************* //
