@@ -312,7 +312,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
   });  
   if(page.name=='index'){
     panel: {
-      swipe: 'disable', // Enable swipe panel
+      swipe: 'disabled' 
     }
     //alert("page.name="+page.name);
     //app.panel.disableSwipe = 'left';
