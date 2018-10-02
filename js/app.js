@@ -322,7 +322,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
 });
 function indexPage(){
   alert("called");
-  app.params.swipePanel = undefined; //to disable
+  app.panel.destroy();
 }
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {  
