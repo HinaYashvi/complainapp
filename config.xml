@@ -2,7 +2,7 @@
 <widget id="com.phonegap.yourcollector" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Your Collector</name>
     <description>
-        This is complain manager app in which authorized person can add the complains of people and assigned that complains to relavant pserson to handle it and collector can see the progress/status of that complains.
+        This is complain manager app in which authorized person can add the complains of people and assigned that complains to relavant person to handle it and collector can see the progress/status of that complains.
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         Star One Web
