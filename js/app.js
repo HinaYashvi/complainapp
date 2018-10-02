@@ -311,14 +311,19 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
     }
   });  
   if(page.name=='index'){
+    indexPage();
     //alert("page.name="+page.name);
     //app.panel.disableSwipe = 'left';
-    app.params.swipePanel = undefined; //to disable
+    
     //app.panel.disableSwipe('left');  
    // app.panel.disableSwipe('open');
     //app.panel.destroy();
   }  
 });
+function indexPage(){
+  alert("called");
+  app.params.swipePanel = undefined; //to disable
+}
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {  
   //console.log(app.views.main.router);
