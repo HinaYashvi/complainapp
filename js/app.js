@@ -311,7 +311,9 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
     }
   });  
   if(page.name=='index'){
-    app.params.swipePanel = false;
+    panel: {
+      swipe: 'disable', // Enable swipe panel
+    }
     //alert("page.name="+page.name);
     //app.panel.disableSwipe = 'left';
     
