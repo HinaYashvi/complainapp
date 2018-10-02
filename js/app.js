@@ -301,26 +301,23 @@ function checklogin(){
 //*************************************************************************************************** //
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
   checkConnection();  
-  //app.panel.disableSwipe('left');
-  app.params.swipePanel = undefined; //to disable
-  //var page = e.detail;
-  
-  
+  //app.panel.disableSwipe('left'); 
+  var page = e.detail; 
   var url = base_url+"app_controller/getAppCity";
   $.ajax({
     'url': url, 
     success:function(data){       
       $("#district").html(data);      
     }
-  });
-  
- /* if(page.name=='index'){
-    //alert("page.name="+page.name);
+  });  
+  if(page.name=='index'){
+    alert("page.name="+page.name);
+    app.panel.disableSwipe = 'left';
+    //app.params.swipePanel = undefined; //to disable
     //app.panel.disableSwipe('left');  
    // app.panel.disableSwipe('open');
-    app.panel.destroy();
-  }*/
-  
+    //app.panel.destroy();
+  }  
 });
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {  
