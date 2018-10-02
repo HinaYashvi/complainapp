@@ -302,7 +302,7 @@ function checklogin(){
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
   checkConnection();  
   //app.panel.disableSwipe('left');
-  //app.params.swipePanel = undefined; //to disable
+  app.params.swipePanel = undefined; //to disable
   //var page = e.detail;
   
   
