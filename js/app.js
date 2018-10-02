@@ -301,7 +301,7 @@ function checklogin(){
 //*************************************************************************************************** //
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
   checkConnection();  
- // app.panel.disableSwipe('left');
+  app.panel.disableSwipe='left';
   var page = e.detail;
   
   
@@ -313,12 +313,12 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
     }
   });
   
-  if(page.name=='index'){
+ /* if(page.name=='index'){
     //alert("page.name="+page.name);
     //app.panel.disableSwipe('left');  
    // app.panel.disableSwipe('open');
     app.panel.destroy();
-  }
+  }*/
   
 });
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
