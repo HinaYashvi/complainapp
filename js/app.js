@@ -311,7 +311,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
     }
   });  
   if(page.name=='index'){
-    indexPage();
+    app.params.swipePanel = false;
     //alert("page.name="+page.name);
     //app.panel.disableSwipe = 'left';
     
@@ -320,10 +320,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
     //app.panel.destroy();
   }  
 });
-function indexPage(){
-  alert("called");
-  app.panel.destroy();
-}
+
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
 $$(document).on('page:init', '.page[data-name="dashboard"]', function (e) {  
   //console.log(app.views.main.router);
