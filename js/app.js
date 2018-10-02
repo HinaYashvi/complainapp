@@ -7,7 +7,9 @@ var app = new Framework7({
   name: 'Your Collector',// App Name
   id: 'com.phonegap.yourcollector',       // App id
   panel: {
-    swipe: 'left', // Enable swipe panel
+    //swipe: 'left', // Enable swipe panel
+    closeByBackdropClick : true,
+    
   },  
   //theme:'material',
   //material: true, //enable Material theme
@@ -300,27 +302,14 @@ function checklogin(){
 }  
 //*************************************************************************************************** //
 $$(document).on('page:init', '.page[data-name="index"]', function (e) { 
-  checkConnection();  
-  //app.panel.disableSwipe('left'); 
-  var page = e.detail; 
+  checkConnection(); 
   var url = base_url+"app_controller/getAppCity";
   $.ajax({
     'url': url, 
     success:function(data){       
       $("#district").html(data);      
     }
-  });  
-  if(page.name=='index'){
-    panel: {
-      swipe: 'disabled' 
-    }
-    //alert("page.name="+page.name);
-    //app.panel.disableSwipe = 'left';
-    
-    //app.panel.disableSwipe('left');  
-   // app.panel.disableSwipe('open');
-    //app.panel.destroy();
-  }  
+  }); 
 });
 
 // ----------------------------------------- D A S H B O A R D -------------------------------------- //
