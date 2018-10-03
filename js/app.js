@@ -1374,6 +1374,7 @@ function downloaddoc(fullpath,folder_path){
           //alert("Success!");
           //alert(entry.fullPath);
           alert("download toURL: " + entry.toURL());
+      alert("toInternalURL ::: " + entry.toInternalURL());
       }, 
       function(err) {
           console.log("Error");
