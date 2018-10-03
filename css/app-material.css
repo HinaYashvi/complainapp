@@ -404,6 +404,9 @@ color: #f99104!important;
 .text-green{
 	color:#81C868!important;
 }
+.fs-15{
+	font-size:15px!important;
+}
 /* ---------------------- ROTATE STAR -------------------- */
 .gly-spin {
       -webkit-animation: spin 5s infinite linear;
