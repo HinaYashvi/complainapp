@@ -11,6 +11,7 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="16" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
     <preference name="orientation" value="portrait" />
     
     <icon src="icon.png" />
@@ -46,7 +47,7 @@
     <plugin name="cordova-plugin-media" spec="~2.2.0" />
     <plugin name="cordova-plugin-file" spec="~5.0.0" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.2" />
-    <plugin name="cordova-plugin-file-transfer" spec="~1.5.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.5.0" />    
     
     <preference name='phonegap-version' value='cli-6.5.0' />
     <preference name='pgb-builder-version' value='2' />
