@@ -1322,28 +1322,28 @@ function showUploadbtn(){
   $("#upldbtn").addClass("display-block"); 
 }
 function downloaddoc(fullpath,folder_path){
-  alert(device.platform);
+ // alert(device.platform);
   if(device.platform == "Android"){
-     alert("in Android");
+     //alert("in Android");
     var assetURL = fullpath;
     //var store = cordova.file.externalRootDirectory+"Download/"; // output in android: file:///storage/emulated/0/
     var store = cordova.file.dataDirectory; // or //var store = "cdvfile://localhost/persistent/";
-    alert(store);
-    alert(assetURL);
+   // alert(store);
+   // alert(assetURL);
     var fileName = folder_path;
     var fileTransfer = new FileTransfer();
     fileTransfer.download(assetURL, store + fileName, 
       function(entry) {
           console.log("Success!");
-          alert("Success!");
-          alert(entry.fullPath);
+          //alert("Success!");
+          //alert(entry.fullPath);
           alert("download toURL: " + entry.toURL());
       }, 
       function(err) {
           console.log("Error");
           console.dir(err);
-          alert("Some error");
-          alert(err.code);
+          //alert("Some error");
+          //alert(err.code);
       });
 
       /*fileTransfer.onprogress = function(result){
@@ -1356,15 +1356,15 @@ function downloaddoc(fullpath,folder_path){
       var percent = 0;
       var dialog = app.dialog.progress('Downloading...', percent);      
       fileTransfer.onprogress = function(result){
-        alert("filetransfer");
+        //alert("filetransfer");
         var percent =  result.loaded / result.total * 100;
         percent = Math.round(percent);
-        alert(percent);
+        //alert(percent);
         dialog.setText('Downloaded : '+percent+' %');
         dialog.setProgress(percent);
         //alert(percent);
         if (percent == 100) {
-          alert("100% done");
+          //alert("100% done");
           //clearInterval(interval);
           //app.dialog.close();
           dialog.close();
@@ -1372,7 +1372,7 @@ function downloaddoc(fullpath,folder_path){
         }
       }
     }else if(device.platform == 'iOS'){
-      alert("in iOS");
+      //alert("in iOS");
       var fileName = folder_path;
      // alert(fileName);
       window.requestFileSystem(  
