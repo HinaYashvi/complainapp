@@ -1343,7 +1343,7 @@ function downloaddoc(fullpath,folder_path){
           console.log("Error");
           console.dir(err);
           alert("Some error");
-          alert(err);
+          alert(err.code);
       });
 
       /*fileTransfer.onprogress = function(result){
