@@ -1327,10 +1327,10 @@ function downloaddoc(fullpath,folder_path){
      //alert("in Android");
     var assetURL = fullpath;
     //var store = cordova.file.externalRootDirectory+"Download/"; // output in android: file:///storage/emulated/0/
-    var store = cordova.file.dataDirectory; // or //var store = "cdvfile://localhost/persistent/";
+    var store = cordova.file.dataDirectory+"Download"; // or //var store = "cdvfile://localhost/persistent/";
     //var store = cordova.file.documentsDirectory;
     
-    var store1 = cordova.file.applicationStorageDirectory;
+    /*var store1 = cordova.file.applicationStorageDirectory;
     var store2 = cordova.file.dataDirectory;
     var store3 = cordova.file.externalDataDirectory;
     var store4 = cordova.file.cacheDirectory;
@@ -1345,10 +1345,6 @@ function downloaddoc(fullpath,folder_path){
     var store11 = cordova.file.documentsDirectory;
     var store12 = cordova.file.sharedDirectory;
     var store13 = cordova.file.applicationDirectory;
-    
-    
-    
-    alert(store);
     alert("store1---"+store1);
     alert("store2---"+store2);
     alert("store3---"+store3);
@@ -1361,7 +1357,13 @@ function downloaddoc(fullpath,folder_path){
     alert("store10---"+store10);
     alert("store11---"+store11);
     alert("store12---"+store12);
-    alert("store13---"+store13);
+    alert("store13---"+store13);*/
+    
+    
+    
+    alert(store);
+    
+    
     
    // alert(assetURL);
     var fileName = folder_path;
