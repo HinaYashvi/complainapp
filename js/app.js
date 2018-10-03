@@ -506,7 +506,7 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
           var imp_triangle = '';
         }
         if(is_seen_byuser==0){ 
-          var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+          var notseen="<i class='fa fa-eye-slash fs-16 text-green'></i>";
         }else{
           var notseen="";
         }
@@ -609,7 +609,7 @@ $$(document).on('page:init', '.page[data-name="closed-comps"]', function (e) {
           var imp_triangle = '';
         }
         if(is_seen_byuser==0){ 
-          var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+          var notseen="<i class='fa fa-eye-slash fs-16 text-green'></i>";
         }else{
           var notseen="";
         } 
@@ -739,7 +739,7 @@ function getStatusWiseComps(statusid,status_type){
           }
           if(is_seen_byuser==0){
             //lightred='notseen';
-            var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+            var notseen="<i class='fa fa-eye-slash fs-16 text-green'></i>";
           }else{
             var notseen="";
           }
@@ -881,7 +881,7 @@ function complaintsPage(){
         if(is_seen_byuser==0){
           //lightred='notseen';
           //var notseen="<i class='f7-icons fs-16 text-red'>eye_fill</i>";
-          var notseen="<i class='fa fa-eye-slash fs-16 text-red'></i>";
+          var notseen="<i class='fa fa-eye-slash fs-16 text-green'></i>";
         }else{
           var notseen="";
         }
