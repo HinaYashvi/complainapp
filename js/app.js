@@ -1366,7 +1366,8 @@ function downloaddoc(fullpath,folder_path){
     
     
    // alert(assetURL);
-    var fileName = folder_path;
+    //var fileName = folder_path;
+    var fileName = fullpath;
     var fileTransfer = new FileTransfer();
     fileTransfer.download(assetURL, store + fileName, 
       function(entry) {
