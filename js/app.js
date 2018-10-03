@@ -1322,25 +1322,28 @@ function showUploadbtn(){
   $("#upldbtn").addClass("display-block"); 
 }
 function downloaddoc(fullpath,folder_path){
-  //alert(device.platform);
+  alert(device.platform);
   if(device.platform == "Android"){
+     alert("in Android");
     var assetURL = fullpath;
     var store = cordova.file.externalRootDirectory+"Download/"; // output in android: file:///storage/emulated/0/
     //var store = cordova.file.dataDirectory; // or //var store = "cdvfile://localhost/persistent/";
+    alert(store);
+    alert(assetURL);
     var fileName = folder_path;
     var fileTransfer = new FileTransfer();
     fileTransfer.download(assetURL, store + fileName, 
       function(entry) {
           console.log("Success!");
-          //alert("Success!");
-          //alert(entry.fullPath);
-          //alert("download toURL: " + entry.toURL());
+          alert("Success!");
+          alert(entry.fullPath);
+          alert("download toURL: " + entry.toURL());
       }, 
       function(err) {
           console.log("Error");
           console.dir(err);
-         // alert("Some error");
-         // alert(err);
+          alert("Some error");
+          alert(err);
       });
 
       /*fileTransfer.onprogress = function(result){
@@ -1369,7 +1372,7 @@ function downloaddoc(fullpath,folder_path){
         }
       }
     }else if(device.platform == 'iOS'){
-    //  alert("in iOS");
+      alert("in iOS");
       var fileName = folder_path;
      // alert(fileName);
       window.requestFileSystem(  
