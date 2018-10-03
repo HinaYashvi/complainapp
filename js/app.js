@@ -1329,9 +1329,38 @@ function downloaddoc(fullpath,folder_path){
     //var store = cordova.file.externalRootDirectory+"Download/"; // output in android: file:///storage/emulated/0/
     //var store = cordova.file.dataDirectory; // or //var store = "cdvfile://localhost/persistent/";
     //var store = cordova.file.documentsDirectory;
-    var store = "file:///storage/emulated/0/";
+    var store = cordova.file.applicationDirectory;
+    var store1 = cordova.file.applicationStorageDirectory;
+    var store2 = cordova.file.dataDirectory;
+    var store3 = cordova.file.externalDataDirectory;
+    var store4 = cordova.file.cacheDirectory;
+    var store5 = cordova.file.externalApplicationStorageDirectory;
+    
+    var store6 = cordova.file.externalDataDirectory;
+    var store7 = cordova.file.externalCacheDirectory;
+    var store8 = cordova.file.externalRootDirectory;
+    var store9 = cordova.file.tempDirectory;
+    
+    var store10 = cordova.file.syncedDataDirectory;
+    var store11 = cordova.file.documentsDirectory;
+    var store12 = cordova.file.sharedDirectory;
+    
+    
     
     alert(store);
+    alert("store1---"+store1);
+    alert("store2---"+store2);
+    alert("store3---"+store3);
+    alert("store4---"+store4);
+    alert("store5---"+store5);
+    alert("store6---"+store6);
+    alert("store7---"+store7);
+    alert("store8---"+store8);
+    alert("store9---"+store9);
+    alert("store10---"+store10);
+    alert("store11---"+store11);
+    alert("store12---"+store12);
+    
    // alert(assetURL);
     var fileName = folder_path;
     var fileTransfer = new FileTransfer();
