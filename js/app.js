@@ -1353,6 +1353,7 @@ function downloaddoc(fullpath,folder_path){
       var percent = 0;
       var dialog = app.dialog.progress('Downloading...', percent);      
       fileTransfer.onprogress = function(result){
+        alert("filetransfer");
         var percent =  result.loaded / result.total * 100;
         percent = Math.round(percent);
         alert(percent);
