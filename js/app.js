@@ -513,7 +513,7 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
         if(isclosed==0){ // closed //
           var lock = '<i class="fa fa-lock text-red fs-12"></i>';
         }else if(isclosed==1){ // not closed / in process //
-          var lock = '<i class="fa fa-unlock-alt text-red fs-12"></i>';
+          var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
         }
         comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
         $("#important-comps").html(comps_imp);         
@@ -617,7 +617,7 @@ $$(document).on('page:init', '.page[data-name="closed-comps"]', function (e) {
         if(isclosed==0){ // closed //
           var lock = '<i class="fa fa-lock text-red fs-12"></i>';
         }else if(isclosed==1){ // not closed / in process //
-          var lock = '<i class="fa fa-unlock-alt text-red fs-12"></i>';
+          var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
         }
         comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span><span class="ml-5p">બંધ : '+lock+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
         $("#important-comps").html(comps_imp);         
@@ -746,7 +746,7 @@ function getStatusWiseComps(statusid,status_type){
           if(isclosed==0){ // closed //
             var lock = '<i class="fa fa-lock text-red fs-12"></i>';
           }else if(isclosed==1){ // not closed / in process // 
-            var lock = '<i class="fa fa-unlock-alt text-red fs-12"></i>';
+            var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
           }
           comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
 
@@ -888,7 +888,7 @@ function complaintsPage(){
         if(isclosed==0){ // closed //
           var lock = '<i class="fa fa-lock text-red fs-12"></i>';
         }else if(isclosed==1){ // not closed / in process //
-          var lock = '<i class="fa fa-unlock-alt text-red fs-12"></i>';
+          var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
         }
         comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'<i class="f7-icons ios-only">home</i><i class="material-icons ios-only">home</i></span>'+imp_triangle+'</td></tr><br>'; 
         $('#complaints').html(comaplintdata);   
