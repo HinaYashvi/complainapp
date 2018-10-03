@@ -1327,7 +1327,7 @@ function downloaddoc(fullpath,folder_path){
      //alert("in Android");
     var assetURL = fullpath;
     //var store = cordova.file.externalRootDirectory+"Download/"; // output in android: file:///storage/emulated/0/
-    var store = cordova.file.dataDirectory+"Download"; // or //var store = "cdvfile://localhost/persistent/";
+    var store = cordova.file.dataDirectory; // or //var store = "cdvfile://localhost/persistent/";
     //var store = cordova.file.documentsDirectory;
     
     /*var store1 = cordova.file.applicationStorageDirectory;
