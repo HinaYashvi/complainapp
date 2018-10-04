@@ -1331,7 +1331,9 @@ function downloaddoc(fullpath,folder_path){
     //var store = cordova.file.dataDirectory; 
     //var store = "cdvfile://localhost/persistent/";
    // var store = cordova.file.documentsDirectory;
-    var store = cordova.file.externalDataDirectory+"Download/";   // working //
+   // var store = cordova.file.externalDataDirectory;   // working //
+    var store = cordova.file.cacheDirectory;
+    
    /* var store = cordova.file.applicationStorageDirectory;
     var store2 = cordova.file.dataDirectory;
     var store3 = cordova.file.externalDataDirectory;
