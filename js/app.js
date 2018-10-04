@@ -1110,7 +1110,7 @@ function comp_det_page(comp_no){
                 var file_name = json_attach[j].file_name;
                 var full_path = base_url+file_path;
                // allcomp_attached+='<p><a onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_name+"'"+')" class="open-progress">'+(j+1)+'. '+file_name+'</a></p>';
-                allcomp_attached+='<p><a class="link external" href="+full_path+" target="_system">'+(j+1)+'. '+file_name+'</a></p>';
+                allcomp_attached+='<p><a class="link external" href="'+full_path+'" target="_system">'+(j+1)+'. '+file_name+'</a></p>';
 
                 //allcomp_attached+='<p><a  onclick="downloadFile('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
 
