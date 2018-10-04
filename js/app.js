@@ -1111,14 +1111,6 @@ function comp_det_page(comp_no){
                 var full_path = base_url+file_path;
                // allcomp_attached+='<p><a onclick="downloaddoc('+"'"+full_path+"'"+','+"'"+file_name+"'"+')" class="open-progress">'+(j+1)+'. '+file_name+'</a></p>';
                 allcomp_attached+='<p><a class="link external" href="'+full_path+'" target="_system">'+(j+1)+'. '+file_name+'</a></p>';
-
-                //allcomp_attached+='<p><a  onclick="downloadFile('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
-
-              // allcomp_attached+='<p><a  onclick="storeIntelligrapeLogo('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
-
-             // allcomp_attached+='<p><a onclick="downloadme('+"'"+full_path+"'"+','+"'"+file_name+"'"+')">'+(j+1)+'. '+file_name+'</a></p>';
-               
-
                 $(".attach_collapse").html(allcomp_attached);             
               }    
             }      
@@ -1149,7 +1141,8 @@ function comp_det_page(comp_no){
                 var u_attfile_name = user_json_attach[j].att_file_name;
                 var u_attfull_path = base_url+u_attfile_path;
                 //alluser_attached+='<p><a href="'+u_attfull_path+'">'+(j+1)+'. '+u_attfile_name+'</a></p>';
-                alluser_attached+='<p><a onclick="downloaddoc('+"'"+u_attfull_path+"'"+','+"'"+u_attfile_name+"'"+')">'+(j+1)+'. '+u_attfile_name+'</a></p>';
+               // alluser_attached+='<p><a onclick="downloaddoc('+"'"+u_attfull_path+"'"+','+"'"+u_attfile_name+"'"+')">'+(j+1)+'. '+u_attfile_name+'</a></p>';
+                alluser_attached+='<p><a class="link external" href="'+u_attfull_path+'" target="_system">'+(j+1)+'. '+u_attfile_name+'</a></p>';                
                 $(".attachuser_collapse").html(alluser_attached);              
               }    
             }      
