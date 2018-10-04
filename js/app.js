@@ -1335,7 +1335,9 @@ function downloaddoc(fullpath,folder_path){
    // var store = cordova.file.cacheDirectory; // not working //
     
    // var store = cordova.file.externalApplicationStorageDirectory; // working : inside com.phonegap.yourcollector //
-    var store = cordova.file.externalDataDirectory;
+   // var store = cordova.file.externalDataDirectory;   // working : inside com.phonegap.yourcollector/files //
+    
+    var store = cordova.file.externalRootDirectory;
     
    /* var store = cordova.file.applicationStorageDirectory;
     var store2 = cordova.file.dataDirectory;
