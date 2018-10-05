@@ -828,7 +828,7 @@ function complaintsPage(){
         var ref_name = json_res[j].ref_name;
         var onemonth_added_dt = json_res[j].onemonth_added_dt;
         var isclosed = json_res[j].is_closed;
-        var dept_name = json_res[j].d_name;
+        var d_name = json_res[j].d_name;
         //console.log(isclosed);
         var today = new Date();
         var month = today.getMonth()+1;
