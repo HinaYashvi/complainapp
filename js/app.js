@@ -691,7 +691,7 @@ function getStatusWiseComps(statusid,status_type){
           var ref_name = json_compres[j].ref_name;
           var onemonth_added_dt = json_compres[j].onemonth_added_dt;
           var isclosed = json_compres[j].is_closed;
-          var dept_name = json_compres[j].d_name;
+          var d_name = json_compres[j].d_name;
           var today = new Date();
           var month = today.getMonth()+1;
           var day = today.getDate();
@@ -754,7 +754,7 @@ function getStatusWiseComps(statusid,status_type){
           }
           //comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="">'+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 ml-5p">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
 
-          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
+          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><span class="">'+lock+'</span><span class="ml-5p">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ :    '+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
 
             
             //$('#complaintsbyStatus').html(comaplintStatusdata);
