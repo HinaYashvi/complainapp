@@ -516,7 +516,7 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
         }else if(isclosed==1){ // not closed / in process //
           var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
         }
-        comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="mr-5p">'+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
+        comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="">'+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 ml-5p">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
         $("#important-comps").html(comps_imp);         
         app.preloader.hide();              
       }          
@@ -621,7 +621,7 @@ $$(document).on('page:init', '.page[data-name="closed-comps"]', function (e) {
         }else if(isclosed==1){ // not closed / in process //
           var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
         }
-        comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="mr-5p">બંધ : '+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
+        comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="">'+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 ml-5p">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
         $("#important-comps").html(comps_imp);         
         app.preloader.hide();              
       }          
@@ -751,7 +751,9 @@ function getStatusWiseComps(statusid,status_type){
           }else if(isclosed==1){ // not closed / in process // 
             var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
           }
-          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="mr-5p">'+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
+          //comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="">'+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 ml-5p">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
+
+          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
 
             
             //$('#complaintsbyStatus').html(comaplintStatusdata);
@@ -894,7 +896,7 @@ function complaintsPage(){
         }else if(isclosed==1){ // not closed / in process //
           var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
         }
-        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="mr-5p">'+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'<i class="f7-icons ios-only">home</i><i class="material-icons ios-only">home</i></span>'+imp_triangle+'</td></tr><br>'; 
+        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><span class="">'+lock+'</span><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 ml-5p">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">વિભાગ : '+dept_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'<i class="f7-icons ios-only">home</i><i class="material-icons ios-only">home</i></span>'+imp_triangle+'</td></tr><br>'; 
         $('#complaints').html(comaplintdata);   
          app.preloader.hide(); 
       }
