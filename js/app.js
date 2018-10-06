@@ -114,7 +114,7 @@ function capturePhoto() {
   targetWidth: 600,
   targetHeight: 600,
   destinationType: destinationType.FILE_URI,
-  saveToPhotoAlbum: true
+  //saveToPhotoAlbum: true
   }); 
 }
 function onPhotoDataSuccess(imageURI){
