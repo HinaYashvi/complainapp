@@ -114,6 +114,7 @@ function capturePhoto() {
   //targetWidth: 600,
   //targetHeight: 600,
   destinationType: destinationType.FILE_URI,
+  correctOrientation: true
   //saveToPhotoAlbum: true
   }); 
 }
@@ -131,6 +132,7 @@ function getPhoto(source) {
    // targetWidth: 600,
    // targetHeight: 600,
     destinationType: destinationType.FILE_URI,
+    correctOrientation: true,
     sourceType: source
   });
 } 
