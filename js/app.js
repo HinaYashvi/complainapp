@@ -1935,7 +1935,32 @@ function changePass(){
   var changePwdForm = $(".changePwdForm").serialize();
   var sess_city=window.localStorage.getItem("session_city");
   var url=base_url+'app_controller/changePassWord';
-  $.ajax({
+  var oldpwd=$('input[name="old_pwd"]').val();
+  var newpwd=$('input[name="new_pwd"]').val();
+  var retypenewpwd=$('input[name="retype_pwd"]').val();
+  if(oldpwd!='' && newpwd!='' && retypenewpwd!=''){
+    $.ajax({
+          'type':'POST', 
+          'url':url,
+          'data':changePwdForm,
+          success:function(response){  
+            var res=response.trim();
+            alert(res);
+            if(res){
+              if(res == 'updated'){
+                app.dialog.alert("Password changed successfully."); 
+              }else if(res == 'wrongoldpwd'){
+                app.dialog.alert("Entered OldPassword is incorrect.");
+              }else{
+                app.dialog.alert(res); 
+              }
+            }
+          }
+    }); 
+  }else{
+    app.dialog.alert("Enter the Old and New Password"); 
+  }
+  /*$.ajax({
         'type':'POST', 
         'url':url,
         'data':changePwdForm,
@@ -1949,7 +1974,8 @@ function changePass(){
             }
           }
         }
-  }); 
+  }); */
+	
   $("#old_pwd").val('');
   $("#new_pwd").val('');
   $("#retype_pwd").val('');
