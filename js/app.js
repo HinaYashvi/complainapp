@@ -111,8 +111,8 @@ function capturePhoto() {
   // Take picture using device camera and retrieve image as base64-encoded string
   navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
   quality: 100,
-  targetWidth: 600,
-  targetHeight: 600,
+  //targetWidth: 600,
+  //targetHeight: 600,
   destinationType: destinationType.FILE_URI,
   //saveToPhotoAlbum: true
   }); 
@@ -128,8 +128,8 @@ function onPhotoDataSuccess(imageURI){
 function getPhoto(source) {
   navigator.camera.getPicture(onPhotoURISuccess, onFail, {
     quality: 100,
-    targetWidth: 600,
-    targetHeight: 600,
+   // targetWidth: 600,
+   // targetHeight: 600,
     destinationType: destinationType.FILE_URI,
     sourceType: source
   });
