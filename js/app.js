@@ -75,8 +75,8 @@ document.addEventListener("deviceready", checkStorage, false);
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("backbutton", onBackKeyDown, false);
 
-//var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
-var base_url = 'http://yourcollectorand.in/';   // LIVE SERVER // 
+var base_url = 'http://starprojects.in/complain_manage/';   // TEST SERVER //
+//var base_url = 'http://yourcollectorand.in/';   // LIVE SERVER // 
 
 function onBackKeyDown() {
   if(app.views.main.router.history.length==2 || app.views.main.router.url=='/'){
@@ -111,10 +111,9 @@ function capturePhoto() {
   // Take picture using device camera and retrieve image as base64-encoded string
   navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
   quality: 100,
-  //targetWidth: 600,
-  //targetHeight: 600,
+  targetWidth: 600,
+  targetHeight: 600,
   destinationType: destinationType.FILE_URI,
-  correctOrientation: true
   //saveToPhotoAlbum: true
   }); 
 }
@@ -129,10 +128,9 @@ function onPhotoDataSuccess(imageURI){
 function getPhoto(source) {
   navigator.camera.getPicture(onPhotoURISuccess, onFail, {
     quality: 100,
-   // targetWidth: 600,
-   // targetHeight: 600,
+    targetWidth: 600,
+    targetHeight: 600,
     destinationType: destinationType.FILE_URI,
-    correctOrientation: true,
     sourceType: source
   });
 } 
@@ -362,7 +360,7 @@ function dashboardPage(){
       }
     });
     var panel_menus='';
-    if(sess_u_type==0){
+    if(sess_u_type==0){ 
      // $(".leftbars").removeClass("display-none");
       //$(".leftbars").addClass("display-block");
       $("#userDiv").html("<span class='text-white'>( ADMIN )</span>");
@@ -382,7 +380,7 @@ function dashboardPage(){
       'data':data,
       success:function(data){
         var json = $.parseJSON(data);
-        var json_res = json.complaint_counts; //console.log(json_res);      
+        var json_res = json.complaint_counts; console.log(json_res);      
         var statusdata=''; 
         app.preloader.show(); 
         for(var i=0;i<json_res.length;i++){
@@ -409,8 +407,8 @@ function dashboardPage(){
             $('#dashboard-boxes').html(statusdata); 
             //app.preloader.hide();    
             $("#total_complaints").html(all_compcnt);
-            $("#imp_counts").html(impcnt);
-            $("#closed_counts").html(isclosed_cnt);
+            $("#imp_counts").html('<span class="badge color-red">'+impcnt+'</span>');
+            //$("#closed_counts").html(isclosed_cnt);
              
           }  
           app.preloader.hide();
@@ -514,13 +512,15 @@ $$(document).on('page:init', '.page[data-name="imp-comps"]', function (e) {
         }else{
           var notseen="";
         }
-        if(isclosed==0){ // closed //
+
+        /*if(isclosed==0){ // closed //
           var lock = '<i class="fa fa-lock text-red fs-12"></i>';
         }else if(isclosed==1){ // not closed / in process //
           var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
-        }
+        }*/
+
         //comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700">'+comp_no+' '+notseen+'</a><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'<span class="ml-5p">બંધ : '+lock+'</span></span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
-		comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><span class="">'+lock+'</span><span class="ml-5p">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ :    '+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
+		comps_imp+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><!--span class=""></span--><span class="">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ :    '+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>';
                  
                    
       }     
@@ -626,12 +626,13 @@ $$(document).on('page:init', '.page[data-name="closed-comps"]', function (e) {
           var notseen="";
         } 
 
-        if(isclosed==0){ // closed //
+        /*if(isclosed==0){ // closed //
           var lock = '<i class="fa fa-lock text-red fs-12"></i>';
         }else if(isclosed==1){ // not closed / in process //
           var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
-        }
-        comps_closed+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><span class="">'+lock+'</span><span class="ml-5p">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ :    '+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>'; 		
+        }*/
+
+        comps_closed+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><!--span class=""></span--><span class="">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ :    '+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'</span>'+imp_triangle+'</td></tr><br>'; 		
                       
       } 
 	}else{
@@ -761,12 +762,14 @@ function getStatusWiseComps(statusid,status_type){
           }else{
             var notseen="";
           }
-          if(isclosed==0){ // closed //
+
+          /*if(isclosed==0){ // closed //
             var lock = '<i class="fa fa-lock text-red fs-12"></i>';
           }else if(isclosed==1){ // not closed / in process // 
             var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
-          }
-          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><span class="">'+lock+'</span><span class="ml-5p">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ :    '+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
+          }*/
+
+          comaplintStatusdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><!--span class=""></span--><span class="">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ :    '+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12  ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status_type+'</span>'+imp_triangle+'</td></tr>';
             
             //$('#complaintsbyStatus').html(comaplintStatusdata);
         }
@@ -874,7 +877,7 @@ function complaintsPage(){
           //var imp_img='';
           var imp_triangle = '';
         }else if(status=='In progress'){
-          var badge_color = "color-progress";
+          var badge_color = "color-progress"; 
           var notseen="";
           //var imp_img='';
           var imp_triangle = '';
@@ -903,12 +906,14 @@ function complaintsPage(){
         }else{
           var notseen="";
         }
-        if(isclosed==0){ // closed //
+
+        /*if(isclosed==0){ // closed //
           var lock = '<i class="fa fa-lock text-red fs-12"></i>';
         }else if(isclosed==1){ // not closed / in process //
           var lock = '<i class="fa fa-unlock-alt text-green fs-12"></i>';
-        }
-        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><span class="">'+lock+'</span><span class="ml-5p">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ : 		'+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'<i class="f7-icons ios-only">home</i><i class="material-icons ios-only">home</i></span>'+imp_triangle+'</td></tr><br>';  
+        }*/
+
+        comaplintdata+='<tr onclick="comp_det_page('+"'"+comp_no+"'"+')" class="'+lightred+'"><td class="label-cell"><a onclick="comp_det_page('+"'"+comp_no+"'"+')" class="float-left mt-5p fw-700 w-100"><!--span class=""></span--><span class="">'+comp_no+' '+notseen+'</span></a><br/><span class="float-left w-100">વિભાગ : 		'+d_name+'</span><br/><span class="float-left w-100">'+complain+'..</span><br/><span class="fs-12 float-left w-100"><i class="fa fa-calendar mr-5p fs-12 ml-5x"></i>'+comp_adddate+'</span>'+ref_by+'</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+status+'<i class="f7-icons ios-only">home</i><i class="material-icons ios-only">home</i></span>'+imp_triangle+'</td></tr><br>';  
         $('#complaints').html(comaplintdata);   
          app.preloader.hide(); 
       }
@@ -1043,14 +1048,24 @@ function comp_det_page(comp_no){
         var badge_color = "color-progress";
       }else if(statustype=='Completed'){
         var badge_color = "color-complete";
-      }       
-      if(is_closed==0){
+      }  
+      if(statustype=='Completed'){
+        //if(is_closed==0){
+          var show_cls = "display-none";
+          var closed_seal = '<center><img src="img/closed-seal.png" height="120" width="150" /></center>';
+        //}
+      }else{
+          var show_cls = '';
+          var closed_seal = '';
+      }
+
+      /*if(is_closed==0){
         var show_cls = "display-none";
         var closed_seal = '<center><img src="img/closed-seal.png" height="120" width="150" /></center>';
       }else if(is_closed==1){ 
         var show_cls = "display-block";
         var closed_seal = '';
-      }
+      }*/
       showcomaplintdata='<div class="card data-table"><table><tbody class="fs-14"><tr><td class="label-cell">Complain</td><td class="numeric-cell">'+complain+'</td></tr><tr><td class="label-cell">Department</td><td class="numeric-cell">'+d_name+'</td></tr><tr><td class="label-cell">Handled By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Mobile</td><td class="numeric-cell">'+u_mo+'<span class="col button color-green button-small outline-green button-outline float-right ml-5p" onclick="call_handler('+"'"+u_mo+"'"+')"><span ><i class="fa fa-phone color-green"></i></span></span></td></tr>'+refre+'<tr><td class="label-cell">Description</td><td class="numeric-cell">'+remarks+'</td></tr><tr><td class="label-cell">Complain Added By</td><td class="numeric-cell">'+add_byfname+'</td></tr><tr><td class="label-cell">Complain Date</td><td class="numeric-cell">'+comp_adddate+'</td></tr><tr><td class="label-cell">Admin Last Edit On</td><td class="numeric-cell">'+last_editbyadmin_dt+'</td></tr><tr><td class="label-cell">Last Edit On</td><td class="numeric-cell">'+last_editbyuser_dt+'</td></tr><tr><td class="label-cell">Response By</td><td class="numeric-cell">'+u_fullname+'</td></tr><tr><td class="label-cell">Response Date</td><td class="numeric-cell">'+comp_respdatetime_dt+'</td></tr><tr><td class="label-cell">Response Status</td><td class="numeric-cell"><span class="badge '+badge_color+'">'+statustype+'</span></td></tr></tbody></table><div class="list"><ul><form name="user_form" id="user_form" class="mb-15p"><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_uid" id="hidd_uid" value="'+u_id+'" /><input type="hidden" name="hidd_compid" id="hidd_compid" value="'+comp_id+'" /><input type="hidden" name="hidd_compno" id="hidd_compno" value="'+complaint_no+'" /><div class="item-title item-label newlbl "></div><li class="item-content item-input show-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input show-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">Complain Attachments<span class="ml-5p totalattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attach_collapse" id="attach_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none md-only"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input user-attach display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap "><div class="list accordion-list"><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">User Attachments<span class="ml-5p totaluserattacehs"></span></div></div></a><div class="accordion-item-content"><div class="block attachuser_collapse" id="attachuser_collapse"></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16 '+show_cls+'" id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><div class="col button button-small button-round button-outline outline-dangerbtn mb-15p"><i class="fa fa-trash"></i></div></span><span class="grey-text float-right" onclick="editLastRem()"><div class="col button button-small button-round button-outline outline-orangebtn mb-15p"><i class="fa fa-pencil"></i></div></span></div></div></li></ul></div></div></div></li><li class="item-content item-input showold-rems display-none ios-only mb-2"><div class="item-inner"><div class="item-input-wrap"><div class="list accordion-list "><ul class="accr-pad display-none"><li class="accordion-item grey-border"><a href="#" class="item-content item-link light-grey"><div class="item-inner "><div class="item-title text-uppercase grey-text fs-12">user remark<span class="ml-5p totalremsxxxx"></span></div></div></a><div class="accordion-item-content"><div class="block rem_collapse" id=" rem_collapse"></div><div class="w-100 fs-16 '+show_cls+'" id="remarkbtns"><span class="text-red float-right ml-5p mr-5p" onclick="deltLastRem('+comp_id+')"><i class="fa fa-trash"></i></span><span class="grey-text float-right" onclick="editLastRem()"><i class="fa fa-pencil"></i></span></div></div></li></ul></div></div></div></li><li class="item-content item-input md-only '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><label class="md-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2" id="user_remarks"></textarea></div></div></li><li class="item-content item-input mb-2 '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><label class="ios-only">Remark</label><textarea rows="10" name="user_remarks" class="grey-border w-100 p-2 ios-only" id="user_remarks"></textarea></div></div></li><li class="item-content item-input '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><select name="user_status" id="status_sel" class="grey-border fs-14 p-1"></select></div></div></li><li class="item-content item-input md-only '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input ios-only mt-2p '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><button class="col button button-small button-outline outline-orangebtn w-50" type="button" onclick="showIcons()">Upload Document</button></div></div></li><li class="item-content item-input showtwoBlocks display-none md-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-100 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><span onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><li class="item-content item-input showtwoBlocks display-none ios-only"><div class="item-inner"><div class="item-input-wrap"><div class="uploadDiv w-35 display-none"><div class="col-100"><div class="row"><div class="20"></div><div class="col-50 picbox text-white" ><a onclick="capturePhoto();" ><div class="innerDiv"><i class="f7-icons picbox-text">camera</i><br/><span class="picbox-text">Capture</span></div></a></div><div class="col-50 picbox text-white" ><a onclick="getPhoto(pictureSource.PHOTOLIBRARY);"><div class="innerDiv"><i class="f7-icons picbox-text">photos</i><br/><span class="picbox-text">Photo Gallery</span></div></a></div><div class="20"></div></div></div></div></div></div></li><!--br><button onclick="getPhoto(pictureSource.PHOTOLIBRARY);" class="mb-15p">From Photo Library</button><br--><li class="item-content item-input imageblock"><div class="item-inner"><div class="item-input-wrap"><img id="image" src="" style="display:none;width:100%;"></div></div></li><li class="item-content item-input upldbtnDiv " style="display:none;width:100%;" id="upldbtnDiv"><div class="item-inner"><div class="item-input-wrap"><button onclick="upload();" type="button" class="col button button-fill color-gray " id="upldbtn" >Upload</button></div></div></li><li class="item-content item-input md-only '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li><li class="item-content item-input ios-only '+show_cls+'"><div class="item-inner"><div class="item-input-wrap"><a href="#" class="col button button-big button-fill orange-btn grey-text " onclick="changeCompStatus('+"'"+complaint_no+"'"+')">Save</a></li>'+closed_seal+'</div></div></form></ul></div></div>';     
 
         $.ajax({
@@ -1935,31 +1950,7 @@ function changePass(){
   var changePwdForm = $(".changePwdForm").serialize();
   var sess_city=window.localStorage.getItem("session_city");
   var url=base_url+'app_controller/changePassWord';
-  var oldpwd=$('input[name="old_pwd"]').val();
-  var newpwd=$('input[name="new_pwd"]').val();
-  var retypenewpwd=$('input[name="retype_pwd"]').val();
-  if(oldpwd!='' && newpwd!='' && retypenewpwd!=''){
-    $.ajax({
-          'type':'POST', 
-          'url':url,
-          'data':changePwdForm,
-          success:function(response){  
-            var res=response.trim();           
-            if(res){
-              if(res == 'updated'){
-                app.dialog.alert("Password changed successfully."); 
-              }else if(res == 'wrongoldpwd'){
-                app.dialog.alert("Entered OldPassword is incorrect.");
-              }else{
-                app.dialog.alert(res); 
-              }
-            }
-          }
-    }); 
-  }else{
-    app.dialog.alert("Enter the Old and New Password"); 
-  }
-  /*$.ajax({
+  $.ajax({
         'type':'POST', 
         'url':url,
         'data':changePwdForm,
@@ -1973,8 +1964,7 @@ function changePass(){
             }
           }
         }
-  }); */
-	
+  }); 
   $("#old_pwd").val('');
   $("#new_pwd").val('');
   $("#retype_pwd").val('');
