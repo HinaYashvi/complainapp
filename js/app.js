@@ -194,15 +194,20 @@ function checkStorage(){
   checkConnection();  
 
   var version=1;  
+  var playstore_url = '<a href="https://play.google.com/store/apps/details?id=com.phonegap.yourcollector" class="link external" target="_system">Google Play Store</a>'; 
   $.ajax({
     url: base_url+'app_controller/chk_version/'+version, 
     success: function(result){ 
       //alert(result);
       if(result==0 && result!=""){
-          app.dialog.confirm('A new update is available for Your Collector. Please update your app.', function () { 
+          /*app.dialog.confirm('A new update is available for Your Collector. Please update your app.', function () { 
                 navigator.app.clearHistory(); 
                 navigator.app.exitApp();
-          });  
+          });  */
+	  app.dialog.alert('A new update is available for Your Collector.Please goto google play store and update your app.' +playstore_url,function () {             
+                //navigator.app.clearHistory(); 
+                navigator.app.exitApp();
+          });
       }
   }});
 
