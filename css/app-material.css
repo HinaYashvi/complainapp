@@ -139,6 +139,7 @@ body{
     background-color: #fde1e1!important;
     color: #f44336;
     font-weight: 700;
+    width:100%;
 }
 .block-closed{
     border: 1px dashed #FFC107;
@@ -406,6 +407,9 @@ color: #f99104!important;
 }
 .fs-15{
 	font-size:15px!important;
+}
+#imp_counts{
+    float: right!important;
 }
 /* ---------------------- ROTATE STAR -------------------- */
 .gly-spin {
