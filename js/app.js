@@ -193,7 +193,7 @@ function checkStorage(){
   destinationType = navigator.camera.DestinationType;
   checkConnection();  
 
-  var version=2;  
+  var version='1.5.0';  
   var playstore_url = '<a href="https://play.google.com/store/apps/details?id=com.phonegap.yourcollector" class="link external" target="_system">Google Play Store</a>'; 
   $.ajax({
     url: base_url+'app_controller/chk_version/'+version, 
