@@ -1345,6 +1345,21 @@ function showIcons(){
   $(".showtwoBlocks").addClass("display-block");
   $(".uploadDiv").removeClass("display-none");
   $(".uploadDiv").addClass("display-block");
+	
+  cordova.plugins.diagnostic.isLocationEnabled(function(enabled){ //isLocationEnabled
+  console.log("GPS location is " + (enabled ? "enabled" : "disabled"));
+      if(!enabled){
+        alert("Enabled GPS manually");
+        cordova.plugins.diagnostic.switchToLocationSettings(onRequestSuccess,onRequestFailure);
+         //mainView.loadPage("current-location.html");
+      }else{
+        alert("Location service is ON");
+        //app.router.navigate("/current-location/");
+      }
+  }, function(error){
+    console.error("The following error occurred: "+error);
+  });	
+	
 }
 function showUploadbtn(){
   alert("inshowUploadbtn");
